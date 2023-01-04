@@ -108,13 +108,16 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Container(
                     height: 60,
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
+                      },
                       style: ButtonStyle(
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -137,12 +140,7 @@ class LoginPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => NavBar()));
-                              },
-                              child: Container(
+                              Container(
                                 alignment: Alignment.center,
                                 constraints: BoxConstraints(
                                     maxWidth: double.infinity, minHeight: 100),
@@ -152,7 +150,6 @@ class LoginPage extends StatelessWidget {
                                       fontSize: 16,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold),
-                                ),
                               ),
                             ),
                           ],
