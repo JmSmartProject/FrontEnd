@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:jmsmart_project/modules/login_page.dart';
-import 'package:jmsmart_project/modules/signup_page.dart';
+import 'package:jmsmart_project/modules/login_page/login_page.dart';
+import 'package:jmsmart_project/modules/login_page/signup_page.dart';
 
 
 void main() {
