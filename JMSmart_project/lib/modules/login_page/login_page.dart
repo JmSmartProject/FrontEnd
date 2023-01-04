@@ -6,7 +6,9 @@ import 'package:jmsmart_project/modules/login_page/nav_bar.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: Container(
@@ -15,15 +17,17 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(
-                height: 5,
+                height: size.height * 0.01,
+                // 1% 여분
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
                     "assets/images/logo/wepet_logo.png",
-                    width: 180,
-                    height: 180,
+                    width: size.height * 0.25,
+                    height: size.height * 0.25,
+                    // logo & 25% 크기
                   )
                 ],
               ),
@@ -49,7 +53,8 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: size.height * 0.01,
+                    // 1% 여분
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -71,7 +76,8 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 12,
+                    height: size.height * 0.01,
+                    // 1% 여분
                   ),
                   Row(
                     children: <Widget>[
@@ -108,7 +114,8 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: size.height * 0.02,
+                    // 2% 여분
                   ),
                   Container(
                     height: 60,
@@ -117,6 +124,7 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => NavBar()));
+                        //로그인 완료시 실행 & 기본 메인 페이지로 이동
                       },
                       style: ButtonStyle(
                           shape:
@@ -158,13 +166,14 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: size.height * 0.03,
+                    // 3% 여분
                   ),
                   Column(
                     children: <Widget>[
                       Container(
                         child: Text(
-                          "        SNS 간편 로그인        ",
+                          "SNS 간편 로그인",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -172,7 +181,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 60,
+                        height: size.height * 0.08,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
@@ -191,7 +200,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 60,
+                        height: size.height * 0.08,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
@@ -210,7 +219,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 60,
+                        height: size.height * 0.08,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
