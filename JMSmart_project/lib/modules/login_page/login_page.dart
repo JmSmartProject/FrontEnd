@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(context,
+                        Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => NavBar()));
                       },
                       style: ButtonStyle(
