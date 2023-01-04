@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jmsmart_project/modules/signup_page.dart';
+import 'package:jmsmart_project/modules/login_page/signup_page.dart';
+import 'package:jmsmart_project/modules/login_page/nav_bar.dart';
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(left: 16, right: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset("assets/images/wepet_logo.png", width: 180, height: 180,)
+                  Image.asset(
+                    "assets/images/logo/wepet_logo.png",
+                    width: 180,
+                    height: 180,
+                  )
                 ],
               ),
               Column(
@@ -26,7 +33,8 @@ class LoginPage extends StatelessWidget{
                     decoration: InputDecoration(
                       labelText: "아이디를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
@@ -37,16 +45,18 @@ class LoginPage extends StatelessWidget{
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: Colors.red,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextField(
                     decoration: InputDecoration(
                       labelText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(
@@ -57,44 +67,60 @@ class LoginPage extends StatelessWidget{
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: Colors.red,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  SizedBox(
+                    height: 12,
+                  ),
                   Row(
                     children: <Widget>[
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return SignupPage();
-                        }));
-                      },
-                      child: Text("아이디 찾기 /",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
-                    ),
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
                             return SignupPage();
                           }));
                         },
-                        child: Text(" 비밀번호 찾기",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
+                        child: Text(
+                          "아이디 찾기 /",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return SignupPage();
+                          }));
+                        },
+                        child: Text(
+                          " 비밀번호 찾기",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Container(
                     height: 60,
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () {},
                       style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )
-                          )
-                      ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ))),
                       child: Ink(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -112,44 +138,57 @@ class LoginPage extends StatelessWidget{
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return SignupPage();
-                                }));
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => NavBar()));
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                                child: Text("로그인",style: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),),
+                                constraints: BoxConstraints(
+                                    maxWidth: double.infinity, minHeight: 100),
+                                child: Text(
+                                  "로그인",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 40,),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Column(
                     children: <Widget>[
                       Container(
-                        child: Text("        SNS 간편 로그인        ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),),
+                        child: Text(
+                          "        SNS 간편 로그인        ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.black),
+                        ),
                       ),
                       Container(
                         height: 60,
                         width: double.infinity,
                         child: TextButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  )
-                              )
-                          ),
+                            borderRadius: BorderRadius.zero,
+                          ))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Image.asset("assets/images/btn_google.png")
+                              Image.asset("assets/images/social/btn_google.png")
                             ],
                           ),
                         ),
@@ -158,40 +197,36 @@ class LoginPage extends StatelessWidget{
                         height: 60,
                         width: double.infinity,
                         child: TextButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  )
-                              )
-                          ),
+                            borderRadius: BorderRadius.zero,
+                          ))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Image.asset("assets/images/btn_naver.png")
+                              Image.asset("assets/images/social/btn_naver.png")
                             ],
                           ),
-
                         ),
                       ),
                       Container(
                         height: 60,
                         width: double.infinity,
                         child: TextButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  )
-                              )
-                          ),
-
+                            borderRadius: BorderRadius.zero,
+                          ))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Image.asset("assets/images/btn_kakao.png")
+                              Image.asset("assets/images/social/btn_kakao.png")
                             ],
                           ),
                         ),
@@ -205,14 +240,27 @@ class LoginPage extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("혹시 위펫이 처음이시라면, ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
+                    Text(
+                      "혹시 위펫이 처음이시라면, ",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
                     GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
                           return SignupPage();
                         }));
                       },
-                      child: Text("회원가입",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.red),),
+                      child: Text(
+                        "회원가입",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      ),
                     ),
                   ],
                 ),
