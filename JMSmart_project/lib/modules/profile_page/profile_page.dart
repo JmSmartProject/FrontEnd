@@ -18,7 +18,7 @@ class _ProfilePage extends State<ProfilePage> {
       home: Scaffold(
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.only(left: 30, right: 30),
             child: Column(
               children: [
                 SizedBox(
@@ -27,59 +27,57 @@ class _ProfilePage extends State<ProfilePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "마이 프로필",
                       style:
-                          TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
+                      TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          height: 45,
-                          width: 80,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text(
-                              "친구",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
+                    SizedBox(
+                      width: size.width * 0.06,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 60,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: const Text(
+                          "친구",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(
-                          width: size.width * 0.01,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.005,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 60,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => WepetSettingsPage()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: const Text(
+                          "설정",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 45,
-                          width: 80,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => WepetSettingsPage()));
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: const Text(
-                              "설정",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -121,14 +119,17 @@ class _ProfilePage extends State<ProfilePage> {
                             ),
                           ],
                         )),
+                    SizedBox(
+                      width: size.width * 0.03,
+                    ),
                     Expanded(
                       flex: 2,
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text('닉네임',
+                              const Text('닉네임 :',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -137,19 +138,22 @@ class _ProfilePage extends State<ProfilePage> {
                                 child: Center(
                                   child: Text(
                                     '1',
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 13),
                                   ),
                                 ),
-                                height: 50,
-                                width: size.width * 0.45,
+                                height: 30,
+                                width: size.width * 0.35,
                                 //color: Colors.grey,
                               )
                             ],
                           ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text('이름',
+                              const Text('이름 :',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -158,19 +162,22 @@ class _ProfilePage extends State<ProfilePage> {
                                 child: Center(
                                   child: Text(
                                     '2',
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 13),
                                   ),
                                 ),
-                                height: 50,
-                                width: size.width * 0.45,
+                                height: 30,
+                                width: size.width * 0.35,
                                 //color: Colors.grey,
                               )
                             ],
                           ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text('나이/성별',
+                              const Text('나이/성별 :',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -179,19 +186,22 @@ class _ProfilePage extends State<ProfilePage> {
                                 child: Center(
                                   child: Text(
                                     '3',
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 13),
                                   ),
                                 ),
-                                height: 50,
-                                width: size.width * 0.45,
+                                height: 30,
+                                width: size.width * 0.35,
                                 //color: Colors.grey,
                               )
                             ],
                           ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text('전화번호',
+                              const Text('전화번호 :',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
@@ -200,11 +210,11 @@ class _ProfilePage extends State<ProfilePage> {
                                 child: Center(
                                   child: Text(
                                     '4',
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(fontSize: 13),
                                   ),
                                 ),
-                                height: 50,
-                                width: size.width * 0.45,
+                                height: 30,
+                                width: size.width * 0.35,
                                 //color: Colors.grey,
                               )
                             ],
@@ -215,7 +225,15 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.01,
+                  height: size.height * 0.03,
+                ),
+                Container(
+                  height:1.0,
+                  width:500.0,
+                  color:Colors.black,
+                ),
+                SizedBox(
+                  height: size.height * 0.03,
                 ),
                 Stack(
                   children: [
@@ -248,12 +266,15 @@ class _ProfilePage extends State<ProfilePage> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('펫 이름 : ',
+                    const Text('펫 이름 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
@@ -269,12 +290,15 @@ class _ProfilePage extends State<ProfilePage> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('종 : ',
+                    const Text('종 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
@@ -290,12 +314,15 @@ class _ProfilePage extends State<ProfilePage> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('생년월일 : ',
+                    const Text('생년월일 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
@@ -311,12 +338,15 @@ class _ProfilePage extends State<ProfilePage> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('무게 : ',
+                    const Text('무게 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
@@ -332,12 +362,15 @@ class _ProfilePage extends State<ProfilePage> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: size.height * 0.015,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('성별 : ',
+                    const Text('성별 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
@@ -353,33 +386,15 @@ class _ProfilePage extends State<ProfilePage> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('중성화 유무 : ',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold)),
-                    Container(
-                      child: Center(
-                        child: Text(
-                          '5',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ),
-                      height: 30,
-                      width: size.width * 0.45,
-                      //color: Colors.grey,
-                    )
-                  ],
+                SizedBox(
+                  height: size.height * 0.015,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('등록코드 : ',
+                    const Text('등록번호 :',
                         style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     Container(
