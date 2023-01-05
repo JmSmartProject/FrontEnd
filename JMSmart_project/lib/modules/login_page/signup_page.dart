@@ -18,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SingleChildScrollView(
@@ -27,7 +28,9 @@ class _SignupPageState extends State<SignupPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 80,),
+              SizedBox(
+                  height: size.height * 0.1
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -38,7 +41,9 @@ class _SignupPageState extends State<SignupPage> {
                       Text("환영합니다",style: TextStyle(fontSize: 36,fontWeight: FontWeight.w900),),
                     ],
                   ),
-                  SizedBox(width: 50,),
+                  SizedBox(
+                    width: size.width * 0.08
+                  ),
                   Stack(
                     children: [
                       SizedBox(
@@ -72,7 +77,9 @@ class _SignupPageState extends State<SignupPage> {
                   )
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: size.height * 0.03
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -95,7 +102,9 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: size.width * 0.02
+                  ),
                   Container(
                     alignment: Alignment.center,
                     height: 45,
@@ -119,7 +128,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: size.height * 0.01
+              ),
               Column(
                 children: <Widget>[
                   TextField(
@@ -140,7 +151,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: size.height * 0.01
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -164,7 +177,9 @@ class _SignupPageState extends State<SignupPage> {
                       controller: IDController,
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: size.width * 0.02
+                  ),
                   Column(
                     children: <Widget>[
                       Container(
@@ -187,7 +202,9 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: size.height * 0.01
+                      ),
                       Container(
                         alignment: Alignment.center,
                         height: 25,
@@ -213,7 +230,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: size.height * 0.01
+              ),
               Column(
                 children: <Widget>[
                   TextField(
@@ -235,7 +254,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: size.height * 0.01
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -258,7 +279,9 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: size.width * 0.02
+                  ),
                   Container(
                     alignment: Alignment.center,
                     height: 45,
@@ -282,14 +305,16 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: size.height * 0.01
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
                       labelText: "상세주소를 입력해주세요",
-                      contentPadding: EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -302,11 +327,83 @@ class _SignupPageState extends State<SignupPage> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: size.height * 0.01
+                  ),
+                  Text("전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                  SizedBox(
+                      height: size.height * 0.001
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 55,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: "010",
+                            contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          ),
+                        ),
+                      ),
+                      Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                      SizedBox(
+                        width: 70,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: "",
+                            contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          ),
+                        ),
+                      ),
+                      Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                      SizedBox(
+                        width: 70,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: "",
+                            contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey.shade400),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                      height: size.height * 0.01
+                  ),
                   TextField(
                     decoration: InputDecoration(
                       labelText: "생년월일을 입력해주세요(8자리)",
-                      contentPadding: EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -319,11 +416,13 @@ class _SignupPageState extends State<SignupPage> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: size.height * 0.01
+                  ),
                   Row(
                     children: <Widget>[
                       Container(
-                        width: 120,
+                        width: size.width * 0.3,
                         child: RadioListTile(
                             title: Text("남자"),
                             value: Gender.MAN,
@@ -335,7 +434,7 @@ class _SignupPageState extends State<SignupPage> {
                             }),
                       ),
                       Container(
-                        width: 120,
+                        width: size.width * 0.3,
                         child: RadioListTile(
                             title: Text("여자"),
                             value: Gender.MAN,
@@ -346,7 +445,9 @@ class _SignupPageState extends State<SignupPage> {
                               });
                             }),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: size.width * 0.03,
+                      ),
                       Container(
                         alignment: Alignment.center,
                         height: 45,
@@ -373,6 +474,9 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
                   ),
                   Container(
                     height: 60,
@@ -406,7 +510,9 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
                 ],
               ),
               Padding(
