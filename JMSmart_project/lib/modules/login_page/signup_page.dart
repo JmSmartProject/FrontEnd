@@ -1,7 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jmsmart_project/modules/pet_signup.dart';
 
-class SignupPage extends StatelessWidget{
+class SignupPage extends StatefulWidget {
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+enum Gender {
+  MAN, WOMAN
+}
+
+class _SignupPageState extends State<SignupPage> {
+  Gender _gender = Gender.MAN;
   final IDController = TextEditingController();
   final PWController = TextEditingController();
 
@@ -12,7 +23,7 @@ class SignupPage extends StatelessWidget{
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(left: 20,right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -66,12 +77,12 @@ class SignupPage extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: 270,
+                    width: 263,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "닉네임을 입력해주세요",
-                        contentPadding: EdgeInsets.all(20),
-                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
+                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.shade400),
@@ -84,35 +95,25 @@ class SignupPage extends StatelessWidget{
                       ),
                     ),
                   ),
+                  SizedBox(width: 10,),
                   Container(
-                    height: 60,
-                    width: 90,
-                    child: TextButton(
-                      onPressed: (){},
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )
+                    alignment: Alignment.center,
+                    height: 45,
+                    width: 80,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
                           )
                       ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xff42a5f5),
-                              Color(0xff64b5f6),
-                              Color(0xff90caf9),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text("중복 확인",style: TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),),
-                        ),
+                      child: const Text(
+                        "중복 확인",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
@@ -124,8 +125,8 @@ class SignupPage extends StatelessWidget{
                   TextField(
                     decoration: InputDecoration(
                       labelText: "이름을 입력해주세요",
-                      contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -136,49 +137,90 @@ class SignupPage extends StatelessWidget{
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
-                    controller: IDController,
                   ),
-                  SizedBox(height: 10,),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: "아이디(이메일)을 입력해주세요",
-                      contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 263,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: "아이디(이메일)을 입력해주세요",
+                        contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 20),
+                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.red),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      controller: IDController,
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(width: 10,),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        height: 25,
+                        width: 80,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
+                              )
+                          ),
+                          child: const Text(
+                            "중복 확인",
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 25,
+                        width: 80,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[200],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                            )
+                          ),
+                          child: const Text(
+                            "인증코드 요청",
+                            style: TextStyle(
+                                fontSize: 8.5,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Column(
+                children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
                       labelText: "비밀번호를 입력해주세요",
-                      contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey.shade400),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.red),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "주소를 입력해주세요",
-                      contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -191,12 +233,64 @@ class SignupPage extends StatelessWidget{
                     ),
                     controller: PWController,
                   ),
-                  SizedBox(height: 10,),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 243,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: "주소를 입력해주세요",
+                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 45,
+                    width: 100,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                          )
+                      ),
+                      child: const Text(
+                        "우편번호 검색",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
                       labelText: "상세주소를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
+                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -213,7 +307,7 @@ class SignupPage extends StatelessWidget{
                     decoration: InputDecoration(
                       labelText: "생년월일을 입력해주세요(8자리)",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400,fontWeight: FontWeight.w600),
+                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -225,38 +319,60 @@ class SignupPage extends StatelessWidget{
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
-                  SizedBox(height: 20,),
-                  Container(
-                    height: 60,
-                    child: TextButton(
-                      onPressed: (){},
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
+                  SizedBox(height: 10,),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 120,
+                        child: RadioListTile(
+                            title: Text("남자"),
+                            value: Gender.MAN,
+                            groupValue: _gender,
+                            onChanged: (value) {
+                              setState(() {
+                                _gender = value!;
+                              });
+                            }),
+                      ),
+                      Container(
+                        width: 120,
+                        child: RadioListTile(
+                            title: Text("여자"),
+                            value: Gender.MAN,
+                            groupValue: _gender,
+                            onChanged: (value) {
+                              setState(() {
+                                _gender = value!;
+                              });
+                            }),
+                      ),
+                      SizedBox(width: 10,),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 45,
+                        width: 100,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return MainPage();
+                            }));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
                               )
-                          )
-                      ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xffec407a),
-                              Color(0xfff06292),
-                              Color(0xfff48fb1),
-                            ],
                           ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                          child: Text("펫정보 입력하기",style: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),),
+                          child: const Text(
+                            "펫 정보 입력하기",
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   Container(
                     height: 60,
