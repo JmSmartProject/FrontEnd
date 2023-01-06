@@ -35,36 +35,38 @@ class _MainPageState extends State<MainPage> {
               SizedBox(
                   height: size.height * 0.01
               ),
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        'https://placeimg.com/200/100/people',
-                        fit: BoxFit.cover,
+              Align(
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          'https://placeimg.com/200/100/people',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.grey[100],
-                      ),
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        size: 15,
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.grey[100],
+                        ),
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          size: 15,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(
                 height: size.height * 0.04
