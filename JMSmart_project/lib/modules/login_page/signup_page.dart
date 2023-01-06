@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jmsmart_project/modules/pet_signup.dart';
+import 'package:jmsmart_project/modules/login_page/pet_signup.dart';
 
 class SignupPage extends StatefulWidget {
   @override
