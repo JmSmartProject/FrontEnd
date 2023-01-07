@@ -333,7 +333,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(
                     height: size.height * 0.01
                   ),
-                  Text("전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                  Text("   전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
                   SizedBox(
                       height: size.height * 0.001
                   ),
