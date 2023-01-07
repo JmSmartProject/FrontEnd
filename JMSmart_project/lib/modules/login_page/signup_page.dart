@@ -84,6 +84,7 @@ class _SignupPageState extends State<SignupPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
+                    height: 45,
                     width: 263,
                     child: TextField(
                       decoration: InputDecoration(
@@ -158,6 +159,7 @@ class _SignupPageState extends State<SignupPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
+                    height: 50,
                     width: 263,
                     child: TextField(
                       decoration: InputDecoration(
@@ -184,7 +186,7 @@ class _SignupPageState extends State<SignupPage> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        height: 25,
+                        height: 20,
                         width: 80,
                         child: ElevatedButton(
                           onPressed: () {},
@@ -207,7 +209,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        height: 25,
+                        height: 20,
                         width: 80,
                         child: ElevatedButton(
                           onPressed: () {},
@@ -261,6 +263,7 @@ class _SignupPageState extends State<SignupPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
+                    height: 45,
                     width: 243,
                     child: TextField(
                       decoration: InputDecoration(
@@ -337,6 +340,7 @@ class _SignupPageState extends State<SignupPage> {
                   Row(
                     children: <Widget>[
                       SizedBox(
+                        height: 35,
                         width: 55,
                         child: TextField(
                           decoration: InputDecoration(
@@ -357,6 +361,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
                       SizedBox(
+                        height: 35,
                         width: 70,
                         child: TextField(
                           decoration: InputDecoration(
@@ -377,6 +382,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
                       SizedBox(
+                        height: 35,
                         width: 70,
                         child: TextField(
                           decoration: InputDecoration(
@@ -455,7 +461,7 @@ class _SignupPageState extends State<SignupPage> {
                         child: ElevatedButton(
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return MainPage();
+                              return PetSignupPage();
                             }));
                           },
                           style: ElevatedButton.styleFrom(
