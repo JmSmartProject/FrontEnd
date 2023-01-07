@@ -194,9 +194,6 @@ class _PetSignupState extends State<PetSignupPage> {
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
               ),
-              SizedBox(
-                  height: size.height * 0.02
-              ),
               Row(
                 children: <Widget>[
                   Container(
@@ -227,7 +224,7 @@ class _PetSignupState extends State<PetSignupPage> {
                 ],
               ),
               SizedBox(
-                  height: size.height * 0.08
+                  height: size.height * 0.05
               ),
               Container(
                 height: 60,
