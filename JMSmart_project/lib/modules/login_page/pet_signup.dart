@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MainPage extends StatefulWidget {
+class PetSignupPage extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _PetSignupState createState() => _PetSignupState();
 }
 
 enum Gender {
   MAN, WOMAN
 }
 
-class _MainPageState extends State<MainPage> {
+class _PetSignupState extends State<PetSignupPage> {
   List<String> dropdownList = ['1', '2', '3'];
   String selectedDropdown = '1';
   Gender _gender = Gender.MAN;
