@@ -88,7 +88,7 @@ class _PetSignupState extends State<PetSignupPage> {
                 ),
               ),
               SizedBox(
-                  height: size.height * 0.02
+                  height: size.height * 0.015
               ),
               Row(
                 children: [
@@ -127,7 +127,7 @@ class _PetSignupState extends State<PetSignupPage> {
                 ],
               ),
               SizedBox(
-                  height: size.height * 0.02
+                  height: size.height * 0.015
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +176,7 @@ class _PetSignupState extends State<PetSignupPage> {
                 ],
               ),
               SizedBox(
-                  height: size.height * 0.02
+                  height: size.height * 0.015
               ),
               TextField(
                 decoration: InputDecoration(
