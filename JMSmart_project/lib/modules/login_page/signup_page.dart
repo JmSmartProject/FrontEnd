@@ -422,9 +422,6 @@ class _SignupPageState extends State<SignupPage> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.01
-                  ),
                   Row(
                     children: <Widget>[
                       Container(
