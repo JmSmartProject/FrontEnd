@@ -6,14 +6,13 @@ class PetSettingsPage extends StatefulWidget {
   _PetSettingsPageState createState() => _PetSettingsPageState();
 }
 
-enum Gender {
-  MAN, WOMAN
-}
-
 class _PetSettingsPageState extends State<PetSettingsPage>{
   List<String> dropdownList = ['1', '2', '3'];
   String selectedDropdown = '1';
-  Gender _gender = Gender.MAN;
+  var pet_man = false;
+  var pet_woman = false;
+  var isChecked1 = false;
+  var isChecked2 = false;
 
   @override
   Widget build(BuildContext context){
@@ -196,82 +195,202 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
               ),
+              SizedBox(
+                  height: size.height * 0.015
+              ),
               Row(
                 children: <Widget>[
                   Container(
-                    width: size.width * 0.3,
-                    child: RadioListTile(
-                        title: Text("남자"),
-                        value: Gender.MAN,
-                        groupValue: _gender,
-                        onChanged: (value) {
-                          setState(() {
-                            _gender = value!;
-                          });
-                        }),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text("성별", style: TextStyle(fontSize: 15,),),
                   ),
-                  Container(
-                    width: size.width * 0.3,
-                    child: RadioListTile(
-                        title: Text("여자"),
-                        value: Gender.MAN,
-                        groupValue: _gender,
-                        onChanged: (value) {
-                          setState(() {
-                            _gender = value!;
-                          });
-                        }),
+                  Text(
+                    "   :   ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text('남자'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: pet_man,
+                      onChanged: (value) {
+                        setState(() {
+                          pet_man = value!;
+                        });
+                      },
+                    ),
+                  ),
+                  Text('여자'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: pet_woman,
+                      onChanged: (value) {
+                        setState(() {
+                          pet_woman = value!;
+                        });
+                      },
+                    ),
                   ),
                   SizedBox(width: 10,),
                 ],
               ),
               SizedBox(
+                  height: size.height * 0.01
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text("중성화 유무", style: TextStyle(fontSize: 15,),),
+                  ),
+                  Text(
+                    "   :   ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text('했음'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: isChecked1,
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked1 = value!;
+                        });
+                      },
+                    ),
+                  ),
+                  Text('하지 않음'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: isChecked2,
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked2 = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
                   height: size.height * 0.05
               ),
-              Container(
-                height: 60,
-                child: TextButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 60,
+                    child: TextButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              )
                           )
-                      )
-                  ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Color(0xffec407a),
-                          Color(0xfff06292),
-                          Color(0xfff48fb1),
-                        ],
                       ),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                            child: Text("저장",style: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color(0xffec407a),
+                              Color(0xfff06292),
+                              Color(0xfff48fb1),
+                            ],
                           ),
-                        )
-                      ],
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
+                                child: Text("저장",style: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                  Container(
+                    width: 130,
+                    height: 60,
+                    child: TextButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              )
+                          )
+                      ),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color(0xff42a5f5),
+                              Color(0xff64b5f6),
+                              Color(0xff90caf9),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
+                                child: Text("취소",style: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
