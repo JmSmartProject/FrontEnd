@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: EdgeInsets.only(left: 30, right: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -53,7 +53,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: size.height * 0.005,
                     // 1% 여분
                   ),
                   TextField(
@@ -72,11 +72,12 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
                             color: Colors.red,
-                          )),
+                          )
+                      ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: size.height * 0.005,
                     // 1% 여분
                   ),
                   Row(
@@ -114,7 +115,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.02,
+                    height: size.height * 0.015,
                     // 2% 여분
                   ),
                   Container(
@@ -157,7 +158,7 @@ class LoginPage extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -166,22 +167,40 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.03,
+                    height: size.height * 0.05,
                     // 3% 여분
                   ),
                   Column(
                     children: <Widget>[
-                      Container(
-                        child: Text(
-                          "SNS 간편 로그인",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.black),
-                        ),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: size.width * 0.05,
+                          ),
+                          Container( height:1.0,
+                            width:88.0,
+                            color:Colors.black,
+                          ),
+                          Container(
+                            child: Text(
+                              "    SNS 간편 로그인    ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          Container( height:1.0,
+                            width:88.0,
+                            color:Colors.black,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
                       ),
                       Container(
-                        height: size.height * 0.08,
+                        height: size.height * 0.07,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
@@ -200,7 +219,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: size.height * 0.08,
+                        height: size.height * 0.07,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
@@ -219,7 +238,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: size.height * 0.08,
+                        height: size.height * 0.07,
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {},
