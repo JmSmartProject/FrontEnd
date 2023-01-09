@@ -16,6 +16,7 @@ class _ProfilePage extends State<ProfilePage> {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.grey,
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.only(left: 30, right: 30),
