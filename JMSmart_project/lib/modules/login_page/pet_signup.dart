@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class PetSignupPage extends StatefulWidget {
   @override
-  _PetSignupState createState() => _PetSignupState();
+  _PetSignupPageState createState() => _PetSignupPageState();
 }
 
 enum Gender {
   MAN, WOMAN
 }
 
-class _PetSignupState extends State<PetSignupPage> {
+class _PetSignupPageState extends State<PetSignupPage> {
   List<String> dropdownList = ['1', '2', '3'];
   String selectedDropdown = '1';
   Gender _gender = Gender.MAN;
@@ -33,16 +33,16 @@ class _PetSignupState extends State<PetSignupPage> {
                 style: TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
               ),
               SizedBox(
-                  height: size.height * 0.01
+                  height: size.height * 0.02
               ),
               Align(
                 child: Stack(
                   children: [
                     SizedBox(
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(60),
                         child: Image.network(
                           'https://placeimg.com/200/100/people',
                           fit: BoxFit.cover,
