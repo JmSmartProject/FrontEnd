@@ -25,8 +25,8 @@ class LoginPage extends StatelessWidget {
                 children: <Widget>[
                   Image.asset(
                     "assets/images/logo/wepet_logo.png",
-                    width: size.height * 0.25,
-                    height: size.height * 0.25,
+                    width: size.height * 0.2,
+                    height: size.height * 0.2,
                     // logo & 25% 크기
                   )
                 ],
