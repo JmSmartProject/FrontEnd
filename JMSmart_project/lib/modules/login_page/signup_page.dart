@@ -7,9 +7,7 @@ class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
 }
 
-enum Gender {
-  MAN, WOMAN
-}
+enum Gender { MAN, WOMAN }
 
 class _SignupPageState extends State<SignupPage> {
   Gender _gender = Gender.MAN;
@@ -24,26 +22,30 @@ class _SignupPageState extends State<SignupPage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.only(left: 20,right: 20),
+          padding: EdgeInsets.only(left: 30, right: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                  height: size.height * 0.1
-              ),
+              SizedBox(height: size.height * 0.1),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("위펫에 오신걸",style: TextStyle(fontSize: 36,fontWeight: FontWeight.w900),),
-                      Text("환영합니다",style: TextStyle(fontSize: 36,fontWeight: FontWeight.w900),),
+                      Text(
+                        "위펫에 오신걸",
+                        style: TextStyle(
+                            fontSize: 36, fontWeight: FontWeight.w900),
+                      ),
+                      Text(
+                        "환영합니다",
+                        style: TextStyle(
+                            fontSize: 36, fontWeight: FontWeight.w900),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    width: size.width * 0.08
-                  ),
+                  SizedBox(width: size.width * 0.08),
                   Stack(
                     children: [
                       SizedBox(
@@ -77,20 +79,19 @@ class _SignupPageState extends State<SignupPage> {
                   )
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.03
-              ),
+              SizedBox(height: size.height * 0.03),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
                     height: 45,
-                    width: 263,
+                    width: 245,
                     child: TextField(
                       decoration: InputDecoration(
-                        labelText: "닉네임을 입력해주세요",
+                        labelText: "닉네임을 입력해주세요(2~8자)",
                         contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                        labelStyle: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.shade400),
@@ -103,9 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: size.width * 0.02
-                  ),
+                  SizedBox(width: size.width * 0.02),
                   Container(
                     alignment: Alignment.center,
                     height: 45,
@@ -115,9 +114,7 @@ class _SignupPageState extends State<SignupPage> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          )
-                      ),
+                              borderRadius: BorderRadius.circular(10))),
                       child: const Text(
                         "중복 확인",
                         style: TextStyle(
@@ -129,16 +126,15 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.01
-              ),
+              SizedBox(height: size.height * 0.01),
               Column(
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
                       labelText: "이름을 입력해주세요",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -152,20 +148,19 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.01
-              ),
+              SizedBox(height: size.height * 0.01),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
                     height: 50,
-                    width: 263,
+                    width: 245,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "아이디(이메일)을 입력해주세요",
                         contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 20),
-                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                        labelStyle: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.shade400),
@@ -179,9 +174,7 @@ class _SignupPageState extends State<SignupPage> {
                       controller: IDController,
                     ),
                   ),
-                  SizedBox(
-                    width: size.width * 0.02
-                  ),
+                  SizedBox(width: size.width * 0.02),
                   Column(
                     children: <Widget>[
                       Container(
@@ -192,9 +185,7 @@ class _SignupPageState extends State<SignupPage> {
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)
-                              )
-                          ),
+                                  borderRadius: BorderRadius.circular(10))),
                           child: const Text(
                             "중복 확인",
                             style: TextStyle(
@@ -204,9 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: size.height * 0.01
-                      ),
+                      SizedBox(height: size.height * 0.01),
                       Container(
                         alignment: Alignment.center,
                         height: 20,
@@ -214,11 +203,9 @@ class _SignupPageState extends State<SignupPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                            )
-                          ),
+                              backgroundColor: Colors.blue[200],
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
                           child: const Text(
                             "인증코드 요청",
                             style: TextStyle(
@@ -232,16 +219,15 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.01
-              ),
+              SizedBox(height: size.height * 0.01),
               Column(
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
                       labelText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -256,20 +242,19 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.01
-              ),
+              SizedBox(height: size.height * 0.01),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
                     height: 45,
-                    width: 243,
+                    width: 225,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "주소를 입력해주세요",
                         contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                        labelStyle: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Colors.grey.shade400),
@@ -282,9 +267,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: size.width * 0.02
-                  ),
+                  SizedBox(width: size.width * 0.02),
                   Container(
                     alignment: Alignment.center,
                     height: 45,
@@ -294,9 +277,7 @@ class _SignupPageState extends State<SignupPage> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          )
-                      ),
+                              borderRadius: BorderRadius.circular(10))),
                       child: const Text(
                         "우편번호 검색",
                         style: TextStyle(
@@ -308,9 +289,7 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * 0.01
-              ),
+              SizedBox(height: size.height * 0.01),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -318,7 +297,8 @@ class _SignupPageState extends State<SignupPage> {
                     decoration: InputDecoration(
                       labelText: "상세주소를 입력해주세요",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -330,13 +310,12 @@ class _SignupPageState extends State<SignupPage> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.01
+                  SizedBox(height: size.height * 0.01),
+                  Text(
+                    "전화번호를 입력해주세요",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
-                  Text("전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
-                  SizedBox(
-                      height: size.height * 0.001
-                  ),
+                  SizedBox(height: size.height * 0.001),
                   Row(
                     children: <Widget>[
                       SizedBox(
@@ -346,10 +325,12 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: "010",
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            labelStyle: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -359,7 +340,11 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ),
-                      Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                      Text(
+                        "   -   ",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
                       SizedBox(
                         height: 35,
                         width: 70,
@@ -367,10 +352,12 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: "",
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            labelStyle: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -380,7 +367,11 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                       ),
-                      Text("   -   ",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                      Text(
+                        "   -   ",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
                       SizedBox(
                         height: 35,
                         width: 70,
@@ -388,10 +379,12 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: InputDecoration(
                             labelText: "",
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                            labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            labelStyle: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -403,14 +396,13 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                      height: size.height * 0.01
-                  ),
+                  SizedBox(height: size.height * 0.01),
                   TextField(
                     decoration: InputDecoration(
                       labelText: "생년월일을 입력해주세요(8자리)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                      labelStyle:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -427,7 +419,10 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         width: size.width * 0.3,
                         child: RadioListTile(
-                            title: Text("남자"),
+                            title: Text(
+                              "남자",
+                              style: TextStyle(fontSize: 14),
+                            ),
                             value: Gender.MAN,
                             groupValue: _gender,
                             onChanged: (value) {
@@ -439,7 +434,10 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         width: size.width * 0.3,
                         child: RadioListTile(
-                            title: Text("여자"),
+                            title: Text(
+                              "여자",
+                              style: TextStyle(fontSize: 14),
+                            ),
                             value: Gender.MAN,
                             groupValue: _gender,
                             onChanged: (value) {
@@ -448,29 +446,25 @@ class _SignupPageState extends State<SignupPage> {
                               });
                             }),
                       ),
-                      SizedBox(
-                        width: size.width * 0.03,
-                      ),
                       Container(
                         alignment: Alignment.center,
                         height: 45,
-                        width: 105,
+                        width: 97,
                         child: ElevatedButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
                               return PetSignupPage();
                             }));
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)
-                              )
-                          ),
+                                  borderRadius: BorderRadius.circular(10))),
                           child: const Text(
                             "펫정보 입력하기",
                             style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 10,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -484,14 +478,13 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     height: 60,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () {},
                       style: ButtonStyle(
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              )
-                          )
-                      ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ))),
                       child: Ink(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -507,8 +500,15 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         child: Container(
                           alignment: Alignment.center,
-                          constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                          child: Text("회원가입",style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),),
+                          constraints: BoxConstraints(
+                              maxWidth: double.infinity, minHeight: 100),
+                          child: Text(
+                            "회원가입",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
@@ -520,14 +520,21 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Row(children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child: Text("로그인 페이지로 돌아가기",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),),
-                  )
-                ],
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "로그인 페이지로 돌아가기",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    )
+                  ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
               )
