@@ -7,10 +7,9 @@ class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
 }
 
-enum Gender { MAN, WOMAN }
-
 class _SignupPageState extends State<SignupPage> {
-  Gender _gender = Gender.MAN;
+  var person_man = false;
+  var person_woman = false;
   final IDController = TextEditingController();
   final PWController = TextEditingController();
 
@@ -224,7 +223,26 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
-                      labelText: "비밀번호를 입력해주세요",
+                      labelText: "인증코드를 입력해주세요(4자리)",
+                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
+                      labelStyle:
+                      TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.grey.shade400),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    ),
+                    controller: PWController,
+                  ),
+                  SizedBox(height: size.height * 0.01),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: "비밀번호를 입력해주세요(8~12자리)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
                           TextStyle(fontSize: 14, color: Colors.grey.shade800),
@@ -414,42 +432,55 @@ class _SignupPageState extends State<SignupPage> {
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
                   ),
+                  SizedBox(height: size.height * 0.005),
                   Row(
                     children: <Widget>[
                       Container(
-                        width: size.width * 0.3,
-                        child: RadioListTile(
-                            title: Text(
-                              "남자",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: Gender.MAN,
-                            groupValue: _gender,
-                            onChanged: (value) {
-                              setState(() {
-                                _gender = value!;
-                              });
-                            }),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade400),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text("성별", style: TextStyle(fontSize: 15,),),
                       ),
-                      Container(
-                        width: size.width * 0.3,
-                        child: RadioListTile(
-                            title: Text(
-                              "여자",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            value: Gender.MAN,
-                            groupValue: _gender,
-                            onChanged: (value) {
-                              setState(() {
-                                _gender = value!;
-                              });
-                            }),
+                      Text(
+                        "   :   ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      Text('남자'),
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                          side: BorderSide(color: Colors.grey.shade400),
+                          activeColor: Colors.white,
+                          checkColor: Colors.blue,
+                          value: person_man,
+                          onChanged: (value) {
+                            setState(() {
+                              person_man = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      Text('여자'),
+                      Transform.scale(
+                        scale: 1.5,
+                        child: Checkbox(
+                          side: BorderSide(color: Colors.grey.shade400),
+                          activeColor: Colors.white,
+                          checkColor: Colors.blue,
+                          value: person_woman,
+                          onChanged: (value) {
+                            setState(() {
+                              person_woman = value!;
+                            });
+                          },
+                        ),
                       ),
                       Container(
                         alignment: Alignment.center,
                         height: 45,
-                        width: 97,
+                        width: 105,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(context,
@@ -464,7 +495,7 @@ class _SignupPageState extends State<SignupPage> {
                           child: const Text(
                             "펫정보 입력하기",
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600),
                           ),
