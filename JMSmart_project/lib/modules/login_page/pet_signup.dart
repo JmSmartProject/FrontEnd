@@ -5,14 +5,13 @@ class PetSignupPage extends StatefulWidget {
   _PetSignupPageState createState() => _PetSignupPageState();
 }
 
-enum Gender {
-  MAN, WOMAN
-}
-
 class _PetSignupPageState extends State<PetSignupPage> {
   List<String> dropdownList = ['1', '2', '3'];
   String selectedDropdown = '1';
-  Gender _gender = Gender.MAN;
+  var pet_man = false;
+  var pet_woman = false;
+  var isChecked1 = false;
+  var isChecked2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -194,33 +193,103 @@ class _PetSignupPageState extends State<PetSignupPage> {
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
               ),
+              SizedBox(
+                  height: size.height * 0.02
+              ),
               Row(
                 children: <Widget>[
                   Container(
-                    width: size.width * 0.3,
-                    child: RadioListTile(
-                        title: Text("남자"),
-                        value: Gender.MAN,
-                        groupValue: _gender,
-                        onChanged: (value) {
-                          setState(() {
-                            _gender = value!;
-                          });
-                        }),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text("성별", style: TextStyle(fontSize: 15,),),
                   ),
-                  Container(
-                    width: size.width * 0.3,
-                    child: RadioListTile(
-                        title: Text("여자"),
-                        value: Gender.MAN,
-                        groupValue: _gender,
-                        onChanged: (value) {
-                          setState(() {
-                            _gender = value!;
-                          });
-                        }),
+                  Text(
+                    "   :   ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text('남자'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: pet_man,
+                      onChanged: (value) {
+                        setState(() {
+                          pet_man = value!;
+                        });
+                      },
+                    ),
+                  ),
+                  Text('여자'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: pet_woman,
+                      onChanged: (value) {
+                        setState(() {
+                          pet_woman = value!;
+                        });
+                      },
+                    ),
                   ),
                   SizedBox(width: 10,),
+                ],
+              ),
+              SizedBox(
+                  height: size.height * 0.01
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text("중성화 유무", style: TextStyle(fontSize: 15,),),
+                  ),
+                  Text(
+                    "   :   ",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text('했음'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: isChecked1,
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked1 = value!;
+                        });
+                      },
+                    ),
+                  ),
+                  Text('하지 않음'),
+                  Transform.scale(
+                    scale: 1.5,
+                    child: Checkbox(
+                      side: BorderSide(color: Colors.grey.shade400),
+                      activeColor: Colors.white,
+                      checkColor: Colors.blue,
+                      value: isChecked2,
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked2 = value!;
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
