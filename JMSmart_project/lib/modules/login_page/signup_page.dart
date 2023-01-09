@@ -333,7 +333,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(
                     height: size.height * 0.01
                   ),
-                  Text("   전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
+                  Text("전화번호를 입력해주세요",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500),),
                   SizedBox(
                       height: size.height * 0.001
                   ),
@@ -454,7 +454,7 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         alignment: Alignment.center,
                         height: 45,
-                        width: 100,
+                        width: 105,
                         child: ElevatedButton(
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -468,9 +468,9 @@ class _SignupPageState extends State<SignupPage> {
                               )
                           ),
                           child: const Text(
-                            "펫 정보 입력하기",
+                            "펫정보 입력하기",
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -525,7 +525,7 @@ class _SignupPageState extends State<SignupPage> {
                     onTap: (){
                       Navigator.pop(context);
                     },
-                    child: Text("로그인 페이지로 돌아가기",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.black),),
+                    child: Text("로그인 페이지로 돌아가기",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black),),
                   )
                 ],
                   mainAxisAlignment: MainAxisAlignment.center,
