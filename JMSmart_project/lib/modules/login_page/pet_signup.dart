@@ -132,7 +132,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: 240,
+                    width: 230,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "생년월일을 입력해주세요(8자리)",
@@ -154,7 +154,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       width: size.width * 0.03
                   ),
                   SizedBox(
-                    width: 80,
+                    width: 85,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "무게(kg)",
