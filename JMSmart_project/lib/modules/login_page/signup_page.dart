@@ -84,7 +84,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 45,
-                    width: 245,
+                    width: 240,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "닉네임을 입력해주세요(2~8자)",
@@ -153,7 +153,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 50,
-                    width: 245,
+                    width: 240,
                     child: TextField(
                       decoration: InputDecoration(
                         labelText: "아이디(이메일)을 입력해주세요",
@@ -261,59 +261,12 @@ class _SignupPageState extends State<SignupPage> {
                 ],
               ),
               SizedBox(height: size.height * 0.01),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 45,
-                    width: 225,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: "주소를 입력해주세요",
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade400),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: size.width * 0.02),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 45,
-                    width: 100,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      child: const Text(
-                        "우편번호 검색",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.01),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextField(
                     decoration: InputDecoration(
-                      labelText: "상세주소를 입력해주세요",
+                      labelText: "거주하고 있는 동네를 입력해주세요(Ex.홍대, 잠실)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
                           TextStyle(fontSize: 14, color: Colors.grey.shade800),
