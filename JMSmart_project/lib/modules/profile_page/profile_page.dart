@@ -104,17 +104,27 @@ class _ProfilePage extends State<ProfilePage> {
                             ),
                             Positioned(
                               bottom: 0,
-                              right: 29,
+                              right: 20,
                               child: Container(
-                                width: 20,
+                                alignment: Alignment.center,
                                 height: 20,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.grey[100],
-                                ),
-                                child: Icon(
-                                  Icons.camera_alt_outlined,
-                                  size: 15,
+                                width: 70,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => ProfileSettingsPage()));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10))),
+                                  child: const Text(
+                                    "프로필 설정",
+                                    style: TextStyle(
+                                        fontSize: 8,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
                             ),
@@ -251,17 +261,27 @@ class _ProfilePage extends State<ProfilePage> {
                     ),
                     Positioned(
                       bottom: 0,
-                      right: 0,
+                      right: 20,
                       child: Container(
-                        width: 20,
+                        alignment: Alignment.center,
                         height: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[100],
-                        ),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          size: 15,
+                        width: 60,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => PetSettingsPage()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          child: const Text(
+                            "펫 설정",
+                            style: TextStyle(
+                                fontSize: 9,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),
@@ -292,7 +312,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: size.height * 0.012,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -316,7 +336,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: size.height * 0.012,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -340,7 +360,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: size.height * 0.012,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -364,7 +384,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: size.height * 0.012,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -388,7 +408,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.015,
+                  height: size.height * 0.012,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
