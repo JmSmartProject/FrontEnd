@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jmsmart_project/modules/login_page/pet_signup.dart';
 
 class SignupPage extends StatefulWidget {
@@ -10,8 +11,61 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   var person_man = false;
   var person_woman = false;
-  final IDController = TextEditingController();
-  final PWController = TextEditingController();
+  int Gender = 2;
+  int uservalidate = 1;
+  final _NickNameController = TextEditingController();
+  final _NameController = TextEditingController();
+  final _IDController = TextEditingController();
+  final _PWController = TextEditingController();
+  final _CodeController = TextEditingController();
+  final _AddressController = TextEditingController();
+  final _PhoneController1 = TextEditingController();
+  final _PhoneController2 = TextEditingController();
+  final _BirthdayController = TextEditingController();
+  final _NickNameValidate = TextEditingController();
+  final _NameValidate = TextEditingController();
+  final _IDValidate = TextEditingController();
+  final _CodeValidate = TextEditingController();
+  final _PWValidate = TextEditingController();
+  final _AddressValidate = TextEditingController();
+  final _Phone1Validate = TextEditingController();
+  final _Phone2Validate = TextEditingController();
+  final _BirthdayValidate = TextEditingController();
+
+  List<dynamic> petinfolist = [];
+  int nicknamevalidate = 1;
+  int namevalidate = 1;
+  int idvalidate = 1;
+  int codevalidate = 1;
+  int pwvalidate = 1;
+  int addressvalidate = 1;
+  int phone1validate = 1;
+  int phone2validate = 1;
+  int birthdayvalidate = 1;
+
+
+  @override
+  void dispose() {
+    _NickNameController.dispose();
+    _NameController.dispose();
+    _IDController.dispose();
+    _PWController.dispose();
+    _CodeController.dispose();
+    _AddressController.dispose();
+    _PhoneController1.dispose();
+    _PhoneController2.dispose();
+    _BirthdayController.dispose();
+    _NickNameValidate.dispose();
+    _NameValidate.dispose();
+    _IDValidate.dispose();
+    _PWValidate.dispose();
+    _CodeValidate.dispose();
+    _AddressValidate.dispose();
+    _Phone1Validate.dispose();
+    _Phone2Validate.dispose();
+    _BirthdayValidate.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +139,9 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(
                     height: 45,
                     width: 240,
-                    child: TextField(
+                    child: TextFormField(
+                      controller: _NickNameController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(8)],
                       decoration: InputDecoration(
                         labelText: "닉네임을 입력해주세요(2~8자)",
                         contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
@@ -101,6 +157,20 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          if (_NickNameController.text.isEmpty) {
+                            nicknamevalidate = 1;
+                            _NickNameValidate.text = '      닉네임을 입력해주세요';
+                          } else if (_NickNameController.text.length <= 1) {
+                            nicknamevalidate = 2;
+                            _NickNameValidate.text = '      2개이상 입력';
+                          } else {
+                            _NickNameValidate.text = '';
+                            nicknamevalidate = 0;
+                          }
+                        });
+                      },
                     ),
                   ),
                   SizedBox(width: size.width * 0.02),
@@ -125,15 +195,31 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: size.height * 0.01),
+              SizedBox(
+                width: 200,
+                height: 20,
+                child: TextField(
+                  controller: _NickNameValidate,
+                  enabled: false,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.red,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                  ),
+                ),
+              ),
               Column(
                 children: <Widget>[
                   TextField(
+                    controller: _NameController,
                     decoration: InputDecoration(
                       labelText: "이름을 입력해주세요",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                      TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -144,10 +230,40 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (_NameController.text.isEmpty) {
+                          namevalidate = 1;
+                          _NameValidate.text = '      이름을 입력해주세요';
+                        } else {
+                          _NameValidate.text = '';
+                          namevalidate = 0;
+                        }
+                      });
+                    },
                   ),
                 ],
               ),
-              SizedBox(height: size.height * 0.01),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 200,
+                    height: 20,
+                    child: TextField(
+                      controller: _NameValidate,
+                      enabled: false,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -155,6 +271,7 @@ class _SignupPageState extends State<SignupPage> {
                     height: 50,
                     width: 240,
                     child: TextField(
+                      controller: _IDController,
                       decoration: InputDecoration(
                         labelText: "아이디(이메일)을 입력해주세요",
                         contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 20),
@@ -170,7 +287,17 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
-                      controller: IDController,
+                      onChanged: (value) {
+                        setState(() {
+                          if (_IDController.text.isEmpty) {
+                            idvalidate = 1;
+                            _IDValidate.text = '      아이디(이메일)을 입력해주세요';
+                          } else {
+                            _IDValidate.text = '';
+                            idvalidate = 0;
+                          }
+                        });
+                      },
                     ),
                   ),
                   SizedBox(width: size.width * 0.02),
@@ -218,12 +345,110 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
-              SizedBox(height: size.height * 0.01),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 200,
+                    height: 20,
+                    child: TextField(
+                      controller: _IDValidate,
+                      enabled: false,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 45,
+                    width: 230,
+                    child: TextField(
+                      controller: _CodeController,
+                      inputFormatters: [LengthLimitingTextInputFormatter(4)],
+                      decoration: InputDecoration(
+                        labelText: "인증코드를 입력해주세요(4자리)",
+                        contentPadding: EdgeInsets.fromLTRB(15, 20, 20, 20),
+                        labelStyle: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade800),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.grey.shade400),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          if (_CodeController.text.isEmpty) {
+                            codevalidate = 1;
+                            _CodeValidate.text = '      인증코드를 입력해주세요';
+                          } else {
+                            _CodeValidate.text = '';
+                            codevalidate = 0;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: size.width * 0.01),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 45,
+                    width: 95,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: const Text(
+                        "인증코드 확인",
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 200,
+                    height: 20,
+                    child: TextField(
+                      controller: _CodeValidate,
+                      enabled: false,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.red,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Column(
                 children: <Widget>[
                   TextField(
+                    controller: _PWController,
+                    inputFormatters: [LengthLimitingTextInputFormatter(12)],
                     decoration: InputDecoration(
-                      labelText: "인증코드를 입력해주세요(4자리)",
+                      labelText: "비밀번호를 입력해주세요(8~12자리)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
                       TextStyle(fontSize: 14, color: Colors.grey.shade800),
@@ -237,39 +462,53 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
-                    controller: PWController,
+                    onChanged: (value) {
+                      setState(() {
+                        if (_PWController.text.isEmpty) {
+                          pwvalidate = 1;
+                          _PWValidate.text = '      비밀번호를 입력해주세요';
+                        } else if (_PWController.text.length <= 7) {
+                          pwvalidate = 2;
+                          _PWValidate.text = '      8개이상 입력';
+                        } else {
+                          _PWValidate.text = '';
+                          pwvalidate = 0;
+                        }
+                      });
+                    },
                   ),
-                  SizedBox(height: size.height * 0.01),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: "비밀번호를 입력해주세요(8~12자리)",
-                      contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      labelStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey.shade400),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 200,
+                        height: 20,
+                        child: TextField(
+                          controller: _PWValidate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                          ),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.red),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    ),
-                    controller: PWController,
-                  ),
+                    ],
+                  )
                 ],
               ),
-              SizedBox(height: size.height * 0.01),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextField(
+                    controller: _AddressController,
                     decoration: InputDecoration(
                       labelText: "거주하고 있는 동네를 입력해주세요(Ex.홍대, 잠실)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                      TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -280,8 +519,38 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (_AddressController.text.isEmpty) {
+                          addressvalidate = 1;
+                          _AddressValidate.text = '      거주하고 있는 동네를 입력해주세요';
+                        } else {
+                          _AddressValidate.text = '';
+                          addressvalidate = 0;
+                        }
+                      });
+                    },
                   ),
-                  SizedBox(height: size.height * 0.01),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 200,
+                        height: 20,
+                        child: TextField(
+                          controller: _AddressValidate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Text(
                     "전화번호를 입력해주세요",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
@@ -301,7 +570,7 @@ class _SignupPageState extends State<SignupPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400),
+                              BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -320,6 +589,8 @@ class _SignupPageState extends State<SignupPage> {
                         height: 35,
                         width: 70,
                         child: TextField(
+                          controller: _PhoneController1,
+                          inputFormatters: [LengthLimitingTextInputFormatter(4)],
                           decoration: InputDecoration(
                             labelText: "",
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
@@ -328,7 +599,7 @@ class _SignupPageState extends State<SignupPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400),
+                              BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -336,6 +607,20 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                           ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (_PhoneController1.text.isEmpty) {
+                                phone1validate = 1;
+                                _Phone1Validate.text = '      전화번호를 입력해주세요';
+                              } else if (_PhoneController1.text.length <= 3) {
+                                phone1validate = 2;
+                                _Phone1Validate.text = '      4개이상 입력';
+                              } else {
+                                _Phone1Validate.text = '';
+                                phone1validate = 0;
+                              }
+                            });
+                          },
                         ),
                       ),
                       Text(
@@ -347,6 +632,8 @@ class _SignupPageState extends State<SignupPage> {
                         height: 35,
                         width: 70,
                         child: TextField(
+                          controller: _PhoneController2,
+                          inputFormatters: [LengthLimitingTextInputFormatter(4)],
                           decoration: InputDecoration(
                             labelText: "",
                             contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
@@ -355,25 +642,61 @@ class _SignupPageState extends State<SignupPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
-                                  BorderSide(color: Colors.grey.shade400),
+                              BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(color: Colors.red),
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (_PhoneController2.text.isEmpty) {
+                                phone2validate = 1;
+                                _Phone1Validate.text = '      전화번호를 입력해주세요';
+                              } else if (_PhoneController2.text.length <= 3) {
+                                phone2validate = 2;
+                                _Phone1Validate.text = '      4개이상 입력';
+                              } else {
+                                _Phone1Validate.text = '';
+                                phone2validate = 0;
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: size.width * 0.18),
+                      SizedBox(
+                        width: 200,
+                        height: 20,
+                        child: TextField(
+                          controller: _Phone1Validate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: size.height * 0.01),
                   TextField(
+                    controller: _BirthdayController,
+                    inputFormatters: [LengthLimitingTextInputFormatter(8)],
                     decoration: InputDecoration(
                       labelText: "생년월일을 입력해주세요(8자리)",
                       contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
                       labelStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                      TextStyle(fontSize: 14, color: Colors.grey.shade800),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide(color: Colors.grey.shade400),
@@ -384,8 +707,41 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        if (_BirthdayController.text.isEmpty) {
+                          birthdayvalidate = 1;
+                          _BirthdayValidate.text = '      생년월일를 입력해주세요';
+                        } else if (_BirthdayController.text.length <= 7) {
+                          birthdayvalidate = 2;
+                          _BirthdayValidate.text = '      8자리로 입력해주세요';
+                        } else {
+                          _BirthdayValidate.text = '';
+                          birthdayvalidate = 0;
+                        }
+                      });
+                    },
                   ),
-                  SizedBox(height: size.height * 0.005),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 200,
+                        height: 20,
+                        child: TextField(
+                          controller: _BirthdayValidate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Row(
                     children: <Widget>[
                       Container(
@@ -410,8 +766,16 @@ class _SignupPageState extends State<SignupPage> {
                           value: person_man,
                           onChanged: (value) {
                             setState(() {
+                              Gender = 1;
                               person_man = value!;
+                              if(person_woman == true){
+                                person_woman = false;
+                              }
+                              if(person_man == false && person_woman == false) {
+                                Gender = 2;
+                              }
                             });
+                            print(Gender);
                           },
                         ),
                       ),
@@ -425,7 +789,14 @@ class _SignupPageState extends State<SignupPage> {
                           value: person_woman,
                           onChanged: (value) {
                             setState(() {
+                              Gender = 0;
                               person_woman = value!;
+                              if(person_man == true){
+                                person_man = false;
+                              }
+                              if(person_man == false && person_woman == false) {
+                                Gender = 2;
+                              }
                             });
                           },
                         ),
@@ -435,11 +806,12 @@ class _SignupPageState extends State<SignupPage> {
                         height: 45,
                         width: 105,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context,
+                          onPressed: () async {
+                            final petinfo = await Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return PetSignupPage();
-                            }));
+                                  return PetSignupPage();
+                                }));
+                            petinfolist = petinfo;
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
@@ -462,13 +834,24 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     height: 60,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
+                              pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
+                          if (uservalidate == 0 && Gender != 2) {
+                            // 포스트
+                          } else {
+                            print(uservalidate);
+                          }
+                        });
+                        print(petinfolist);
+                      },
                       style: ButtonStyle(
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ))),
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ))),
                       child: Ink(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -521,7 +904,8 @@ class _SignupPageState extends State<SignupPage> {
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
-              )
+              ),
+              SizedBox(height: size.height * 0.04),
             ],
           ),
         ),

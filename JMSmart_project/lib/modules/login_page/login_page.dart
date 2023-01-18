@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/login_page/signup_page.dart';
-import 'package:jmsmart_project/modules/login_page/nav_bar.dart';
+import 'package:jmsmart_project/modules/http_api/user_api.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
+
+  final _IDController = TextEditingController();
+  final _PWController = TextEditingController();
+
+  @override
+  void dispose() {
+    _IDController.dispose();
+    _PWController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,6 +50,7 @@ class LoginPage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   TextField(
+                    controller: _IDController,
                     decoration: InputDecoration(
                       labelText: "아이디를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
@@ -57,6 +74,7 @@ class LoginPage extends StatelessWidget {
                     // 1% 여분
                   ),
                   TextField(
+                    controller: _PWController,
                     decoration: InputDecoration(
                       labelText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
@@ -123,8 +141,10 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
+                          login_post(_IDController.text, _PWController.text);
+
+                        // Navigator.pushReplacement(context,
+                        //     MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
                       },
                       style: ButtonStyle(

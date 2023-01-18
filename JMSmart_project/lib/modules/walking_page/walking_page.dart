@@ -15,7 +15,7 @@ class _WalkingPage extends State<WalkingPage> {
         backgroundColor: Color(0xfff48fb1),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
+            padding: EdgeInsets.only(left: 20, right: 20),
             child: Column(
               children: <Widget>[
                 SizedBox(height: size.height * 0.03),
@@ -33,7 +33,7 @@ class _WalkingPage extends State<WalkingPage> {
                     Container(
                       alignment: Alignment.center,
                       height: 30,
-                      width: 70,
+                      width: 80,
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
@@ -55,7 +55,7 @@ class _WalkingPage extends State<WalkingPage> {
                     Container(
                       alignment: Alignment.center,
                       height: 30,
-                      width: 70,
+                      width: 80,
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
