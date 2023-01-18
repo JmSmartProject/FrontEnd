@@ -81,4 +81,6 @@ class _ChattingPage extends State<ChattingPage> {
       debugShowCheckedModeBanner: false,
     );
   }
+
 }
+

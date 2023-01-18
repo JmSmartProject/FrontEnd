@@ -10,6 +10,7 @@ import 'package:jmsmart_project/modules/walking_page/walking_page.dart';
 import 'package:jmsmart_project/modules/login_page/nav_bar.dart';
 
 
+
 void main() {
   runApp(MyApp());
 }

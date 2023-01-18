@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 var aws_uri = '52.79.223.14:8080/users/signup';
 
+
 class login_api {
   final String id;
   final String password;
@@ -42,6 +43,7 @@ class user_api {
       phone_number: json['phone_number'],
       birthday: json["create_date"],
       gender: json['gender'],
+
     );
   }
 }
@@ -58,16 +60,19 @@ Future<login_api> login_post(String id, String password) async {
     }),
   );
 
+
   if (response.statusCode == 200) {
     print('로그인에 성공햇습니다');
     print(id);
     print(password);
     return login_api.fromJson(jsonDecode(response.body));
   } else {
+
     print('로그인에 실패햇습니다');
     throw Exception('Failed to create album.');
   }
 }
+
 
 // Future<login_api> getAlbum() async {
 //   final response = await http.get(
@@ -89,6 +94,7 @@ Future<user_api> user_signup_post(String nickname, String name,
     String phone_number, String birthday, String gender) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/signup'),
+
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -109,5 +115,6 @@ Future<user_api> user_signup_post(String nickname, String name,
   } else {
     print('로그인에 실패햇습니다');
     throw Exception('오류.');
+
   }
 }

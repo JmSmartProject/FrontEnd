@@ -51,7 +51,7 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
     _BirthdayValidate.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context){
     Size size = MediaQuery.of(context).size;
@@ -108,7 +108,9 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
                 ),
               ),
               SizedBox(
+
                   height: size.height * 0.03
+
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

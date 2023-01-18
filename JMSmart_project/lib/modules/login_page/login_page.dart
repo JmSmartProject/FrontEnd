@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/login_page/signup_page.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
-
 import 'nav_bar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -32,7 +31,13 @@ class _LoginPage extends State<LoginPage> {
         child: Container(
           padding: EdgeInsets.only(left: 30, right: 30),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              SizedBox(
+                height: size.height * 0.01,
+                // 1% 여분
+              ),
+
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -69,6 +74,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
+
                     height: size.height * 0.01,
                     // 1% 여분
                   ),
@@ -228,6 +234,7 @@ class _LoginPage extends State<LoginPage> {
                           onPressed: () {},
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all<
+
                                   RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
@@ -251,6 +258,7 @@ class _LoginPage extends State<LoginPage> {
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
                                   ))),
+
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -304,6 +312,7 @@ class _LoginPage extends State<LoginPage> {
                             MaterialPageRoute(builder: (context) {
                               return SignupPage();
                             }));
+
                       },
                       child: Text(
                         "회원가입",

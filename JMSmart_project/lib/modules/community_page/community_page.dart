@@ -4,6 +4,7 @@ import 'package:jmsmart_project/modules/community_page/do_alba_page.dart';
 import 'package:jmsmart_project/modules/community_page/please_alba_page.dart';
 import 'package:jmsmart_project/modules/community_page/writing_page.dart';
 
+
 class CommunityPage extends StatefulWidget{
   @override
   _CommunityPage createState() => _CommunityPage();
