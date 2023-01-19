@@ -182,7 +182,9 @@ class _SignupPageState extends State<SignupPage> {
                     height: 45,
                     width: 80,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        nickname_reduplication_post(_NickNameController.text);
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue[600],
                           shape: RoundedRectangleBorder(
@@ -318,7 +320,9 @@ class _SignupPageState extends State<SignupPage> {
                         height: 20,
                         width: 80,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            id_reduplication_post(_IDController.text);
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue[600],
                               shape: RoundedRectangleBorder(
@@ -338,7 +342,9 @@ class _SignupPageState extends State<SignupPage> {
                         height: 20,
                         width: 80,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            authentication_code_post(_IDController.text);
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue[300],
                               shape: RoundedRectangleBorder(
@@ -420,7 +426,9 @@ class _SignupPageState extends State<SignupPage> {
                     height: 45,
                     width: 95,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        authentication_code_check_post(_IDController.text, _CodeController.text);
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue[600],
                           shape: RoundedRectangleBorder(

@@ -65,7 +65,7 @@ Future<login_api> login_post(String id, String password) async {
     return login_api.fromJson(jsonDecode(response.body));
   } else {
     print('로그인에 실패햇습니다');
-    throw Exception('Failed to create album.');
+    throw Exception('login fail');
   }
 }
 
@@ -104,10 +104,87 @@ Future<user_api> user_signup_post(String nickname, String name,
     }),
   );
   if (response.statusCode == 200) {
-    print('로그인에 성공햇습니다');
+    print('회원가입에 성공햇습니다');
     return user_api.fromJson(jsonDecode(response.body));
   } else {
-    print('로그인에 실패햇습니다');
-    throw Exception('오류.');
+    print('회원가입에 실패햇습니다');
+    throw Exception('user signup fail');
+  }
+}
+
+Future<user_api> nickname_reduplication_post(String nickname) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'nickname': nickname,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('닉네임이 중복이 아닙니다');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('닉네임이 중복입니다.');
+    throw Exception('nickname reduplication error');
+  }
+}
+
+Future<user_api> id_reduplication_post(String email) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('이메일이 중복이 아닙니다');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('이메일이 중복입니다.');
+    throw Exception('email reduplication error');
+  }
+}
+
+Future<user_api> authentication_code_post(String email) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('인증코드를 보냇습니다.');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('인증코드를 보내지 못햇습니다');
+    throw Exception('code post error');
+  }
+}
+
+Future<user_api> authentication_code_check_post(String email, String code) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+      'code': code,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('인증코드를 일치합니다.');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('인증코드를 일치 하지 않습니다.');
+    throw Exception('code check error');
   }
 }
