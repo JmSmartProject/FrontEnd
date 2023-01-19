@@ -12,7 +12,7 @@ class _ChattingPage extends State<ChattingPage> {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.only(left: 30, right: 30),
