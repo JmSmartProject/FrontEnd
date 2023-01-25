@@ -17,7 +17,7 @@ class _ProfilePage extends State<ProfilePage> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey,
-        body: SafeArea(
+        body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(left: 30, right: 30),
             child: Column(
