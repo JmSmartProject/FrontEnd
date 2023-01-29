@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jmsmart_project/modules/community_page/community_page.dart';
 import 'package:jmsmart_project/modules/login_page/signup_page.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../color/colors.dart';
+import 'nav_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,7 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-
+  String _id = '';
+  late SharedPreferences _prefs;
   final _IDController = TextEditingController();
   final _PWController = TextEditingController();
 
@@ -21,10 +26,24 @@ class _LoginPage extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadID();
+  }
+
+  _loadID() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _id = (_prefs.getString('id') ?? '');
+      print(_id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: Container(
@@ -44,53 +63,53 @@ class _LoginPage extends State<LoginPage> {
               ),
               Column(
                 children: <Widget>[
-                  TextField(
+                  TextFormField(
+                    style: TextStyle(fontSize: 14),
                     controller: _IDController,
                     decoration: InputDecoration(
-                      labelText: "아이디를 입력해주세요",
+                      hintText: "아이디(이메일)를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle:
-                      TextStyle(fontSize: 14,
+                      hintStyle: TextStyle(
+                          fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade600),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade600,
-                        ),
+                        borderSide:
+                            BorderSide(color: PRIMARY_COLOR, width: 1.5),
                       ),
+                      fillColor: INPUT_BG_COLOR,
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                          )),
+                          borderSide:
+                              BorderSide(color: Colors.red, width: 1.5)),
                     ),
                   ),
                   SizedBox(
                     height: size.height * 0.01,
                     // 1% 여분
                   ),
-                  TextField(
+                  TextFormField(
+                    style: TextStyle(fontSize: 14),
+                    obscureText: true,
                     controller: _PWController,
                     decoration: InputDecoration(
-                      labelText: "비밀번호를 입력해주세요",
+                      hintText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
-                      labelStyle:
-                      TextStyle(fontSize: 14,
+                      hintStyle: TextStyle(
+                          fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade600),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade600,
-                        ),
+                        borderSide:
+                            BorderSide(color: PRIMARY_COLOR, width: 1.5),
                       ),
+                      fillColor: INPUT_BG_COLOR,
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                          )
-                      ),
+                          borderSide:
+                              BorderSide(color: Colors.red, width: 1.5)),
                     ),
                   ),
                   SizedBox(
@@ -99,17 +118,20 @@ class _LoginPage extends State<LoginPage> {
                   ),
                   Row(
                     children: <Widget>[
+                      SizedBox(
+                        width: size.width * 0.01,
+                      ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return SignupPage();
-                              }));
+                            return SignupPage();
+                          }));
                         },
                         child: Text(
-                          "아이디 찾기 /",
+                          "  아이디 찾기 /",
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
@@ -118,13 +140,13 @@ class _LoginPage extends State<LoginPage> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return SignupPage();
-                              }));
+                            return SignupPage();
+                          }));
                         },
                         child: Text(
                           " 비밀번호 찾기",
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 10,
                               fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
@@ -132,7 +154,7 @@ class _LoginPage extends State<LoginPage> {
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.015,
+                    height: size.height * 0.02,
                     // 2% 여분
                   ),
                   Container(
@@ -141,29 +163,24 @@ class _LoginPage extends State<LoginPage> {
                     child: TextButton(
                       onPressed: () {
                         login_post(_IDController.text, _PWController.text);
-
                         // Navigator.pushReplacement(context,
                         //     MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
+                        _id = _IDController.text;
+                        _prefs.setString('id', _id);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
                       },
                       style: ButtonStyle(
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ))),
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ))),
                       child: Ink(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xffec407a),
-                              Color(0xfff06292),
-                              Color(0xfff48fb1),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(6),
+                          color: PRIMARY_COLOR,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -176,7 +193,7 @@ class _LoginPage extends State<LoginPage> {
                                 "로그인",
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -186,102 +203,124 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.03,
-                    // 3% 여분
+                    height: size.height * 0.04,
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: size.width * 0.05,
-                          ),
-                          Container( height:1.0,
-                            width:88.0,
-                            color:Colors.black,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 1.0,
+                            width: 80.0,
+                            color: Colors.black,
                           ),
                           Container(
                             child: Text(
                               "    SNS 간편 로그인    ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   color: Colors.black),
                             ),
                           ),
-                          Container( height:1.0,
-                            width:88.0,
-                            color:Colors.black,
+                          Container(
+                            height: 1.0,
+                            width: 80.0,
+                            color: Colors.black,
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: size.height * 0.01,
+                        height: size.height * 0.03,
                         // 3% 여분
                       ),
-                      Container(
-                        height: size.height * 0.065,
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset("assets/images/social/btn_google.png")
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: size.width * 0.01,
+                            // 3% 여분
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: size.height * 0.065,
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset("assets/images/social/btn_naver.png")
-                            ],
+                          Container(
+                            height: size.height * 0.07,
+                            width: 80,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavBar()));
+                              },
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                      "assets/images/social/logo_google.png")
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: size.height * 0.065,
-                        width: double.infinity,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero,
-                                  ))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Image.asset("assets/images/social/btn_kakao.png")
-                            ],
+                          Container(
+                            height: size.height * 0.07,
+                            width: 80,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                      "assets/images/social/logo_naver.png")
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                          Container(
+                            height: size.height * 0.07,
+                            width: 80,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                      "assets/images/social/logo_kakao.png")
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.01,
+                            // 3% 여분
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],
               ),
               SizedBox(
-                height: size.height * 0.02,
+                height: size.height * 0.05,
                 // 3% 여분
               ),
               Padding(
@@ -300,15 +339,15 @@ class _LoginPage extends State<LoginPage> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return SignupPage();
-                            }));
+                          return SignupPage();
+                        }));
                       },
                       child: Text(
                         "회원가입",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red),
+                            color: PRIMARY_COLOR),
                       ),
                     ),
                   ],
