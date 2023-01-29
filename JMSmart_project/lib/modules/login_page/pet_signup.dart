@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jmsmart_project/modules/login_page/signup_page.dart';
+
+import '../color/colors.dart';
 
 class PetSignupPage extends StatefulWidget {
   @override
@@ -21,8 +22,6 @@ class _PetSignupPageState extends State<PetSignupPage> {
   int petbirthvalidate = 1;
   int petweghtvalidate = 1;
   int petnumbervalidate = 1;
-  int petgendervalidate = 1;
-  int neuteredvalidate = 1;
   int petvalidate = 10;
   final _PetNameValidate = TextEditingController();
   final _PetBirthValidate = TextEditingController();
@@ -55,16 +54,16 @@ class _PetSignupPageState extends State<PetSignupPage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.only(left: 30,right: 30),
+          padding: EdgeInsets.only(left: 40,right: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                  height: size.height * 0.1
+                  height: size.height * 0.08
               ),
               Text(
                 "펫 정보 입력",
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
               ),
               SizedBox(
                   height: size.height * 0.02
@@ -73,10 +72,10 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 child: Stack(
                   children: [
                     SizedBox(
-                      width: 110,
-                      height: 110,
+                      width: 100,
+                      height: 100,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(55),
+                        borderRadius: BorderRadius.circular(50),
                         child: Image.asset(
                           "assets/images/profile/animal.png",
                           fit: BoxFit.cover,
@@ -105,42 +104,47 @@ class _PetSignupPageState extends State<PetSignupPage> {
               SizedBox(
                   height: size.height * 0.03
               ),
-              TextField(
-                controller: _PetNameController,
-                decoration: InputDecoration(
-                  labelText: "펫의 이름을 입력해주세요",
-                  contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                  labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade400),
+              SizedBox(
+                height: 40,
+                width: 200,
+                child: TextFormField(
+                  style: TextStyle(fontSize: 14),
+                  controller: _PetNameController,
+                  decoration: InputDecoration(
+                    hintText: "펫의 이름을 입력해주세요",
+                    contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  onChanged: (value) {
+                    setState(() {
+                      if(_PetNameController.text.isEmpty){
+                        petnamevalidate = 1;
+                        _PetNameValidate.text = '      이름을 입력해주세요';
+                      }
+                      else {
+                        _PetNameValidate.text = '';
+                        petnamevalidate = 0;
+                      }
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    if(_PetNameController.text.isEmpty){
-                      petnamevalidate = 1;
-                      _PetNameValidate.text = '      이름을 입력해주세요';
-                    }
-                    else {
-                      _PetNameValidate.text = '';
-                      petnamevalidate = 0;
-                    }
-                  });
-                },
               ),
               SizedBox(
                 width: 200,
-                height: 20,
+                height: 15,
                 child: TextField(
                   controller: _PetNameValidate,
                   enabled: false,
-                  style: TextStyle(fontSize: 12, color: Colors.red, ),
+                  style: TextStyle(fontSize: 10, color: Colors.red, ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -150,10 +154,12 @@ class _PetSignupPageState extends State<PetSignupPage> {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10.0),
+                    height: 35,
+                    width: 30,
+                    padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                     ),
                     child: Text(
                       "종",
@@ -162,7 +168,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                       width: size.width * 0.02
@@ -184,14 +190,16 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 ],
               ),
               SizedBox(
-                  height: size.height * 0.02
+                  height: size.height * 0.015
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
+                    height: 40,
                     width: 210,
-                    child: TextField(
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 14),
                       maxLength: 8,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -199,16 +207,16 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       controller: _PetBirthdayController,
                       decoration: InputDecoration(
                         counterText: "",
-                        labelText: "생년월일을 입력해주세요(8자리)",
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                        hintText: "생년월일을 입력해주세요(8자리)",
+                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade400),
+                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
@@ -234,8 +242,10 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       width: size.width * 0.03
                   ),
                   SizedBox(
-                    width: 100,
-                    child: TextField(
+                    height: 40,
+                    width: 80,
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 14),
                       maxLength: 2,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -243,16 +253,16 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       controller: _PetWeightController,
                       decoration: InputDecoration(
                         counterText: "",
-                        labelText: "무게(kg)",
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                        hintText: "무게(kg)",
+                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade400),
+                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
@@ -277,11 +287,11 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 children: <Widget>[
                   SizedBox(
                     width: size.width * 0.5,
-                    height: 20,
+                    height: 15,
                     child: TextField(
                       controller: _PetBirthValidate,
                       enabled: false,
-                      style: TextStyle(fontSize: 12, color: Colors.red, ),
+                      style: TextStyle(fontSize: 10, color: Colors.red, ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -289,15 +299,15 @@ class _PetSignupPageState extends State<PetSignupPage> {
                     ),
                   ),
                   SizedBox(
-                      width: size.width * 0.046
+                      width: size.width * 0.015
                   ),
                   SizedBox(
-                    width: size.width * 0.3,
-                    height: 20,
+                    width: size.width * 0.28,
+                    height: 15,
                     child: TextField(
                       controller: _PetWeghtValidate,
                       enabled: false,
-                      style: TextStyle(fontSize: 12, color: Colors.red, ),
+                      style: TextStyle(fontSize: 10, color: Colors.red, ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -309,44 +319,49 @@ class _PetSignupPageState extends State<PetSignupPage> {
               SizedBox(
                   height: size.height * 0.005
               ),
-              TextField(
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                ],
-                controller: _PetNumberController,
-                decoration: InputDecoration(
-                  labelText: "반려견의 등록번호를 입력해주세요",
-                  contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                  labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade400),
+              SizedBox(
+                height: 40,
+                width: 230,
+                child: TextFormField(
+                  style: TextStyle(fontSize: 14),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  controller: _PetNumberController,
+                  decoration: InputDecoration(
+                    hintText: "반려견의 등록번호를 입력해주세요",
+                    contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  onChanged: (value) {
+                    setState(() {
+                      if(_PetNumberController.text.isEmpty){
+                        petnumbervalidate = 1;
+                        _PetNumberValidate.text = '      등록번호를 입력해주세요';
+                      }
+                      else {
+                        _PetNumberValidate.text = '';
+                        petnumbervalidate = 0;
+                      }
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    if(_PetNumberController.text.isEmpty){
-                      petnumbervalidate = 1;
-                      _PetNumberValidate.text = '      등록번호를 입력해주세요';
-                    }
-                    else {
-                      _PetNumberValidate.text = '';
-                      petnumbervalidate = 0;
-                    }
-                  });
-                },
               ),
               SizedBox(
-                height: 20,
+                height: 15,
                 child: TextField(
                   controller: _PetNumberValidate,
                   enabled: false,
-                  style: TextStyle(fontSize: 12, color: Colors.red,),
+                  style: TextStyle(fontSize: 10, color: Colors.red,),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -356,20 +371,22 @@ class _PetSignupPageState extends State<PetSignupPage> {
               Row(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(10),
+                    height: 35,
+                    width: 50,
+                    padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text("성별", style: TextStyle(fontSize: 15,),),
+                    child: Text("성별", style: TextStyle(fontSize: 14,),),
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
-                  Text('남자'),
+                  Text('남자', style: TextStyle(fontSize: 12)),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
                       side: BorderSide(color: Colors.grey.shade400),
                       activeColor: Colors.white,
@@ -390,9 +407,9 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       },
                     ),
                   ),
-                  Text('여자'),
+                  Text('여자', style: TextStyle(fontSize: 12)),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
                       side: BorderSide(color: Colors.grey.shade400),
                       activeColor: Colors.white,
@@ -415,26 +432,25 @@ class _PetSignupPageState extends State<PetSignupPage> {
                   SizedBox(width: 10,),
                 ],
               ),
-              SizedBox(
-                  height: size.height * 0.01
-              ),
               Row(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(10),
+                    height: 35,
+                    width: 95,
+                    padding: EdgeInsets.fromLTRB(12, 6, 10, 0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text("중성화 유무", style: TextStyle(fontSize: 15,),),
+                    child: Text("중성화 유무", style: TextStyle(fontSize: 14,),),
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
-                  Text('했음'),
+                  Text('했음', style: TextStyle(fontSize: 12)),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
                       side: BorderSide(color: Colors.grey.shade400),
                       activeColor: Colors.white,
@@ -454,9 +470,9 @@ class _PetSignupPageState extends State<PetSignupPage> {
                       },
                     ),
                   ),
-                  Text('하지 않음'),
+                  Text('하지 않음', style: TextStyle(fontSize: 12)),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
                       side: BorderSide(color: Colors.grey.shade400),
                       activeColor: Colors.white,
@@ -479,12 +495,12 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 ],
               ),
               SizedBox(
-                  height: size.height * 0.04
+                  height: size.height * 0.03
               ),
               Center(
                 child: Container(
                   height: 55,
-                  width: 300,
+                  width: 280,
                   child: TextButton(
                     onPressed: (){},
                     style: ButtonStyle(
@@ -496,22 +512,15 @@ class _PetSignupPageState extends State<PetSignupPage> {
                     ),
                     child: Ink(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color(0xffec407a),
-                            Color(0xfff06292),
-                            Color(0xfff48fb1),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.green[700],
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
+                              petinfo.clear();
                               setState(() {
                                 petvalidate = petnamevalidate + petbirthvalidate + petweghtvalidate + petnumbervalidate;
                               });
@@ -532,7 +541,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                               else{
                                 petinfo.add(0);
                               }
-                              if(petvalidate == 0  && petgendervalidate !=2 && neuteredvalidate !=2) {
+                              if(petvalidate == 0  && Pet_Gender !=2 && Pet_neutered !=2) {
                                 Navigator.pop(context, petinfo);
                               }
                               else{
@@ -550,6 +559,32 @@ class _PetSignupPageState extends State<PetSignupPage> {
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                  height: size.height * 0.02
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "펫 정보 나중에 입력하기",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ),
+              SizedBox(
+                  height: size.height * 0.02
               ),
             ],
           ),
