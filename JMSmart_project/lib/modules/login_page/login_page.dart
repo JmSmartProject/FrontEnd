@@ -161,15 +161,23 @@ class _LoginPage extends State<LoginPage> {
                     height: 55,
                     width: 300,
                     child: TextButton(
-                      onPressed: () {
-                        login_post(_IDController.text, _PWController.text);
-                        // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (context) => NavBar()));
+                      onPressed: () async {
+
+                        // var login_check = login_post(_IDController.text, _PWController.text);
+                        // var value = await login_check;
+                        // login_check.then((result) => value = result);
+                        //
+                        // if(value == true) {
+                        //     Navigator.pushReplacement(context,
+                        //         MaterialPageRoute(builder: (context) => NavBar()));
+                        //   }
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
                         _id = _IDController.text;
                         _prefs.setString('id', _id);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => NavBar()));
                       },
                       style: ButtonStyle(
                           shape:

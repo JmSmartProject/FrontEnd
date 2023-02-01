@@ -5,6 +5,7 @@ import 'package:jmsmart_project/modules/color/colors.dart';
 import 'package:jmsmart_project/modules/http_api/pet_api.dart';
 import 'package:jmsmart_project/modules/login_page/pet_signup.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'dart:io';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -954,9 +955,13 @@ class _SignupPageState extends State<SignupPage> {
                               // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                               //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
                               user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],'010'+ '-'+(personinfo[4].toString()) +'-'+ (personinfo[5].toString()), personinfo[6], personinfo[7]);
-                              //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5]);
+                              //Future.delayed(Duration(seconds: 3), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
+                              print(petinfolist);
                               //Navigator.pop(context);
                             } else {
+                              //테스트
+
+                              //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]);
                               print(uservalidate);
                             }
                           });

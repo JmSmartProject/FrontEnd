@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-var aws_uri = '52.79.223.14:8080/users/signup';
-
 class login_api {
   final String id;
   final String password;
