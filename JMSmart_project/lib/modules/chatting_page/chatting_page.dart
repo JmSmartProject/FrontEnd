@@ -5,6 +5,12 @@ import 'package:jmsmart_project/modules/chatting_page/chatting_room_page.dart';
 import 'package:jmsmart_project/provider/chatting_provider.dart';
 
 class ChattingPage extends ConsumerWidget {
+
+  final List<ChatRoom> _room = <ChatRoom>[
+    ChatRoom(name: "망아지1", text: '안녕하세요?', time: "19시간전",),
+    ChatRoom(name: "개냥이2", text: '방가워요', time: "1시간전",),
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
@@ -49,224 +55,12 @@ class ChattingPage extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: GestureDetector(
-                    onTap: (){
-                      print("tap");
-                    },
-                    onLongPress: (){
-                      print('pressing');
-                    },
-                    child: Container(
-                      width: size.width * 0.9,
-                      height: 90,
-                      color: Color(0xffD3D3D3),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/profile/people.png",
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(300.0),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: size.width * 0.9 - 70 - 150,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 10.0),
-                                  child: Text(
-                                    '닉네임',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 30.0),
-                                  child: Text(
-                                    '대화내용',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              '마지막 대화 시간',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: GestureDetector(
-                    onTap: (){
-                      print("tap");
-                    },
-                    onLongPress: (){
-                      print('pressing');
-                    },
-                    child: Container(
-                      width: size.width * 0.9,
-                      height: 90,
-                      color: Color(0xffD3D3D3),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/profile/people.png",
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(300.0),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: size.width * 0.9 - 70 - 150,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 10.0),
-                                  child: Text(
-                                    '닉네임',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 30.0),
-                                  child: Text(
-                                    '대화내용',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              '마지막 대화 시간',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: InkWell(
-                    onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ChattingRoomPage()));
-                    },
-                    onLongPress: (){
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Text('채팅룸을 삭제 하겟습니까?'),
-                            actions: [
-                              TextButton(
-                                child: Text("예"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: Text("아니요"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Container(
-                      width: size.width * 0.9,
-                      height: 90,
-                      color: Color(0xffD3D3D3),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: SizedBox(
-                              width: 70,
-                              height: 70,
-                              child: ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/profile/people.png",
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(300.0),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: size.width * 0.9 - 70 - 150,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 10.0),
-                                  child: Text(
-                                    '닉네임',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 30.0),
-                                  child: Text(
-                                    '대화내용',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              '마지막 대화 시간',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                Flexible(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    reverse: false,
+                    itemCount: _room.length,
+                    itemBuilder: (_, index) => _room[index],
                   ),
                 ),
               ],
@@ -277,5 +71,104 @@ class ChattingPage extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
     );
   }
+}
 
+class ChatRoom extends StatelessWidget {
+  //final img;
+  final String name;
+  final String text;
+  final String time;
+  ChatRoom({required this.text, required this.name, required this.time});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ChattingRoomPage()));
+        },
+        onLongPress: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Text('채팅룸을 삭제 하겟습니까?'),
+                actions: [
+                  TextButton(
+                    child: Text("예"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text("아니요"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Container(
+          width: 300,
+          height: 90,
+          color: Color(0xffD3D3D3),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: ClipRRect(
+                    child: Image.asset(
+                      "assets/images/profile/people.png",
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(300.0),
+                  ),
+                ),
+              ),
+              Container(
+                width: 150,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, top: 10.0),
+                      child: Text(
+                        name,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, top: 30.0),
+                      child: Text(
+                        text,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Text(
+                  time,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

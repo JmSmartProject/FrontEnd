@@ -9,9 +9,9 @@ class PetSignupPage extends StatefulWidget {
 }
 
 class _PetSignupPageState extends State<PetSignupPage> {
-  List<String> Pet_List = ['a', 'b', 'c'];
+  List<String> Pet_List = ['강아지', '고양이'];
   List<dynamic> petinfo = [];
-  String Pet_species = 'a';
+  String Pet_species = '강아지';
   var pet_male = false;
   var pet_female = false;
   var isChecked1 = false;
@@ -200,14 +200,14 @@ class _PetSignupPageState extends State<PetSignupPage> {
                     width: 210,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
-                      maxLength: 8,
+                      maxLength: 10,
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9|-]')),
                       ],
                       controller: _PetBirthdayController,
                       decoration: InputDecoration(
                         counterText: "",
-                        hintText: "생년월일을 입력해주세요(8자리)",
+                        hintText: "생년월일을 입력해주세요(10자리)",
                         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
@@ -226,7 +226,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                             petbirthvalidate = 1;
                             _PetBirthValidate.text = '      생년월일을 입력해주세요';
                           }
-                          else if(_PetBirthdayController.text.length <= 7 ){
+                          else if(_PetBirthdayController.text.length <= 9 ){
                             petbirthvalidate = 2;
                             _PetBirthValidate.text = '      8자리가 아닙니다';
                           }
@@ -526,20 +526,20 @@ class _PetSignupPageState extends State<PetSignupPage> {
                               });
                               petinfo.add(_PetNameController.text);
                               petinfo.add(Pet_species);
-                              petinfo.add(_PetBirthdayController.text);
-                              petinfo.add(_PetWeightController.text);
-                              petinfo.add(_PetNumberController.text);
+                              petinfo.add(_PetBirthdayController.text.toString());  //형
+                              petinfo.add(int.parse(_PetWeightController.text));
+                              petinfo.add(_PetNumberController.text.toString()); //형
                               if(Pet_Gender == 1) {
-                                petinfo.add(1);
+                                petinfo.add("남");
                               }
                               else{
-                                petinfo.add(0);
+                                petinfo.add("여");
                               }
                               if(Pet_neutered == 1) {
-                                petinfo.add(1);
+                                petinfo.add("NEUTERED");
                               }
                               else{
-                                petinfo.add(0);
+                                petinfo.add("NORMAL");
                               }
                               if(petvalidate == 0  && Pet_Gender !=2 && Pet_neutered !=2) {
                                 Navigator.pop(context, petinfo);

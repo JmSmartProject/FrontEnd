@@ -12,7 +12,7 @@ class _WalkingPage extends State<WalkingPage> {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xfff48fb1),
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.only(left: 30, right: 30),
