@@ -8,6 +8,7 @@ import 'package:jmsmart_project/modules/community_page/onboard_page.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:jmsmart_project/modules/login_page/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:transition/transition.dart';
 import '../http_api/community_api.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -19,29 +20,12 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPage extends State<CommunityPage> {
-  List<dynamic> writingList = [];
-  
+  Future<community_writing_api>? info;
+
   @override
-  void initState() {
+  void initState  () {
     super.initState();
-    _writingListGet();
-  }
-
-  _writingListGet() async {
-    var response = await http.get(
-      Uri.http('52.79.223.14:8080', '/communities/login'),
-    );
-    var statusCode = response.statusCode;
-
-    List<dynamic> list = [];
-    if (statusCode == 200) {
-      String responseBody = utf8.decode(response.bodyBytes);
-      list = jsonDecode(responseBody);
-    }
-
-    setState(() {
-      writingList = list;
-    });
+    info = community_writing_get();
   }
 
   List<String> imageList = [
@@ -52,8 +36,8 @@ class _CommunityPage extends State<CommunityPage> {
     "assets/images/profile/people.png",
     "assets/images/profile/animal.png"
   ];
-  List<String> NicknameList = ["밥", "버즈", "밥", "버즈", "밥", "버즈"];
-  List<String> titleList = ["알바해주개알바해주개알바해주개알바해주개", "알바할개요알바할개요알바할개요알바할개요", "알바해주개알바해주개알바해주개알바해주개", "알바할개요알바할개요알바할개요알바할개요", "알바해주개알바해주개알바해주개알바해주개", "알바할개요알바할개요알바할개요알바할개요"];
+  List<String> NicknameList = ["치즈", "누랭이", "치즈", "누랭이", "치즈", "누랭이"];
+  List<String> titleList = ["알바해주개알바해주개", "알바할개요알바할개요", "알바해주개알바해주개", "알바할개요알바할개요", "알바해주개알바해주개", "알바할개요알바할개요"];
   List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18", "2023/01/19", "2023/01/18", "2023/01/19"];
 
   @override
@@ -78,10 +62,6 @@ class _CommunityPage extends State<CommunityPage> {
                         height: 55,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PleaseAlbaPage()));
                           },
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -99,7 +79,11 @@ class _CommunityPage extends State<CommunityPage> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      Transition(
+                                          child: PleaseAlbaPage(),
+                                          transitionEffect: TransitionEffect.BOTTOM_TO_TOP),);
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -128,10 +112,6 @@ class _CommunityPage extends State<CommunityPage> {
                         height: 55,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DoAlbaPage()));
                           },
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -149,7 +129,11 @@ class _CommunityPage extends State<CommunityPage> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      Transition(
+                                          child: DoAlbaPage(),
+                                          transitionEffect: TransitionEffect.BOTTOM_TO_TOP),);
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -212,6 +196,9 @@ class _CommunityPage extends State<CommunityPage> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
                   ),
                   Container(
                     width: 380,
