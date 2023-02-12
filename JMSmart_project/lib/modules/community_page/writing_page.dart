@@ -217,7 +217,7 @@ class _WritingPageState extends State<WritingPage> {
                                 writinginfo.clear();
                                 writinginfo.add(_TitleController.text);
                                 writinginfo.add(_ContentController.text);
-                                writinginfo.add('${dt.year}/${dt.month}/${dt.day}');
+                                // writinginfo.add('${dt.year}/${dt.month}/${dt.day}');
                                 setState(() {
                                   // uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
                                   //     pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
@@ -226,7 +226,7 @@ class _WritingPageState extends State<WritingPage> {
                                     // 포스트
                                     // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                                     //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
-                                    community_writing_post(writinginfo[0], writinginfo[1], writinginfo[2]);
+                                    community_writing_post(writinginfo[0], writinginfo[1]);
                                     //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5]);
                                     //Navigator.pop(context);
                                   } else {
