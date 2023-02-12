@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 import 'package:jmsmart_project/modules/community_page/onboard_modify.dart';
-
+import '../http_api/community_api.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 import '../color/colors.dart';
 import '../http_api/community_api.dart';
 
@@ -13,6 +16,16 @@ class onBoardPage extends StatefulWidget {
 }
 
 class _onBoardPageState extends State<onBoardPage> {
+  Future<community_writing_api>? writingListInfo;
+  Future<community_comment_api>? commentListInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    writingListInfo = community_writing_get();
+    commentListInfo = community_comment_get();
+  }
+
   bool isTextFieldEnabled = true;
 
   List<dynamic> commentinfo = [];
@@ -129,37 +142,7 @@ class _onBoardPageState extends State<onBoardPage> {
                             width: 85,
                             child: ElevatedButton(
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: Text('삭제'),
-                                    content: Text(
-                                      '게시글을 삭제할까요?',
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text(
-                                          '취소',
-                                          style: TextStyle(
-                                              color: Colors.black),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop(false);
-                                        },
-                                      ),
-                                      TextButton(
-                                          child: Text(
-                                            '확인',
-                                            style: TextStyle(
-                                                color: Colors.black),
-                                          ),
-                                          onPressed: () {
-                                            //게시글 삭제 delete
-                                          }
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: PRIMARY_COLOR,
@@ -188,7 +171,7 @@ class _onBoardPageState extends State<onBoardPage> {
                           )
                         ),
                         child: Text(
-                          "제목 ",
+                          "알바해주개",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w900),
                         ),
@@ -213,7 +196,7 @@ class _onBoardPageState extends State<onBoardPage> {
                                 strutStyle: StrutStyle(fontSize: 14.0),
                                 text: TextSpan(
                                     text:
-                                        '세계문자 가운데 한글,즉 훈민정음은 흔히들 신비로운 문자라 부르곤 합니다. 그것은 세계 문자 가운데 유일하게 한글만이 그것을 만든 사람과 반포일을 알며, 글자를 만든 원리까지 알기 때문입니다. 세계에 이런 문자는 없습니다. 그래서 한글은, 정확히 말해 [훈민정음 해례본](국보 70호)은 진즉에 유네스코 세계기록유산으로 등재되었습니다. ‘한글’이라는 이름은 1910년대 초에 주시경 선생을 비롯한 한글학자들이 쓰기 시작한 것입니다. 여기서 ‘한’이란 크다는 것을 뜻하니, 한글은 ‘큰 글’을 말한다고 하겠습니다.',
+                                        '알바해주개알바해주개',
                                     style: TextStyle(
                                         color: Colors.black,
                                         height: 1.4,
@@ -423,13 +406,13 @@ class _onBoardPageState extends State<onBoardPage> {
                                 DateTime dt = DateTime.now();
                                 commentinfo.clear();
                                 commentinfo.add(_CommentController.text);
-                                commentinfo.add('${dt.year}/${dt.month}/${dt.day}');
+                                // commentinfo.add('${dt.year}/${dt.month}/${dt.day}');
                                 setState(() {
                                   if (commentvalidate == 0) {
                                     // 포스트
                                     // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                                     //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
-                                    community_comment_post(commentinfo[0], commentinfo[1]);
+                                    community_comment_post(commentinfo[0]);
                                     //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5]);
                                     //Navigator.pop(context);
                                   } else {
