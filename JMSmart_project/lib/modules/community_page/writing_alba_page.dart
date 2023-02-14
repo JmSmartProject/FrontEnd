@@ -63,6 +63,123 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                       Row(
                         children: [
                           Container(
+                            width: 46,
+                            height: 35,
+                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            decoration: BoxDecoration(
+                              border:
+                              Border.all(color: PRIMARY_COLOR, width: 1.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              "날짜",
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "   :   ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 35,
+                            width: 60,
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 14),
+                              decoration: InputDecoration(
+                                hintText: "",
+                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                hintStyle:
+                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: PRIMARY_COLOR,
+                                      width: 1.2
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: SECOND_COLOR, width: 1.2
+                                  ),
+                                ),
+                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            " / ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 35,
+                            width: 40,
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 14),
+                              decoration: InputDecoration(
+                                hintText: "",
+                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                hintStyle:
+                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: PRIMARY_COLOR,
+                                      width: 1.2
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: SECOND_COLOR, width: 1.2
+                                  ),
+                                ),
+                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            " / ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 35,
+                            width: 40,
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 14),
+                              decoration: InputDecoration(
+                                hintText: "",
+                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                hintStyle:
+                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: PRIMARY_COLOR,
+                                      width: 1.2
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: SECOND_COLOR, width: 1.2
+                                  ),
+                                ),
+                                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.02),
+                      Row(
+                        children: [
+                          Container(
                             width: 87,
                             height: 35,
                             padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
@@ -84,7 +201,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                                 fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 35,
                             width: 50,
                             child: TextFormField(
                               style: TextStyle(fontSize: 14),
@@ -116,7 +233,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                                 fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 35,
                             width: 50,
                             child: TextFormField(
                               style: TextStyle(fontSize: 14),
@@ -157,7 +274,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       SizedBox(
-                        height: maxLines * 15,
+                        height: maxLines * 13,
                         child: TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(200)
@@ -166,7 +283,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           maxLines: maxLines * 2,
                           style: TextStyle(fontSize: 14),
                           decoration: InputDecoration(
-                            hintText: "내용을 입력해주세요(최대 100자)",
+                            hintText: "내용을 입력해주세요(최대 50자)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             hintStyle: TextStyle(
                                 fontSize: 14, color: Colors.grey.shade800),
@@ -192,7 +309,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                       ),
                       SizedBox(height: size.height * 0.01),
                       SizedBox(
-                        height: maxLines * 10,
+                        height: maxLines * 8,
                         child: TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(200)
@@ -201,7 +318,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           maxLines: maxLines * 2,
                           style: TextStyle(fontSize: 14),
                           decoration: InputDecoration(
-                            hintText: "내용을 입력해주세요(최대 50자)",
+                            hintText: "내용을 입력해주세요(최대 30자)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             hintStyle: TextStyle(
                                 fontSize: 14, color: Colors.grey.shade800),
