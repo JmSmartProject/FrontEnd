@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/color/colors.dart';
+import 'package:jmsmart_project/modules/walking_page/matching_settings.dart';
 import 'package:jmsmart_project/modules/walking_page/user_profile.dart';
 import 'package:transition/transition.dart';
+import 'package:flutter_kakao_map/flutter_kakao_map.dart';
+import 'package:flutter_kakao_map/kakao_maps_flutter_platform_interface.dart';
+
 
 class WalkingPage extends StatefulWidget{
   @override
@@ -10,6 +14,19 @@ class WalkingPage extends StatefulWidget{
 }
 
 class _WalkingPage extends State<WalkingPage> {
+  late KakaoMapController mapController;
+  MapPoint _visibleRegion = MapPoint(37.5087553, 127.0632877);
+  CameraPosition _kInitialPosition =
+  CameraPosition(target: MapPoint(37.5087553, 127.0632877), zoom: 5);
+
+  void onMapCreated(KakaoMapController controller) async {
+    final MapPoint visibleRegion = await controller.getMapCenterPoint();
+    setState(() {
+      mapController = controller;
+      _visibleRegion = visibleRegion;
+    });
+  }
+
   List<String> imageList = [
     "assets/images/profile/people.png",
     "assets/images/profile/animal.png",
@@ -75,7 +92,13 @@ class _WalkingPage extends State<WalkingPage> {
                       height: 30,
                       width: 75,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            Transition(
+                                child: MatchingSettingsPage(),
+                                transitionEffect: TransitionEffect.BOTTOM_TO_TOP),);
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: PRIMARY_COLOR,
                             shape: RoundedRectangleBorder(
@@ -103,7 +126,10 @@ class _WalkingPage extends State<WalkingPage> {
                     border: Border.all(
                       color: PRIMARY_COLOR, width: 2
                     )
-                  )
+                  ),
+                    child: KakaoMap(
+                        onMapCreated: onMapCreated,
+                        initialCameraPosition: _kInitialPosition)
                 ),
                 Container(
                   width: 340,
@@ -151,41 +177,65 @@ class _WalkingPage extends State<WalkingPage> {
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  children: [
-                                    Container(
-                                      child: Text(NicknameList[index],
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black)),
-                                    ),
-                                    Container(
-                                      child: Text(petnameList[index],
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black)),
-                                    ),
-                                  ],
+                                SizedBox(
+                                  width: 60,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            NicknameList[index],
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.01,
+                                          ),
+                                          Text(
+                                            oldList[index],
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.01,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                              petnameList[index],
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.black)
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.01,
+                                          ),
+                                          Text(
+                                              petoldList[index],
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.black)
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
-                                  width: size.width * 0.02,
+                                  width: size.width * 0.4,
                                 ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Text(oldList[index],
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black)),
-                                    ),
-                                    Container(
-                                      child: Text(petoldList[index],
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black)),
-                                    ),
-                                  ],
+                                Text(addressList[index],
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black)
                                 ),
                               ],
                             ),
@@ -198,7 +248,6 @@ class _WalkingPage extends State<WalkingPage> {
           ),
         ),
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
