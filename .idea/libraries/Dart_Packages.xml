@@ -639,13 +639,6 @@
             </list>
           </value>
         </entry>
-        <entry key="stomp_dart_client">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/stomp_dart_client-0.4.4/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="stream_channel">
           <value>
             <list>
@@ -848,7 +841,6 @@
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.9.0/lib" />
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0/lib" />
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/state_notifier-0.7.2+1/lib" />
-      <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/stomp_dart_client-0.4.4/lib" />
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/stream_transform-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../Application/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.1/lib" />

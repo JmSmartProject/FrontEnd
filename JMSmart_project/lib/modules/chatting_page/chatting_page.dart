@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jmsmart_project/modules/chatting_page/chatting_room_page.dart';
+//import 'package:jmsmart_project/modules/chatting_page/chatting_room_room2.dart';
 import 'package:jmsmart_project/provider/chatting_provider.dart';
 
-class ChattingPage extends ConsumerWidget {
+class ChattingPage extends StatefulWidget {
+
+  _ChattingPage createState() => _ChattingPage();
+}
+
+class _ChattingPage extends State<ChattingRoomPage> {
 
   final List<ChatRoom> _room = <ChatRoom>[
-    ChatRoom(name: "망아지1", text: '안녕하세요?', time: "19시간전",),
-    ChatRoom(name: "개냥이2", text: '방가워요', time: "1시간전",),
+    ChatRoom(name: "개냥이", text: '안녕하세요', time: "1시간전",),
+    //ChatRoom(name: "개냥이2", text: '방가워요', time: "1시간전",),
   ];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
@@ -29,7 +34,7 @@ class ChattingPage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "쪽지함",
+                        "채팅룸",
                         style:
                             TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
                       ),

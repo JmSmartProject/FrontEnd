@@ -955,8 +955,7 @@ class _SignupPageState extends State<SignupPage> {
                               // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                               //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
                               user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],'010'+ '-'+(personinfo[4].toString()) +'-'+ (personinfo[5].toString()), personinfo[6], personinfo[7]);
-                              //Future.delayed(Duration(seconds: 3), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
-                              print(petinfolist);
+                              Future.delayed(Duration(seconds: 2), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
                               //Navigator.pop(context);
                             } else {
                               //테스트

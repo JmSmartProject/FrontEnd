@@ -171,8 +171,8 @@ class _LoginPage extends State<LoginPage> {
                         //     Navigator.pushReplacement(context,
                         //         MaterialPageRoute(builder: (context) => NavBar()));
                         //   }
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
+                          Navigator.pushReplacement(context,
+                             MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
                         _id = _IDController.text;
                         _prefs.setString('id', _id);

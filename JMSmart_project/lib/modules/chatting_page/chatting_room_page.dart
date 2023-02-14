@@ -1,13 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:stomp_dart_client/stomp.dart';
-import 'package:stomp_dart_client/stomp_config.dart';
-import 'package:stomp_dart_client/stomp_frame.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class ChatMessage {
   String messageContent;
@@ -17,17 +11,18 @@ class ChatMessage {
 }
 
 List<ChatMessage> _messages = [
+  // ChatMessage(
+  //     messageContent: "안녕하세요?", messageType: "receiver"),
+  ChatMessage(messageContent: "네 강아지 좋아해요", messageType: "receiver"),
   ChatMessage(
-      messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-  ChatMessage(
-      messageContent: "Hey Kriss, I am doing fine dude. wbu?",
+      messageContent: "강아지 좋아하세요?",
       messageType: "sender"),
-  ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-  ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
+  ChatMessage(messageContent: "안녕하세요", messageType: "receiver"),
+  ChatMessage(messageContent: "안녕하세요?", messageType: "sender"),
 ];
 
 class ChattingRoomPage extends StatefulWidget {
+
   _ChattingRoomPage createState() => _ChattingRoomPage();
 }
 
@@ -36,73 +31,41 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
 
   final TextEditingController _textController = TextEditingController();
 
-  StompClient? stompClient;
-
-  final socketUrl = 'http://52.79.223.14:8080/wss/chat';
-
-  void onConnect(StompFrame frame) {
-    stompClient!.subscribe(
-        destination: '/chat/message',
-        callback: (StompFrame frame) {
-          if (frame.body != null) {
-            Map<String, dynamic> obj = json.decode(frame.body!);
-            ChatMessage message = ChatMessage(
-                messageContent: obj['content'], messageType: obj['uuid']);
-            setState(() => {_messages.add(message)});
-          }
-        });
-  }
-
-  sendMessage() {
-    setState(() {
-      stompClient!.send(
-          destination: '/chat/message',
-          body: json.encode(
-              {"content": _textController.value.text, "uuid": "sender"}));
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (stompClient == null) {
-      stompClient = StompClient(
-          config: StompConfig.SockJS(
-        url: socketUrl,
-        onConnect: onConnect,
-        onWebSocketError: (dynamic error) => print(error.toString()),
-      ));
-      stompClient!.activate();
-    }
-  }
-
   bool _isComposing = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('쪽지함'),
-      ),
+          backgroundColor: Colors.green,
+          title: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(55),
+              child: Image.asset(
+                "assets/images/profile/people.png",
+                fit: BoxFit.cover,
+                width: 40,
+                height: 40,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text('개냥이'),
+            ),
+          ],
+        ),
+        leading:  IconButton(
+            onPressed: () {
+              Navigator.pop(context); //뒤로가기
+            },
+            color: Colors.white,
+            icon: Icon(Icons.arrow_back)),
+      ) ,
       resizeToAvoidBottomInset : false,
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            // child: Padding(
-            //   padding: const EdgeInsets.only(bottom: 50.0),
-            //   child: StreamBuilder(
-            //     // 채널의 스트림을 stream 항목에 설정. widget을 통해 MyHomePage의 필드에 접근 가능
-            //     stream: widget.channel.stream,
-            //     // 채널 stream에 변화가 발생하면 빌더 호출
-            //     builder: (context, snapshot) {
-            //       return Padding(
-            //         padding: const EdgeInsets.symmetric(vertical: 24.0),
-            //         // 수신 데이터가 존재할 경우 해당 데이터를 텍스트로 출력
-            //         child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
-            //       );
-            //     },
-            //   ),
-            // ),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
               child: ListView.builder(
