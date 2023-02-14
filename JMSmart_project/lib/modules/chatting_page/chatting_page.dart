@@ -9,7 +9,7 @@ class ChattingPage extends StatefulWidget {
   _ChattingPage createState() => _ChattingPage();
 }
 
-class _ChattingPage extends State<ChattingRoomPage> {
+class _ChattingPage extends State<ChattingPage> {
 
   final List<ChatRoom> _room = <ChatRoom>[
     ChatRoom(name: "개냥이", text: '안녕하세요', time: "1시간전",),
