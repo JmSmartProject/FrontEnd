@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jmsmart_project/modules/color/colors.dart';
 import 'package:jmsmart_project/modules/http_api/pet_api.dart';
 import 'package:jmsmart_project/modules/login_page/pet_signup.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
-import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+
   List<dynamic> personinfo = [];
   var person_man = false;
   var person_woman = false;
@@ -129,9 +133,12 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.grey[100],
                           ),
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            size: 15,
+                          child: IconButton(
+                            onPressed: () async {
+                              var picker = ImagePicker();
+                              var image = await picker.pickImage(source: ImageSource.gallery);
+                            },
+                            icon: Icon(Icons.camera_alt_outlined),
                           ),
                         ),
                       ),
@@ -145,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 40,
-                    width: 240,
+                    width: 220,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
                       controller: _NickNameController,
@@ -233,7 +240,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 40,
-                    width: 240,
+                    width: 160,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
                       controller: _NameController,
@@ -298,7 +305,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 45,
-                    width: 240,
+                    width: 220,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
                       inputFormatters: <TextInputFormatter>[
@@ -413,7 +420,7 @@ class _SignupPageState extends State<SignupPage> {
                 children: <Widget>[
                   SizedBox(
                     height: 40,
-                    width: 215,
+                    width: 220,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
                       controller: _CodeController,
@@ -778,7 +785,7 @@ class _SignupPageState extends State<SignupPage> {
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9|-]')),
                         LengthLimitingTextInputFormatter(10)],
                       decoration: InputDecoration(
-                        hintText: "생년월일을 입력해주세요(8자리)",
+                        hintText: "생년월일을 입력해주세요(0000-00-00)",
                         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         hintStyle:
                         TextStyle(fontSize: 14, color: Colors.grey.shade800),
@@ -945,7 +952,7 @@ class _SignupPageState extends State<SignupPage> {
                           else if(Gender == 0){
                             personinfo.add('여');
                           }
-                          setState(() {
+                          setState(() async {
                             // uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
                             //     pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
                             uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
@@ -955,13 +962,9 @@ class _SignupPageState extends State<SignupPage> {
                               // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                               //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
                               user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],'010'+ '-'+(personinfo[4].toString()) +'-'+ (personinfo[5].toString()), personinfo[6], personinfo[7]);
-                              //Future.delayed(Duration(seconds: 3), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
-                              print(petinfolist);
+                              await pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]);
                               //Navigator.pop(context);
                             } else {
-                              //테스트
-
-                              //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]);
                               print(uservalidate);
                             }
                           });
