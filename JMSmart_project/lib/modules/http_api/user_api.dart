@@ -26,11 +26,10 @@ class user_api {
   //final String address;
   final String phone_number;
   final String birthday;
-  final String gender;
 
   const user_api({required this.nickname, required this.name,
     required this.id, required this.password,
-    required this.phone_number, required this.birthday, required this.gender,});
+    required this.phone_number, required this.birthday});
 
   factory user_api.fromJson(Map<String, dynamic> json) {
     return user_api(
@@ -41,7 +40,6 @@ class user_api {
       //address: json['address'],
       phone_number: json['phone_number'],
       birthday: json["create_date"],
-      gender: json['gender'],
     );
   }
 }
@@ -86,7 +84,7 @@ Future<login_api> login_post(String id, String password) async {
 
 Future<user_api> user_signup_post(String nickname, String name,
     String email, String password,
-    String phone_number, String birthday, String gender) async {
+    String phone_number, String birthday) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/signup'),
     headers: <String, String>{
@@ -100,7 +98,6 @@ Future<user_api> user_signup_post(String nickname, String name,
       //'address': address,
       'phoneNumber': phone_number,
       'birthday': birthday, //date
-      'gender': gender,
     }),
   );
   if (response.statusCode == 200) {

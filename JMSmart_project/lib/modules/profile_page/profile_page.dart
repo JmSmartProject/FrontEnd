@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'dart:async';
+import 'package:jmsmart_project/modules/http_api/myprofile_api.dart';
 import 'package:jmsmart_project/modules/profile_page/friends_page.dart';
 import 'package:jmsmart_project/modules/profile_page/pet_settings_page.dart';
 import 'package:jmsmart_project/modules/profile_page/profile_settings_page.dart';
 import 'package:jmsmart_project/modules/profile_page/wepet_settings_page.dart';
 import 'package:transition/transition.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import '../color/colors.dart';
 
@@ -17,12 +16,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
-  Future<user_api>? post;
+  Future<user_profile_api>? user_info;
+  Future<pet_api>? pet_info;
 
   @override
-  void initState() {
+  void initState  () {
     super.initState();
-    post = fetchPost();
+    user_info = user_profile_get();
+    pet_info = pet_profile_get();
   }
 
   @override
@@ -126,7 +127,7 @@ class _ProfilePage extends State<ProfilePage> {
                               ),
                               Positioned(
                                 bottom: 0,
-                                right: 12,
+                                right: 18,
                                 child: Container(
                                   alignment: Alignment.center,
                                   height: 20,
@@ -152,6 +153,7 @@ class _ProfilePage extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
+
                             ],
                           )),
                       SizedBox(
@@ -171,13 +173,20 @@ class _ProfilePage extends State<ProfilePage> {
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '1',
-                                      style: TextStyle(fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.nickname.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
-                                  width: size.width * 0.2,
+                                  width: size.width * 0.28,
                                   //color: Colors.grey,
                                 )
                               ],
@@ -195,13 +204,20 @@ class _ProfilePage extends State<ProfilePage> {
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '2',
-                                      style: TextStyle(fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.name.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
-                                  width: size.width * 0.2,
+                                  width: size.width * 0.28,
                                   //color: Colors.grey,
                                 )
                               ],
@@ -219,13 +235,20 @@ class _ProfilePage extends State<ProfilePage> {
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '3',
-                                      style: TextStyle(fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.phone_number.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
-                                  width: size.width * 0.2,
+                                  width: size.width * 0.28,
                                   //color: Colors.grey,
                                 )
                               ],
@@ -236,16 +259,23 @@ class _ProfilePage extends State<ProfilePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const Text('생년월일/성별 :',
+                                const Text('생년월일 :',
                                     style: TextStyle(
                                         fontSize: 15,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '4',
-                                      style: TextStyle(fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.birthday.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
@@ -263,296 +293,269 @@ class _ProfilePage extends State<ProfilePage> {
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-                Row(
-                  children: [
-                    Container(
-                      height: 360,
-                      width: 220,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                          border: Border.all(color: PRIMARY_COLOR, width: 2)),
-                      child: Column(
+                Container(
+                  height: 370,
+                  width: 280,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                      border: Border.all(color: PRIMARY_COLOR, width: 2)),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      Stack(
                         children: [
                           SizedBox(
-                            height: size.height * 0.01,
+                            width: 100,
+                            height: 100,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.asset(
+                                "assets/images/profile/animal.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                          Stack(
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.asset(
-                                    "assets/images/profile/animal.png",
-                                    fit: BoxFit.cover,
-                                  ),
+                          Positioned(
+                            bottom: 0,
+                            right: 15,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 20,
+                              width: 70,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    Transition(
+                                        child: PetSettingsPage(),
+                                        transitionEffect: TransitionEffect.BOTTOM_TO_TOP),);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green[700],
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10))),
+                                child: const Text(
+                                  "펫 설정",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 15,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 20,
-                                  width: 70,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        Transition(
-                                            child: PetSettingsPage(),
-                                            transitionEffect: TransitionEffect.BOTTOM_TO_TOP),);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green[700],
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10))),
-                                    child: const Text(
-                                      "펫 설정",
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
+                        ],
+                      ),
 
+                  SizedBox(
+                    height: size.height * 0.015,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
                       SizedBox(
-                        height: size.height * 0.015,
+                        width: size.width * 0.2,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
+                      const Text('펫 이름 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.name.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
                           ),
-                          const Text('펫 이름 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '1',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('종 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '2',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('생년월일 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '3',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('무게 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '4',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('등록번호 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '5',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('성별 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '6',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: size.height * 0.005,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.15,
-                          ),
-                          const Text('중성화 유무 :',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          Container(
-                            child: Center(
-                              child: Text(
-                                '7',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            height: 30,
-                            width: size.width * 0.1,
-                            //color: Colors.grey,
-                          )
-                        ],
-                      ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.05,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.5,
                         ),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                "로그아웃 /",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                " 회원탈퇴",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ),
-                            ),
-                          ],
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.2,
+                      ),
+                      const Text('종 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.category.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
+                          ),
                         ),
-                      ],
-                    ),
-                  ],
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.2,
+                      ),
+                      const Text('나이 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.birth.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
+                          ),
+                        ),
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.2,
+                      ),
+                      const Text('등록번호 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.registercode.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
+                          ),
+                        ),
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.2,
+                      ),
+                      const Text('성별 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.gender.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
+                          ),
+                        ),
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.005,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.2,
+                      ),
+                      const Text('중성화 유무 :',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Container(
+                        child: Center(
+                          child: FutureBuilder<pet_api>(
+                            future: pet_info,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!.neutralization.toString());
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              return Text('');
+                            },
+                          ),
+                        ),
+                        height: 30,
+                        width: size.width * 0.2,
+                        //color: Colors.grey,
+                      )
+                    ],
+                  ),
+                    ],
+                  ),
                 ),
               ],
             ),

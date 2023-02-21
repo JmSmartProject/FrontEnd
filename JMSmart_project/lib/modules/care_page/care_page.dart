@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CarePage extends StatefulWidget {
@@ -26,20 +27,20 @@ class _CarePageState extends State<CarePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: SfCircularChart(
-            series: <CircularSeries>[
-              DoughnutSeries<_ChartData, String>(
-                  dataSource: data,
-                  xValueMapper: (_ChartData data, _) => data.x,
-                  yValueMapper: (_ChartData data, _) => data.y,
-                radius: '50%'
-              )
-            ],
-          ),
-        ),
-      ),
+      body: KakaoMapView(
+          width: 200,
+          height: 900,
+          kakaoMapKey: 'f6d7146290bb37086efa5a0e6d0248de',
+          lat: 33.450701,
+          lng: 126.570667,
+          showMapTypeControl: true,
+          showZoomControl: true,
+          markerImageURL:
+          'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+          onTapMarker: (message) async {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Marker is clicked')));
+          }),
       );
   }
 }

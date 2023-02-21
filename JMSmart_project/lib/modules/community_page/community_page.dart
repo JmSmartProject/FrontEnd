@@ -169,7 +169,7 @@ class _CommunityPage extends State<CommunityPage> {
                             fontSize: 32, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(
-                        width: size.width * 0.25,
+                        width: size.width * 0.15,
                       ),
                       Container(
                         alignment: Alignment.center,

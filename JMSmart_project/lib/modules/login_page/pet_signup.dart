@@ -20,8 +20,8 @@ class _PetSignupPageState extends State<PetSignupPage> {
   int Pet_Gender = 2;
   int Pet_neutered = 2;
   int petnamevalidate = 1;
-  int petbirthvalidate = 1;
-  int petweghtvalidate = 1;
+  int petbirthvalidate = 0;
+  int petweghtvalidate = 0;
   int petnumbervalidate = 1;
   int petvalidate = 10;
   final _PetNameValidate = TextEditingController();
@@ -30,7 +30,6 @@ class _PetSignupPageState extends State<PetSignupPage> {
   final _PetNumberValidate = TextEditingController();
   final _PetNameController = TextEditingController();
   final _PetBirthdayController = TextEditingController();
-  final _PetWeightController = TextEditingController();
   final _PetNumberController = TextEditingController();
 
 
@@ -42,7 +41,6 @@ class _PetSignupPageState extends State<PetSignupPage> {
     _PetNumberValidate.dispose();
     _PetNameController.dispose();
     _PetBirthdayController.dispose();
-    _PetWeightController.dispose();
     _PetNumberController.dispose();
     super.dispose();
   }
@@ -197,21 +195,42 @@ class _PetSignupPageState extends State<PetSignupPage> {
                   height: size.height * 0.015
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  Container(
+                    height: 35,
+                    width: 50,
+                    padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
+                    ),
+                    child: Text(
+                      "나이",
+                      style: TextStyle(fontSize: 14,),
+                    ),
+                  ),
+                  Text(
+                    "   :   ",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                      width: size.width * 0.02
+                  ),
                   SizedBox(
                     height: 40,
-                    width: 210,
+                    width: 70,
                     child: TextFormField(
                       style: TextStyle(fontSize: 14),
-                      maxLength: 8,
+                      maxLength: 2,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                       ],
                       controller: _PetBirthdayController,
                       decoration: InputDecoration(
                         counterText: "",
-                        hintText: "생년월일을 입력해주세요(0000-00-00)",
+                        //hintText: "나이를 입력해주세요",
                         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
@@ -228,57 +247,15 @@ class _PetSignupPageState extends State<PetSignupPage> {
                         setState(() {
                           if(_PetBirthdayController.text.isEmpty){
                             petbirthvalidate = 1;
-                            _PetBirthValidate.text = '      생년월일을 입력해주세요';
+                            _PetBirthValidate.text = '      나이를 입력해주세요';
                           }
-                          else if(_PetBirthdayController.text.length <= 7 ){
+                          else if(_PetBirthdayController.text.length > 2 ){
                             petbirthvalidate = 2;
-                            _PetBirthValidate.text = '      8자리가 아닙니다';
+                            _PetBirthValidate.text = '      유효한 숫자가 아닙니다';
                           }
                           else {
                             _PetBirthValidate.text = '';
                             petbirthvalidate = 0;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                      width: size.width * 0.03
-                  ),
-                  SizedBox(
-                    height: 40,
-                    width: 80,
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 14),
-                      maxLength: 2,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ],
-                      controller: _PetWeightController,
-                      decoration: InputDecoration(
-                        counterText: "",
-                        hintText: "무게(kg)",
-                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if(_PetWeightController.text.isEmpty){
-                            petweghtvalidate = 1;
-                            _PetWeghtValidate.text = '무게를 입력해주세요';
-                          }
-                          else {
-                            _PetWeghtValidate.text = '';
-                            petweghtvalidate = 0;
                           }
                         });
                       },
@@ -325,7 +302,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
               ),
               SizedBox(
                 height: 40,
-                width: 230,
+                width: 250,
                 child: TextFormField(
                   style: TextStyle(fontSize: 14),
                   inputFormatters: <TextInputFormatter>[
@@ -376,7 +353,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 children: <Widget>[
                   Container(
                     height: 35,
-                    width: 50,
+                    width: 55,
                     padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
                     decoration: BoxDecoration(
                       border: Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -440,7 +417,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
                 children: <Widget>[
                   Container(
                     height: 35,
-                    width: 95,
+                    width: 100,
                     padding: EdgeInsets.fromLTRB(12, 6, 10, 0),
                     decoration: BoxDecoration(
                       border: Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -526,11 +503,12 @@ class _PetSignupPageState extends State<PetSignupPage> {
                             onTap: (){
                               petinfo.clear();
                               setState(() {
-                                petvalidate = petnamevalidate + petbirthvalidate + petweghtvalidate + petnumbervalidate;
+                                petvalidate = petnamevalidate + petnumbervalidate;
                               });
                               petinfo.add(_PetNameController.text);
                               petinfo.add(Pet_species);
-                              petinfo.add(_PetBirthdayController.text);
+                              petinfo.add(_PetBirthdayController.text.toString());  //형
+                              petinfo.add(_PetNumberController.text.toString()); //형
                               if(Pet_Gender == 1) {
                                 petinfo.add(1);
                               }

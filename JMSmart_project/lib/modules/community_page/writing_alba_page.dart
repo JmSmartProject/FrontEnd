@@ -511,6 +511,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                           ),
+
                           onChanged: (value) {
                             setState(() {
                               if (_ContentController.text.isEmpty) {

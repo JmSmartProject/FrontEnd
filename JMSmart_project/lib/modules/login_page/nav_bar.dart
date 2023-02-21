@@ -42,7 +42,7 @@ class _NavBar extends State<NavBar> {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.blue[100],
+            backgroundColor: Colors.green[400],
             selectedItemColor: Colors.black,
             selectedFontSize: 10,
             unselectedItemColor: Colors.black,
