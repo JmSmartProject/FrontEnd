@@ -7,12 +7,12 @@ class alba_writing_api {
   final String title;
   final String date;
   final String time;
-  final String place;
+  final String address;
   final String content;
   final String caution;
 
   const alba_writing_api({required this.albaId, required this.title, required this.date,
-    required this.time, required this.place, required this.content, required this.caution});
+    required this.time, required this.address, required this.content, required this.caution});
 
   factory alba_writing_api.fromJson(Map<String, dynamic> json) {
     return alba_writing_api(
@@ -20,14 +20,14 @@ class alba_writing_api {
       title: json['title'],
       date: json['date'],
       time: json['time'],
-      place: json['place'],
+      address: json['address'],
       content: json['content'],
       caution: json['caution'],
     );
   }
 }
 
-Future<alba_writing_api> alba_writing_post(String title, String date, String time, String place, String content, String caution) async {
+Future<alba_writing_api> alba_writing_post(String title, String date, String time, String address, String content, String caution) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/communities/2/comments'),
     headers: <String, String>{
@@ -37,7 +37,7 @@ Future<alba_writing_api> alba_writing_post(String title, String date, String tim
       'title': title,
       'date': date,
       'time': time,
-      'place' : place,
+      'address' : address,
       'content': content,
       'caution': caution,
     }),
