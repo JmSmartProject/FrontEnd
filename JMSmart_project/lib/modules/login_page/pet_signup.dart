@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../color/colors.dart';
 
@@ -9,7 +10,7 @@ class PetSignupPage extends StatefulWidget {
 }
 
 class _PetSignupPageState extends State<PetSignupPage> {
-  List<String> Pet_List = ['강아지', '고양이'];
+  List<String> Pet_List = ['강아지','고양이'];
   List<dynamic> petinfo = [];
   String Pet_species = '강아지';
   var pet_male = false;
@@ -90,9 +91,12 @@ class _PetSignupPageState extends State<PetSignupPage> {
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.grey[100],
                         ),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          size: 15,
+                        child: IconButton(
+                          onPressed: () async {
+                            var picker = ImagePicker();
+                            var image = await picker.pickImage(source: ImageSource.gallery);
+                          },
+                          icon: Icon(Icons.camera_alt_outlined),
                         ),
                       ),
                     ),
@@ -506,17 +510,19 @@ class _PetSignupPageState extends State<PetSignupPage> {
                               petinfo.add(_PetBirthdayController.text.toString());  //형
                               petinfo.add(_PetNumberController.text.toString()); //형
                               if(Pet_Gender == 1) {
-                                petinfo.add("남");
+                                petinfo.add(1);
                               }
                               else{
-                                petinfo.add("여");
+                                petinfo.add(0);
                               }
+                              petinfo.add(_PetWeightController.text);
                               if(Pet_neutered == 1) {
-                                petinfo.add("NEUTERED");
+                                petinfo.add(1);
                               }
                               else{
-                                petinfo.add("NORMAL");
+                                petinfo.add(0);
                               }
+                              petinfo.add(_PetNumberController.text);
                               if(petvalidate == 0  && Pet_Gender !=2 && Pet_neutered !=2) {
                                 Navigator.pop(context, petinfo);
                               }
