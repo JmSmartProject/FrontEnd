@@ -16,7 +16,7 @@ class _SignupPageState extends State<SignupPage> {
   List<dynamic> personinfo = [];
   var person_man = false;
   var person_woman = false;
-  int Gender = 2;
+  int Gender = 0;
   int uservalidate = 1;
   final _NickNameController = TextEditingController();
   final _NameController = TextEditingController();
@@ -366,7 +366,7 @@ class _SignupPageState extends State<SignupPage> {
                       Container(
                         alignment: Alignment.center,
                         height: 16,
-                        width: 80,
+                        width: 83,
                         child: ElevatedButton(
                           onPressed: () {
                             authentication_code_post(_IDController.text);
@@ -768,130 +768,51 @@ class _SignupPageState extends State<SignupPage> {
                     ],
                   ),
                   SizedBox(height: size.height * 0.005),
-                  SizedBox(
-                    height: 40,
-                    width: 240,
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 14),
-                      controller: _BirthdayController,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9|-]')),
-                        LengthLimitingTextInputFormatter(10)],
-                      decoration: InputDecoration(
-                        hintText: "생년월일을 입력해주세요(8자리)",
-                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        hintStyle:
-                        TextStyle(fontSize: 14, color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (_BirthdayController.text.isEmpty) {
-                            birthdayvalidate = 1;
-                            _BirthdayValidate.text = '      생년월일를 입력해주세요';
-                          } else if (_BirthdayController.text.length <= 7) {
-                            birthdayvalidate = 2;
-                            _BirthdayValidate.text = '      8자리로 입력해주세요';
-                          } else {
-                            _BirthdayValidate.text = '';
-                            birthdayvalidate = 0;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 200,
-                        height: 15,
-                        child: TextField(
-                          controller: _BirthdayValidate,
-                          enabled: false,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.red,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        width: 45,
-                        height: 35,
-                        padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: PRIMARY_COLOR, width: 1.2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text("성별", style: TextStyle(fontSize: 14,),),
-                      ),
-                      Text(
-                        "   :   ",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                      ),
-                      Text('남자', style: TextStyle(fontSize: 12),),
-                      Transform.scale(
-                        scale: 1.2,
-                        child: Checkbox(
-                          side: BorderSide(color: Colors.grey.shade400),
-                          activeColor: Colors.white,
-                          checkColor: Colors.blue,
-                          value: person_man,
+                      SizedBox(
+                        height: 40,
+                        width: 220,
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          controller: _BirthdayController,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9|-]')),
+                            LengthLimitingTextInputFormatter(10)],
+                          decoration: InputDecoration(
+                            hintText: "생년월일을 입력해주세요(8자리)",
+                            contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            hintStyle:
+                            TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          ),
                           onChanged: (value) {
                             setState(() {
-                              Gender = 1;
-                              person_man = value!;
-                              if(person_woman == true){
-                                person_woman = false;
-                              }
-                              if(person_man == false && person_woman == false) {
-                                Gender = 2;
-                              }
-                            });
-                            print(Gender);
-                          },
-                        ),
-                      ),
-                      Text('여자', style: TextStyle(fontSize: 12)),
-                      Transform.scale(
-                        scale: 1.2,
-                        child: Checkbox(
-                          side: BorderSide(color: Colors.grey.shade400),
-                          activeColor: Colors.white,
-                          checkColor: Colors.blue,
-                          value: person_woman,
-                          onChanged: (value) {
-                            setState(() {
-                              Gender = 0;
-                              person_woman = value!;
-                              if(person_man == true){
-                                person_man = false;
-                              }
-                              if(person_man == false && person_woman == false) {
-                                Gender = 2;
+                              if (_BirthdayController.text.isEmpty) {
+                                birthdayvalidate = 1;
+                                _BirthdayValidate.text = '      생년월일를 입력해주세요';
+                              } else if (_BirthdayController.text.length <= 7) {
+                                birthdayvalidate = 2;
+                                _BirthdayValidate.text = '      8자리로 입력해주세요';
+                              } else {
+                                _BirthdayValidate.text = '';
+                                birthdayvalidate = 0;
                               }
                             });
                           },
                         ),
                       ),
                       SizedBox(
-                        width: size.width * 0.02,
+                        width: 10,
                       ),
                       Container(
                         height: 30,
@@ -939,23 +860,24 @@ class _SignupPageState extends State<SignupPage> {
                           if(birthdayvalidate == 0) {
                             personinfo.add(_BirthdayController.text);
                           }
-                          if(Gender == 1) {
-                            personinfo.add('남');
-                          }
-                          else if(Gender == 0){
-                            personinfo.add('여');
-                          }
+                          // if(Gender == 1) {
+                          //   personinfo.add('남');
+                          // }
+                          // else if(Gender == 0){
+                          //   personinfo.add('여');
+                          // }
                           setState(() {
                             // uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
                             //     pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
                             uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
                                  pwvalidate + phone1validate + phone2validate + birthdayvalidate;
-                            if (uservalidate == 0 && Gender != 2) {
+                            if (uservalidate == 0) {
                               // 포스트
                               // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                               //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
-                              user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],'010'+ '-'+(personinfo[4].toString()) +'-'+ (personinfo[5].toString()), personinfo[6], personinfo[7]);
-                              Future.delayed(Duration(seconds: 2), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
+                              user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],'010'+ '-'+(personinfo[4].toString()) +'-'+ (personinfo[5].toString()), personinfo[6] );
+                              //Future.delayed(Duration(seconds: 3), () => pet_signup_post(personinfo[2], petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5], petinfolist[6]));
+                              print(petinfolist);
                               //Navigator.pop(context);
                             } else {
                               //테스트

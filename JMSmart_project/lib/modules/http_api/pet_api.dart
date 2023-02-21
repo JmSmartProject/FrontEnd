@@ -1,4 +1,4 @@
- import 'dart:convert';
+import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
@@ -7,12 +7,11 @@ class pet_api {
   final String name;
   final String category;
   final String birth;
-  final int weight;
   final String registercode;
   final String gender;
   final String neutralization;
 
-  const pet_api({ required this.ownerEmail, required this.category, required this.name, required this.weight, required this.birth,
+  const pet_api({ required this.ownerEmail, required this.category, required this.name, required this.birth,
     required this.registercode, required this.neutralization, required this.gender,});
 
   factory pet_api.fromJson(Map<String, dynamic> json) {
@@ -20,7 +19,6 @@ class pet_api {
       ownerEmail: json['ownerEmail'],
       name: json['name'],
       category: json['category'],
-      weight: json['password'],
       birth: json['address'],
       registercode: json['phone_number'],
       neutralization: json['birthday'],
@@ -29,7 +27,7 @@ class pet_api {
   }
 }
 
-Future<pet_api> pet_signup_post(String ownerEmail, String pet_name, String category , String pet_birth, int weight,
+Future<pet_api> pet_signup_post(String ownerEmail, String pet_name, String category , String pet_birth,
     String registercode, String gender, String neutered) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/pet/add'),
@@ -41,7 +39,6 @@ Future<pet_api> pet_signup_post(String ownerEmail, String pet_name, String categ
       'name': pet_name,
       'category': category,
       'birthday': pet_birth,
-      'weight': weight,
       'registerCode': registercode,
       'gender': gender,
       'neutralization': neutered,

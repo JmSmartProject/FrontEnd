@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jmsmart_project/modules/chatting_page/chatting_room_page.dart';
-//import 'package:jmsmart_project/modules/chatting_page/chatting_room_room2.dart';
 import 'package:jmsmart_project/provider/chatting_provider.dart';
 
-class ChattingPage extends StatefulWidget {
+import '../color/colors.dart';
 
-  _ChattingPage createState() => _ChattingPage();
-}
-
-class _ChattingPage extends State<ChattingPage> {
+class ChattingPage extends ConsumerWidget {
 
   final List<ChatRoom> _room = <ChatRoom>[
-    ChatRoom(name: "개냥이", text: '안녕하세요', time: "1시간전",),
-    //ChatRoom(name: "개냥이2", text: '방가워요', time: "1시간전",),
+    ChatRoom(name: "망아지1", text: '안녕하세요?', time: "19시간전",),
+    ChatRoom(name: "개냥이2", text: '방가워요', time: "1시간전",),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
@@ -34,9 +31,9 @@ class _ChattingPage extends State<ChattingPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "채팅룸",
+                        "쪽지함",
                         style:
-                            TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+                        TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -45,14 +42,14 @@ class _ChattingPage extends State<ChattingPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: PRIMARY_COLOR,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
                           child: const Text(
                             "쪽지 보내기",
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -103,13 +100,13 @@ class ChatRoom extends StatelessWidget {
                 content: Text('채팅룸을 삭제 하겟습니까?'),
                 actions: [
                   TextButton(
-                    child: Text("예"),
+                    child: Text("예", style: TextStyle(color: PRIMARY_COLOR,),),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("아니요"),
+                    child: Text("아니요", style: TextStyle(color: PRIMARY_COLOR,),),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -120,9 +117,12 @@ class ChatRoom extends StatelessWidget {
           );
         },
         child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              border: Border.all(color: PRIMARY_COLOR, width: 2)),
           width: 300,
           height: 90,
-          color: Color(0xffD3D3D3),
           child: Row(
             children: [
               Padding(
