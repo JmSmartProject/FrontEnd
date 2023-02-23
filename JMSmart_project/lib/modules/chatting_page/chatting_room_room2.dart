@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jmsmart_project/modules/http_api/chatting_api.dart';
 
-const String _name = "나";
+class ChatMessage {
+  String Content;
+  String messageType;
+
+  ChatMessage({required this.Content, required this.messageType});
+}
+
+List<ChatMessage> _messages = [
+  ChatMessage(
+      Content: "Is there any thing wrong?", messageType: "sender"),
+  ChatMessage(Content: "ehhhh, doing OK.", messageType: "receiver"),
+  ChatMessage(
+      Content: "Hey Kriss, I am doing fine dude. wbu?",
+      messageType: "sender"),
+  ChatMessage(Content: "How have you been?", messageType: "receiver"),
+  ChatMessage(Content: "Hello, Will", messageType: "receiver"),
+];
 
 class ChattingRoomPage extends StatefulWidget {
   _ChattingRoomPage createState() => _ChattingRoomPage();
 }
 
-class _ChattingRoomPage extends State<ChattingRoomPage> with TickerProviderStateMixin {
-
-  final List<ChatMessage1> _message1 = <ChatMessage1>[];
+class _ChattingRoomPage extends State<ChattingRoomPage>
+    with TickerProviderStateMixin {
 
   final TextEditingController _textController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    chatting_get();
+  }
 
   bool _isComposing = false;
 
@@ -21,175 +43,120 @@ class _ChattingRoomPage extends State<ChattingRoomPage> with TickerProviderState
     return Scaffold(
       appBar: AppBar(
         title: Text('쪽지함'),
+        backgroundColor: Colors.green[400],
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Flexible(
+      resizeToAvoidBottomInset : false,
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 50.0),
               child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
                 reverse: true,
-                itemCount: _message1.length,
-                itemBuilder: (_, index) => _message1[index],
-              ),
-            ),
-            Divider(height: 1.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-              ),
-              child: _buildTextComposer(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextComposer() {
-    return IconTheme(
-      data: IconThemeData(color: Theme.of(context).backgroundColor),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                controller: _textController,
-                onChanged: (text) {
-                  setState(() {
-                    _isComposing = text.length > 0;
-                  });
+                itemCount: _messages.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding:
+                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                    child: Align(
+                      alignment: (_messages[index].messageType == "receiver"
+                          ? Alignment.topLeft
+                          : Alignment.topRight),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: (_messages[index].messageType == "receiver"
+                              ? Colors.grey.shade200
+                              : Colors.blue[200]),
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          _messages[index].Content,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                decoration:
-                InputDecoration.collapsed(hintText: "Send a message"),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Theme.of(context).platform == TargetPlatform.iOS
-                  ? CupertinoButton(
-                child: Text("send"),
-                onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
-                    : null,
-              )
-                  : IconButton(
-                // 아이콘 버튼에 전송 아이콘 추가
-                icon: Icon(Icons.send),
-                onPressed: _isComposing
-                    ? () => _handleSubmitted(_textController.text)
-                    : null,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    setState(() {
-      _isComposing = false;
-    });
-    ChatMessage1 message = ChatMessage1(
-      text: text,
-      animationController: AnimationController(
-        duration: Duration(milliseconds: 700),
-        vsync: this,
-      ),
-    );
-    setState(() {
-      _message1.insert(0, message);
-    });
-    message.animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    for (ChatMessage1 message in _message1) {
-      message.animationController.dispose();
-    }
-    super.dispose();
-  }
-}
-
-class ChatMessage1 extends StatelessWidget {
-  final String text;
-  final AnimationController animationController;
-
-  ChatMessage1({required this.text, required this.animationController});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor:
-      CurvedAnimation(parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+              height: 60,
+              width: double.infinity,
+              color: Colors.white,
+              child: Row(
                 children: <Widget>[
-                  Text(_name, style: Theme.of(context).textTheme.subtitle1),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: Text(text),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      decoration: InputDecoration(
+                          hintText: "Write message...",
+                          hintStyle: TextStyle(color: Colors.black54),
+                          border: InputBorder.none),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      if (_textController.text.length > 0) {
+                        _isComposing = true;
+                      }
+                      if (_isComposing == true) {
+                        setState(() {
+                          _isComposing = false;
+                        });
+                        ChatMessage message = ChatMessage(
+                          Content: _textController.text,
+                          messageType: "sender",
+                        );
+                        setState(() {
+                          _messages.insert(0, message);
+                        });
+                        chatting_post(_textController.text, 'sender');
+                        _textController.clear();
+                      }
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    backgroundColor: Colors.blue,
+                    elevation: 0,
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(child: Text(_name[0])),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChatMessage2 extends StatelessWidget {
-  final String text;
-  final AnimationController animationController;
-
-  ChatMessage2({required this.text, required this.animationController});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor:
-      CurvedAnimation(parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(child: Text(_name[0])),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(_name, style: Theme.of(context).textTheme.subtitle1),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: Text(text),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
