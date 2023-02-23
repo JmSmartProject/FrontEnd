@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+var aws_uri = '52.79.223.14:8080/users/signup';
+
 class login_api {
   final String id;
   final String password;
@@ -42,7 +44,7 @@ class user_api {
   }
 }
 
-Future<bool> login_post(String id, String password) async {
+Future<login_api> login_post(String id, String password) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/login'),
     headers: <String, String>{
@@ -58,7 +60,7 @@ Future<bool> login_post(String id, String password) async {
     print('로그인에 성공햇습니다');
     print(id);
     print(password);
-    return Future.value(true);
+    return login_api.fromJson(jsonDecode(response.body));
   } else {
     print('로그인에 실패햇습니다');
     throw Exception('login fail');
@@ -165,7 +167,6 @@ Future<user_api> authentication_code_post(String email) async {
 }
 
 Future<user_api> authentication_code_check_post(String email, String code) async {
-
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/signup'),
     headers: <String, String>{
@@ -182,5 +183,19 @@ Future<user_api> authentication_code_check_post(String email, String code) async
   } else {
     print('인증코드를 일치 하지 않습니다.');
     throw Exception('code check error');
+  }
+}
+
+
+Future<user_api> fetchPost() async {
+  var url = 'https://jsonplaceholder.typicode.com/posts/1';
+  final response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    // 만약 서버가 OK 응답을 반환하면, JSON을 파싱합니다.
+    return user_api.fromJson(json.decode(response.body));
+  } else {
+    // 만약 응답이 OK가 아니면, 에러를 던집니다.
+    throw Exception('Failed to load post');
   }
 }

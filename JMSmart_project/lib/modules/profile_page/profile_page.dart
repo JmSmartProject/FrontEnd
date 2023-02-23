@@ -35,11 +35,11 @@ class _ProfilePage extends State<ProfilePage> {
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
+            padding: EdgeInsets.only(left: 40, right: 40),
             child: Column(
               children: [
                 SizedBox(
-                  height: size.height * 0.07,
+                  height: size.height * 0.05,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +96,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.02,
                 ),
                 Container(
                   height: 150,
@@ -153,6 +153,7 @@ class _ProfilePage extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
+
                             ],
                           )),
                       SizedBox(

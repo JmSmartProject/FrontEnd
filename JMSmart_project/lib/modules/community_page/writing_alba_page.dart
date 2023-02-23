@@ -24,12 +24,15 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
   int titlevalidate = 1;
   int contentvalidate = 1;
 
+
   @override
   void dispose() {
     _TitleController.dispose();
+
     _ContentController.dispose();
     _TitleValidate.dispose();
     _ContentValidate.dispose();
+
     super.dispose();
   }
 
@@ -61,6 +64,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                       TextFormField(
                         controller: _TitleController,
                         style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
+
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: InputDecoration(
                           hintText: "제목을 입력해주세요(2~20자)",
@@ -103,6 +107,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           style: TextStyle(
                             fontSize: 10,
                             color: Colors.red,
+
                           ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -110,6 +115,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           ),
                         ),
                       ),
+
                       Text(
                         "   내용",
                         style: TextStyle(
@@ -126,6 +132,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           textAlignVertical: TextAlignVertical.top,
                           maxLines: maxLines * 3,
                           style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
+
                           decoration: InputDecoration(
                             hintText: "내용을 입력해주세요(최대 200자, 산책 날짜/시간/장소, 펫에 대한 주의사항 포함)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -170,6 +177,17 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                             border: InputBorder.none,
                             hintStyle: TextStyle(fontSize: 6, color: Colors.red),
                           ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (_CautionController.text.isEmpty) {
+                                cautionvalidate = 1;
+                                _CautionValidate.text = '      내용을 입력해주세요';
+                              } else {
+                                _CautionValidate.text = '';
+                                cautionvalidate = 0;
+                              }
+                            });
+                          },
                         ),
                       ),
                       SizedBox(height: size.height * 0.01),

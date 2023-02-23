@@ -1,9 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
+import 'package:jmsmart_project/modules/login_page/login_platform.dart';
 import 'package:jmsmart_project/modules/login_page/signup_page.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'package:jmsmart_project/modules/profile_page/profile_page.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import '../color/colors.dart';
 import 'nav_bar.dart';
 
@@ -13,6 +21,54 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  LoginPlatform _loginPlatform = LoginPlatform.none;
+
+  void signInWithKakao() async {
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+
+      OAuthToken token = isInstalled
+          ? await UserApi.instance.loginWithKakaoTalk()
+          : await UserApi.instance.loginWithKakaoAccount();
+
+      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer${token.accessToken}'
+        },
+      );
+
+      final profileInfo = json.decode(response.body);
+      print(profileInfo.toString());
+
+      setState(() {
+        _loginPlatform = LoginPlatform.kakao;
+      });
+    } catch (error) {
+      print('카카오톡으로 로그인 실패 $error');
+    }
+  }
+
+  void signOut() async {
+    switch (_loginPlatform) {
+      case LoginPlatform.google:
+        break;
+      case LoginPlatform.kakao:
+        await UserApi.instance.logout();
+        break;
+      case LoginPlatform.naver:
+        break;
+      case LoginPlatform.none:
+        break;
+    }
+
+    setState(() {
+      _loginPlatform = LoginPlatform.none;
+    });
+  }
+
   String _id = '';
   late SharedPreferences _prefs;
   final _IDController = TextEditingController();
@@ -55,8 +111,8 @@ class _LoginPage extends State<LoginPage> {
                 children: <Widget>[
                   Image.asset(
                     "assets/images/logo/wepetmain.png",
-                    width: size.height * 0.34,
-                    height: size.height * 0.34,
+                    width: size.height * 0.38,
+                    height: size.height * 0.38,
                     // logo & 25% 크기
                   )
                 ],
@@ -158,26 +214,18 @@ class _LoginPage extends State<LoginPage> {
                     // 2% 여분
                   ),
                   Container(
-                    height: 55,
+                    height: 60,
                     width: 300,
                     child: TextButton(
-                      onPressed: () async {
-
-                        // var login_check = login_post(_IDController.text, _PWController.text);
-                        // var value = await login_check;
-                        // login_check.then((result) => value = result);
-                        //
-                        // if(value == true) {
-                        //     Navigator.pushReplacement(context,
-                        //         MaterialPageRoute(builder: (context) => NavBar()));
-                        //   }
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
+                      onPressed: () {
+                        login_post(_IDController.text, _PWController.text);
+                        // Navigator.pushReplacement(context,
+                        //     MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
                         _id = _IDController.text;
                         _prefs.setString('id', _id);
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => NavBar()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
                       },
                       style: ButtonStyle(
                           shape:
@@ -301,7 +349,9 @@ class _LoginPage extends State<LoginPage> {
                             height: size.height * 0.07,
                             width: 80,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                signInWithKakao();
+                              },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
