@@ -34,7 +34,7 @@ class community_comment_api {
 
 Future<community_comment_api> community_comment_put(String content) async {
   final response = await http.put(
-    Uri.http('52.79.223.14:8080', '/communities/{communityId}/comments'),
+    Uri.http('52.79.223.14:8080', '/communities/{communityId}/{commentId}'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -55,7 +55,7 @@ Future<community_comment_api> community_comment_put(String content) async {
 
 Future<community_comment_api> community_comment_post(String content) async {
   final response = await http.post(
-    Uri.http('52.79.223.14:8080', '/communities/2/comments'),
+    Uri.http('52.79.223.14:8080', '/communities/{communityId}/comments'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -76,7 +76,7 @@ Future<community_comment_api> community_comment_post(String content) async {
 
 Future<community_comment_api> community_comment_get() async {
   final response = await http.get(
-    Uri.http('52.79.223.14:8080', '/communities/2'),
+    Uri.http('52.79.223.14:8080', '/communities/{communityId}'),
   );
 
   if (response.statusCode == 200) {
@@ -91,7 +91,7 @@ Future<community_comment_api> community_comment_get() async {
 
 Future<community_writing_api> community_writing_put(String title, String content) async {
   final response = await http.put(
-    Uri.http('52.79.223.14:8080', '/communities'),
+    Uri.http('52.79.223.14:8080', '/communities/{communityId}'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -135,7 +135,7 @@ Future <community_writing_api> community_writing_post(String title, String conte
 }
 
 
-Future<community_writing_api> community_writing_get() async {
+Future<community_writing_api> community_writing_wholeget() async {
   final response = await http.get(
     Uri.http('52.79.223.14:8080', '/communities'),
   );
@@ -144,6 +144,22 @@ Future<community_writing_api> community_writing_get() async {
     print('게시글 불러오기에 성공햇습니다');
     print(json.decode(response.body));
     
+    return community_writing_api.fromJson(json.decode(response.body));
+  } else {
+    print('게시글 불러오기에 실패햇습니다');
+    throw Exception('writing fail');
+  }
+}
+
+Future<community_writing_api> community_writing_get() async {
+  final response = await http.get(
+    Uri.http('52.79.223.14:8080', '/communities/{communityId}'),
+  );
+
+  if (response.statusCode == 200) {
+    print('게시글 불러오기에 성공햇습니다');
+    print(json.decode(response.body));
+
     return community_writing_api.fromJson(json.decode(response.body));
   } else {
     print('게시글 불러오기에 실패햇습니다');

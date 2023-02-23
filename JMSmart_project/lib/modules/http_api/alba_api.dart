@@ -3,31 +3,20 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class alba_writing_api {
-  final int albaId;
   final String title;
-  final String date;
-  final String time;
-  final String address;
   final String content;
-  final String caution;
 
-  const alba_writing_api({required this.albaId, required this.title, required this.date,
-    required this.time, required this.address, required this.content, required this.caution});
+  const alba_writing_api({required this.title, required this.content});
 
   factory alba_writing_api.fromJson(Map<String, dynamic> json) {
     return alba_writing_api(
-      albaId: json['albaId'],
       title: json['title'],
-      date: json['date'],
-      time: json['time'],
-      address: json['address'],
       content: json['content'],
-      caution: json['caution'],
     );
   }
 }
 
-Future<alba_writing_api> alba_writing_post(String title, String date, String time, String address, String content, String caution) async {
+Future<alba_writing_api> alba_writing_post(String title, String content) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/communities/2/comments'),
     headers: <String, String>{
@@ -35,11 +24,7 @@ Future<alba_writing_api> alba_writing_post(String title, String date, String tim
     },
     body: jsonEncode(<String, dynamic>{
       'title': title,
-      'date': date,
-      'time': time,
-      'address' : address,
       'content': content,
-      'caution': caution,
     }),
   );
 
