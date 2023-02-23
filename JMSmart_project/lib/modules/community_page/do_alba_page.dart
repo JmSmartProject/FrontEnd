@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:http/http.dart' as http;
+import 'package:jmsmart_project/modules/community_page/doalba_onboard.dart';
+import 'dart:convert';
 
 import '../color/colors.dart';
+
+class doalbaData {
+  String usernickname;
+  String title;
+  String date;
+  String time;
+  String address;
+
+  doalbaData(this.usernickname, this.title, this.date, this.time, this.address);
+
+  factory doalbaData.fromJson(dynamic json){
+    return doalbaData(json['usernickname'] as String, json['title'] as String,
+        json['date'] as String, json['time'] as String, json['address'] as String);
+  }
+}
 
 class DoAlbaPage extends StatefulWidget {
   @override
@@ -10,16 +28,41 @@ class DoAlbaPage extends StatefulWidget {
 }
 
 class _DoAlbaPageState extends State<DoAlbaPage> {
+  var _text = "Http Example";
+  List<doalbaData> _datas = [];
+
   List<String> imageList = [
+    "assets/images/profile/animal2.png",
     "assets/images/profile/animal.png",
-    "assets/images/profile/animal.png",
-    "assets/images/profile/animal.png"
+    "assets/images/profile/animal3.png"
   ];
-  List<String> NicknameList = ["개냥이", "치즈", "멍냥이"];
+  List<String> NicknameList = ["개냥이", "누룽이", "멍냥이"];
   List<String> titleList = ["산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요"];
   List<String> timeList = ["19시 ~ 20시", "19시 ~ 20시", "19시 ~ 20시"];
-  List<String> dateList = ["2023/01/18  (잠실)", "2023/01/19  (노원)", "2023/01/18  (홍대)"];
-  List<String> addressList = ["노원", "잠실", "홍대"];
+  List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18"];
+  List<String> addressList = ["(노원)", "(잠실)", "(홍대)"];
+
+  void _fetchPosts() async{
+    final response = await http.get(
+      Uri.http('52.79.223.14:8080', '/communities'),
+    );
+    _text = utf8.decode(response.bodyBytes);
+    var dataObjsJson = jsonDecode(_text)['data'] as List;
+    final List<doalbaData> parsedResponse = dataObjsJson.map((dataJson)=>doalbaData.fromJson(dataJson)).toList();
+    //print(Member.fromJson(jsonDecode(_text)));
+    //print(dataObjs);
+    setState(() {
+      _datas.clear();
+      _datas.addAll(parsedResponse);
+    });
+    print(parsedResponse);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchPosts();
+  }
 
 
   @override
@@ -40,10 +83,10 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                           Text(
                             "알바할개요",
                             style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.w900),
+                                fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
-                            width: size.width * 0.2,
+                            width: size.width * 0.18,
                           ),
                           Container(
                             alignment: Alignment.center,
@@ -60,6 +103,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                               child: const Text(
                                 "뒤로가기",
                                 style: TextStyle(
+                                    fontFamily: 'GmarketSans',
                                     fontSize: 12,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -77,37 +121,44 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (ctx) => AlertDialog(
-                                    title: Text('쪽지 보내기'),
-                                    content: Text(
-                                      '쪽지를 보낼까요?',
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text(
-                                          '취소',
-                                          style: TextStyle(
-                                              color: Colors.black),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(ctx).pop(false);
-                                        },
-                                      ),
-                                      TextButton(
-                                          child: Text(
-                                            '보내기',
-                                            style: TextStyle(
-                                                color: Colors.black),
-                                          ),
-                                          onPressed: () {
-                                            //댓글 삭제 delete
-                                          }
-                                      ),
-                                    ],
-                                      )
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbaOnboardPage()));
+                                  // showDialog(
+                                  //     context: context,
+                                  //     builder: (ctx) => AlertDialog(
+                                  //   title: Text('쪽지 보내기' ,style: TextStyle(fontFamily: 'GmarketSans',)),
+                                  //   content: Text(
+                                  //     '쪽지를 보낼까요?',
+                                  //       style: TextStyle(fontFamily: 'GmarketSans',)
+                                  //   ),
+                                  //   actions: <Widget>[
+                                  //     TextButton(
+                                  //       child: Text(
+                                  //         '취소',
+                                  //         style: TextStyle(
+                                  //             fontFamily: 'GmarketSans',
+                                  //             color: Colors.black),
+                                  //       ),
+                                  //       onPressed: () {
+                                  //         Navigator.of(ctx).pop(false);
+                                  //       },
+                                  //     ),
+                                  //     TextButton(
+                                  //         child: Text(
+                                  //           '보내기',
+                                  //           style: TextStyle(
+                                  //               fontFamily: 'GmarketSans',
+                                  //               color: Colors.black),
+                                  //         ),
+                                  //         onPressed: () {
+                                  //           //댓글 삭제 delete
+                                  //         }
+                                  //     ),
+                                  //   ],
+                                  //     )
+                                  // );
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
@@ -120,7 +171,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                     children: [
                                       SizedBox(
                                         width: 70,
-                                        height: 70,
+                                        height: 65,
                                         child: Row(
                                           children: [
                                             SizedBox(
@@ -154,6 +205,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                             Text(
                                               NicknameList[index],
                                               style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
@@ -165,6 +217,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                               width: size.width * 0.5,
                                               child: Text(timeList[index],
                                                   style: TextStyle(
+                                                      fontFamily: 'GmarketSans',
                                                       fontSize: 10,
                                                       color: Colors.black)),
                                             ),
@@ -184,6 +237,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                             Text(
                                               titleList[index],
                                               style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
@@ -194,16 +248,18 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                             Row(
                                               children: [
                                                 SizedBox(
-                                                  width: size.width * 0.25,
+                                                  width: size.width * 0.2,
                                                   child: Text(dateList[index],
                                                       style: TextStyle(
+                                                          fontFamily: 'GmarketSans',
                                                           fontSize: 10,
                                                           color: Colors.black)),
                                                 ),
                                                 SizedBox(
                                                   width: size.width * 0.1,
-                                                  child: Text("",
+                                                  child: Text(addressList[index],
                                                       style: TextStyle(
+                                                          fontFamily: 'GmarketSans',
                                                           fontSize: 10,
                                                           color: Colors.black)),
                                                 ),

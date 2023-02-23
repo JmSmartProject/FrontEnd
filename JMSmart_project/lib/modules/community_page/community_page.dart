@@ -14,18 +14,44 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
+class Data{
+  String usernickname;
+  String content;
+  String createdAt;
+
+  Data(this.usernickname, this.content, this.createdAt);
+
+  factory Data.fromJson(dynamic json) {
+    return Data(json['usernickname'] as String, json['content'] as String, json['createdAt'] as String);
+  }
+}
 class CommunityPage extends StatefulWidget {
   @override
   _CommunityPage createState() => _CommunityPage();
 }
 
 class _CommunityPage extends State<CommunityPage> {
-  Future<community_writing_api>? info;
+  var _text = "Http Example";
+  List<Data> _datas = [];
+
+  void _fetchPosts() async {
+    final response = await http.get(
+      Uri.http('52.79.223.14:8080', '/communities'),
+    );
+    _text = utf8.decode(response.bodyBytes);
+    var dataObjsJson = jsonDecode(_text)['data'] as List;
+    final List<Data> parsedResponse = dataObjsJson.map((dataJson)=>Data.fromJson(dataJson)).toList();
+    setState(() {
+      _datas.clear();
+      _datas.addAll(parsedResponse);
+    });
+    print(parsedResponse);
+  }
 
   @override
   void initState  () {
     super.initState();
-    info = community_writing_get();
+    _fetchPosts();
   }
 
   List<String> imageList = [
@@ -36,7 +62,7 @@ class _CommunityPage extends State<CommunityPage> {
     "assets/images/profile/people.png",
     "assets/images/profile/animal.png"
   ];
-  List<String> NicknameList = ["치즈", "누랭이", "치즈", "누랭이", "치즈", "누랭이"];
+  List<String> NicknameList = ["치즈", "누룽이", "치즈", "누룽이", "치즈", "누룽이"];
   List<String> titleList = ["알바해주개알바해주개", "알바할개요알바할개요", "알바해주개알바해주개", "알바할개요알바할개요", "알바해주개알바해주개", "알바할개요알바할개요"];
   List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18", "2023/01/19", "2023/01/18", "2023/01/19"];
 
@@ -93,6 +119,7 @@ class _CommunityPage extends State<CommunityPage> {
                                     child: Text(
                                       "알바해주개",
                                       style: TextStyle(
+                                          fontFamily: 'GmarketSans',
                                           fontSize: 14,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -143,6 +170,7 @@ class _CommunityPage extends State<CommunityPage> {
                                     child: Text(
                                       "알바할개요",
                                       style: TextStyle(
+                                          fontFamily: 'GmarketSans',
                                           fontSize: 14,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -157,7 +185,7 @@ class _CommunityPage extends State<CommunityPage> {
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: size.height * 0.015,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -166,10 +194,10 @@ class _CommunityPage extends State<CommunityPage> {
                       Text(
                         "자유게시판",
                         style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
-                        width: size.width * 0.15,
+                        width: size.width * 0.23,
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -189,6 +217,7 @@ class _CommunityPage extends State<CommunityPage> {
                           child: const Text(
                             "게시글 작성",
                             style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 12,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600),
@@ -205,7 +234,9 @@ class _CommunityPage extends State<CommunityPage> {
                     height: size.height,
                     child: ListView.builder(
                         itemCount: imageList.length,
+                        // itemCount: this._datas.length,
                         itemBuilder: (context, index) {
+                          // final data = this._datas[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -246,7 +277,7 @@ class _CommunityPage extends State<CommunityPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 210,
+                                    width: 200,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -254,17 +285,19 @@ class _CommunityPage extends State<CommunityPage> {
                                         Text(
                                           NicknameList[index],
                                           style: TextStyle(
+                                              fontFamily: 'GmarketSans',
                                               fontSize: 12,
-                                              fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.w500,
                                               color: Colors.black),
                                         ),
                                         SizedBox(
-                                          height: size.height * 0.01,
+                                          height: size.height * 0.02,
                                         ),
                                         SizedBox(
                                           width: size.width * 0.5,
                                           child: Text(titleList[index],
                                               style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
                                                   fontSize: 10,
                                                   color: Colors.black)),
                                         ),
@@ -273,7 +306,7 @@ class _CommunityPage extends State<CommunityPage> {
                                   ),
                                   Text(dateList[index],
                                       style: TextStyle(
-                                          fontSize: 10, color: Colors.black))
+                                          fontFamily: 'GmarketSans', fontSize: 10, color: Colors.black))
                                 ],
                               ),
                             ),
