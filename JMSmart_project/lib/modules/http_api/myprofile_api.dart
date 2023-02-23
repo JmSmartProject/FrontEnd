@@ -48,11 +48,10 @@ class pet_api {
   }
 }
 
-Future<user_profile_api> user_profile_get() async {
+Future<user_profile_api> user_profile_get(String id) async {
   final response = await http.get(
-    Uri.http('52.79.223.14:8080', '/user/info'),
+    Uri.http('52.79.223.14:8080', '/user/info/$id'),
   );
-
   if (response.statusCode == 200) {
     print('유저 정보 불러오기에 성공햇습니다');
     return user_profile_api.fromJson(jsonDecode(response.body));

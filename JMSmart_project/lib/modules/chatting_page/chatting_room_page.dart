@@ -83,6 +83,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
     return Scaffold(
       appBar: AppBar(
         title: Text('쪽지함'),
+        backgroundColor: Colors.green[400],
       ),
       resizeToAvoidBottomInset : false,
       body: Stack(

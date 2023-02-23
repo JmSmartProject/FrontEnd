@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jmsmart_project/modules/chatting_page/chatting_room_page.dart';
-import 'package:jmsmart_project/provider/chatting_provider.dart';
+import 'package:jmsmart_project/modules/chatting_page/chatting_room_room2.dart';
+import 'package:jmsmart_project/modules/http_api/chatting_api.dart';
 
 import '../color/colors.dart';
 

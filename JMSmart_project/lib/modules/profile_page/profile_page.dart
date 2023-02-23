@@ -22,7 +22,7 @@ class _ProfilePage extends State<ProfilePage> {
   @override
   void initState  () {
     super.initState();
-    user_info = user_profile_get();
+    user_info = user_profile_get('123');
     pet_info = pet_profile_get();
   }
 
