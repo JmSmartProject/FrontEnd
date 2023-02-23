@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-var aws_uri = '52.79.223.14:8080/users/signup';
-
 class login_api {
   final String id;
   final String password;
@@ -44,7 +42,7 @@ class user_api {
   }
 }
 
-Future<login_api> login_post(String id, String password) async {
+Future<bool> login_post(String id, String password) async {
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/login'),
     headers: <String, String>{
@@ -60,7 +58,7 @@ Future<login_api> login_post(String id, String password) async {
     print('로그인에 성공햇습니다');
     print(id);
     print(password);
-    return login_api.fromJson(jsonDecode(response.body));
+    return Future.value(true);
   } else {
     print('로그인에 실패햇습니다');
     throw Exception('login fail');
@@ -167,6 +165,7 @@ Future<user_api> authentication_code_post(String email) async {
 }
 
 Future<user_api> authentication_code_check_post(String email, String code) async {
+
   final response = await http.post(
     Uri.http('52.79.223.14:8080', '/users/signup'),
     headers: <String, String>{
@@ -185,4 +184,3 @@ Future<user_api> authentication_code_check_post(String email, String code) async
     throw Exception('code check error');
   }
 }
-
