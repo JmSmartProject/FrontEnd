@@ -9,8 +9,6 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../color/colors.dart';
-
 class ChatMessage {
   String messageContent;
   String messageType;
@@ -70,10 +68,10 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
     if (stompClient == null) {
       stompClient = StompClient(
           config: StompConfig.SockJS(
-            url: socketUrl,
-            onConnect: onConnect,
-            onWebSocketError: (dynamic error) => print(error.toString()),
-          ));
+        url: socketUrl,
+        onConnect: onConnect,
+        onWebSocketError: (dynamic error) => print(error.toString()),
+      ));
       stompClient!.activate();
     }
   }
@@ -85,7 +83,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
     return Scaffold(
       appBar: AppBar(
         title: Text('쪽지함'),
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: Colors.green[400],
       ),
       resizeToAvoidBottomInset : false,
       body: Stack(
@@ -117,7 +115,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
                 itemBuilder: (context, index) {
                   return Container(
                     padding:
-                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                        EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
                     child: Align(
                       alignment: (_messages[index].messageType == "receiver"
                           ? Alignment.topLeft
@@ -127,7 +125,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
                           borderRadius: BorderRadius.circular(20),
                           color: (_messages[index].messageType == "receiver"
                               ? Colors.grey.shade200
-                              : PRIMARY_COLOR),
+                              : Colors.blue[200]),
                         ),
                         padding: EdgeInsets.all(16),
                         child: Text(
@@ -156,7 +154,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
-                        color: PRIMARY_COLOR,
+                        color: Colors.lightBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Icon(
@@ -205,7 +203,7 @@ class _ChattingRoomPage extends State<ChattingRoomPage>
                       color: Colors.white,
                       size: 18,
                     ),
-                    backgroundColor: PRIMARY_COLOR,
+                    backgroundColor: Colors.blue,
                     elevation: 0,
                   ),
                 ],
