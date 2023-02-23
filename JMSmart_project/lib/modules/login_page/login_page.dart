@@ -1,9 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
+import 'package:jmsmart_project/modules/login_page/login_platform.dart';
 import 'package:jmsmart_project/modules/login_page/signup_page.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'package:jmsmart_project/modules/profile_page/profile_page.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import '../color/colors.dart';
 import 'nav_bar.dart';
 
@@ -13,8 +22,69 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  LoginPlatform _loginPlatform = LoginPlatform.none;
+
+  void signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser != null) {
+      print('name = ${googleUser.displayName}');
+      print('email = ${googleUser.email}');
+      print('id = ${googleUser.id}');
+
+      setState(() {
+        _loginPlatform = LoginPlatform.google;
+      });
+    }
+  }
+
+  void signInWithKakao() async {
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+
+      OAuthToken token = isInstalled
+          ? await UserApi.instance.loginWithKakaoTalk()
+          : await UserApi.instance.loginWithKakaoAccount();
+
+      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer${token.accessToken}'
+        },
+      );
+
+      final profileInfo = json.decode(response.body);
+      print(profileInfo.toString());
+
+      setState(() {
+        _loginPlatform = LoginPlatform.kakao;
+      });
+    } catch (error) {
+      print('카카오톡으로 로그인 실패 $error');
+    }
+  }
+
+  void signOut() async {
+    switch (_loginPlatform) {
+      case LoginPlatform.google:
+        break;
+      case LoginPlatform.kakao:
+        await UserApi.instance.logout();
+        break;
+      case LoginPlatform.naver:
+        break;
+      case LoginPlatform.none:
+        break;
+    }
+
+    setState(() {
+      _loginPlatform = LoginPlatform.none;
+    });
+  }
+
   String _id = '';
-  late SharedPreferences _prefs;
   final _IDController = TextEditingController();
   final _PWController = TextEditingController();
 
@@ -28,15 +98,6 @@ class _LoginPage extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loadID();
-  }
-
-  _loadID() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _id = (_prefs.getString('id') ?? '');
-      print(_id);
-    });
   }
 
   @override
@@ -55,8 +116,8 @@ class _LoginPage extends State<LoginPage> {
                 children: <Widget>[
                   Image.asset(
                     "assets/images/logo/wepetmain.png",
-                    width: size.height * 0.34,
-                    height: size.height * 0.34,
+                    width: size.height * 0.38,
+                    height: size.height * 0.38,
                     // logo & 25% 크기
                   )
                 ],
@@ -70,6 +131,7 @@ class _LoginPage extends State<LoginPage> {
                       hintText: "아이디(이메일)를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
                       hintStyle: TextStyle(
+                          fontFamily: 'GmarketSans',
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade600),
@@ -97,6 +159,7 @@ class _LoginPage extends State<LoginPage> {
                       hintText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
                       hintStyle: TextStyle(
+                          fontFamily: 'GmarketSans',
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade600),
@@ -113,7 +176,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.005,
+                    height: size.height * 0.01,
                     // 1% 여분
                   ),
                   Row(
@@ -131,8 +194,9 @@ class _LoginPage extends State<LoginPage> {
                         child: Text(
                           "  아이디 찾기 /",
                           style: TextStyle(
+                            fontFamily: 'GmarketSans',
                               fontSize: 10,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               color: Colors.black),
                         ),
                       ),
@@ -146,8 +210,9 @@ class _LoginPage extends State<LoginPage> {
                         child: Text(
                           " 비밀번호 찾기",
                           style: TextStyle(
+                              fontFamily: 'GmarketSans',
                               fontSize: 10,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               color: Colors.black),
                         ),
                       ),
@@ -158,16 +223,17 @@ class _LoginPage extends State<LoginPage> {
                     // 2% 여분
                   ),
                   Container(
-                    height: 55,
+                    height: 60,
                     width: 300,
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
                         login_post(_IDController.text, _PWController.text);
                         // Navigator.pushReplacement(context,
                         //     MaterialPageRoute(builder: (context) => NavBar()));
                         //로그인 완료시 실행 & 기본 메인 페이지로 이동
                         _id = _IDController.text;
-                        _prefs.setString('id', _id);
+                        await prefs.setString('usernickname', 'buzz');
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => NavBar()));
                       },
@@ -192,6 +258,7 @@ class _LoginPage extends State<LoginPage> {
                               child: Text(
                                 "로그인",
                                 style: TextStyle(
+                                    fontFamily: 'GmarketSans',
                                     fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -220,7 +287,8 @@ class _LoginPage extends State<LoginPage> {
                             child: Text(
                               "    SNS 간편 로그인    ",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'GmarketSans',
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                   color: Colors.black),
                             ),
@@ -249,10 +317,7 @@ class _LoginPage extends State<LoginPage> {
                             width: 80,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NavBar()));
+                                signInWithGoogle();
                               },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
@@ -273,7 +338,12 @@ class _LoginPage extends State<LoginPage> {
                             height: size.height * 0.07,
                             width: 80,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => NavBar()));
+                              },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
@@ -293,7 +363,9 @@ class _LoginPage extends State<LoginPage> {
                             height: size.height * 0.07,
                             width: 80,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                signInWithKakao();
+                              },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
@@ -331,8 +403,9 @@ class _LoginPage extends State<LoginPage> {
                     Text(
                       "혹시 위펫이 처음이시라면, ",
                       style: TextStyle(
+                          fontFamily: 'GmarketSans',
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
                     GestureDetector(
@@ -345,8 +418,9 @@ class _LoginPage extends State<LoginPage> {
                       child: Text(
                         "회원가입",
                         style: TextStyle(
+                            fontFamily: 'GmarketSans',
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             color: PRIMARY_COLOR),
                       ),
                     ),

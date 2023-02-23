@@ -38,15 +38,15 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Text(
                         "매칭 조건 설정",
                         style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: size.height * 0.06),
                       Row(
                         children: [
                           Container(
-                            width: 45,
+                            width: 50,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(10, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                                   Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -55,6 +55,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             child: Text(
                               "성별",
                               style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 14,
                               ),
                             ),
@@ -62,11 +63,11 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           Text(
                             '남자',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),
                           ),
                           Transform.scale(
                             scale: 1.2,
@@ -75,7 +76,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: person_man,
                               onChanged: (value) {
@@ -94,7 +95,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                               },
                             ),
                           ),
-                          Text('여자', style: TextStyle(fontSize: 12)),
+                          Text('여자', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12)),
                           Transform.scale(
                             scale: 1.2,
                             child: Checkbox(
@@ -102,7 +103,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: person_woman,
                               onChanged: (value) {
@@ -126,9 +127,9 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Row(
                         children: [
                           Container(
-                            width: 45,
+                            width: 50,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(9, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                                   Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -137,25 +138,25 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             child: Text(
                               "나이",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontFamily: 'GmarketSans', fontSize: 14,
                               ),
                             ),
                           ),
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 40,
-                            width: 80,
+                            width: 65,
                             child: TextFormField(
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                               decoration: InputDecoration(
-                                hintText: "          (세)",
+                                hintText: "     (세)",
                                 contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
@@ -179,9 +180,9 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Row(
                         children: [
                           Container(
-                            width: 45,
+                            width: 50,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(9, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                               Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -190,6 +191,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             child: Text(
                               "거리",
                               style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 14,
                               ),
                             ),
@@ -197,18 +199,18 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 40,
-                            width: 80,
+                            width: 70,
                             child: TextFormField(
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                               decoration: InputDecoration(
-                                hintText: "        (km)",
+                                hintText: "    (km)",
                                 contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
@@ -240,9 +242,9 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Row(
                         children: [
                           Container(
-                            width: 62,
+                            width: 65,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                               Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -251,6 +253,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             child: Text(
                               "펫 성별",
                               style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 14,
                               ),
                             ),
@@ -258,11 +261,11 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           Text(
                             '남자',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),
                           ),
                           Transform.scale(
                             scale: 1.2,
@@ -271,7 +274,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: pet_male,
                               onChanged: (value) {
@@ -289,7 +292,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                               },
                             ),
                           ),
-                          Text('여자', style: TextStyle(fontSize: 12)),
+                          Text('여자', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12)),
                           Transform.scale(
                             scale: 1.2,
                             child: Checkbox(
@@ -297,7 +300,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: pet_female,
                               onChanged: (value) {
@@ -321,9 +324,9 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Row(
                         children: [
                           Container(
-                            width: 87,
+                            width: 92,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                               Border.all(color: PRIMARY_COLOR, width: 1.2),
@@ -332,6 +335,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             child: Text(
                               "중성화 유무",
                               style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 14,
                               ),
                             ),
@@ -339,11 +343,11 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           Text(
                             '했음',
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),
                           ),
                           Transform.scale(
                             scale: 1.2,
@@ -352,7 +356,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: isChecked1,
                               onChanged: (value) {
@@ -369,7 +373,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                               },
                             ),
                           ),
-                          Text('하지 않음', style: TextStyle(fontSize: 12)),
+                          Text('하지 않음', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12)),
                           Transform.scale(
                             scale: 1.2,
                             child: Checkbox(
@@ -377,7 +381,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               side: BorderSide(color: Colors.grey.shade400),
-                              activeColor: Colors.blue,
+                              activeColor: PRIMARY_COLOR,
                               checkColor: Colors.white,
                               value: isChecked2,
                               onChanged: (value) {
@@ -402,19 +406,19 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Container(
                             height: 35,
                             width: 30,
-                            padding: const EdgeInsets.fromLTRB(8, 5, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                             ),
                             child: Text(
                               "종",
-                              style: TextStyle(fontSize: 14,),
+                              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,),
                             ),
                           ),
                           Text(
                             "   :   ",
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                            style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                               width: size.width * 0.02
@@ -423,7 +427,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             value: Pet_species,
                             items: Pet_List.map((String item) {
                               return DropdownMenuItem<String>(
-                                child: Text('$item', style: TextStyle(fontSize: 14),),
+                                child: Text('$item', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),),
                                 value: item,
                               );
                             }).toList(),
@@ -439,17 +443,18 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                       Row(
                         children: [
                           Container(
-                            width: 75,
+                            width: 92,
                             height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
+                            padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                             decoration: BoxDecoration(
                               border:
                               Border.all(color: PRIMARY_COLOR, width: 1.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              "산책 시간",
+                              "산책 시간대",
                               style: TextStyle(
+                                fontFamily: 'GmarketSans',
                                 fontSize: 14,
                               ),
                             ),
@@ -457,18 +462,18 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "   :   ",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
                             height: 40,
                             width: 50,
                             child: TextFormField(
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                               decoration: InputDecoration(
                                 hintText: "",
                                 contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
@@ -495,12 +500,12 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                             height: 40,
                             width: 50,
                             child: TextFormField(
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                               decoration: InputDecoration(
                                 hintText: "",
                                 contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                                TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
@@ -521,7 +526,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                           Text(
                             "  (시간)",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
@@ -554,6 +559,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                   child: Text(
                                     "저장",
                                     style: TextStyle(
+                                        fontFamily: 'GmarketSans',
                                         fontSize: 16,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -598,6 +604,7 @@ class _MatchingSettingsPageState extends State<MatchingSettingsPage> {
                                         child: Text(
                                           "취소",
                                           style: TextStyle(
+                                              fontFamily: 'GmarketSans',
                                               fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),

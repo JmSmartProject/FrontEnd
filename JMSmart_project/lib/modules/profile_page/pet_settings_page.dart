@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../color/colors.dart';
 
 class PetSettingsPage extends StatefulWidget {
   @override
@@ -8,9 +14,11 @@ class PetSettingsPage extends StatefulWidget {
 }
 
 class _PetSettingsPageState extends State<PetSettingsPage>{
-  List<String> Pet_List = ['a', 'b', 'c'];
+  XFile? _pickedFile;
+
+  List<String> Pet_List = ['강아지','고양이'];
   List<dynamic> petinfo = [];
-  String Pet_species = 'a';
+  String Pet_species = '강아지';
   var pet_male = false;
   var pet_female = false;
   var isChecked1 = false;
@@ -19,127 +27,217 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
   int Pet_neutered = 2;
   int petnamevalidate = 1;
   int petbirthvalidate = 1;
-  int petweghtvalidate = 1;
   int petnumbervalidate = 1;
   int petgendervalidate = 1;
   int neuteredvalidate = 1;
-  int petvalidate = 10;
+  int petvalidate = 9;
   final _PetNameValidate = TextEditingController();
   final _PetBirthValidate = TextEditingController();
-  final _PetWeghtValidate = TextEditingController();
   final _PetNumberValidate = TextEditingController();
   final _PetNameController = TextEditingController();
   final _PetBirthdayController = TextEditingController();
-  final _PetWeightController = TextEditingController();
   final _PetNumberController = TextEditingController();
 
   @override
   void dispose() {
     _PetNameValidate.dispose();
     _PetBirthValidate.dispose();
-    _PetWeghtValidate.dispose();
     _PetNumberValidate.dispose();
     _PetNameController.dispose();
     _PetBirthdayController.dispose();
-    _PetWeightController.dispose();
     _PetNumberController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context){
+    final _imageSize = MediaQuery.of(context).size.width / 3.5;
     Size size = MediaQuery.of(context).size;
+
+    _getCameraImage() async {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedFile = pickedFile;
+        });
+      } else {
+        if (kDebugMode) {
+          print('이미지 선택안함');
+        }
+      }
+    }
+
+    _getPhotoLibraryImage() async {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedFile = pickedFile;
+        });
+      } else {
+        if (kDebugMode) {
+          print('이미지 선택안함');
+        }
+      }
+    }
+
+    _showBottomSheet() {
+      return showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25),
+          ),
+        ),
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => _getCameraImage(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: PRIMARY_COLOR,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('사진찍기', style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                thickness: 3,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () => _getPhotoLibraryImage(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: PRIMARY_COLOR,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('라이브러리에서 불러오기', style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      body: SafeArea(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Container(
           padding: EdgeInsets.only(left: 30,right: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                  height: size.height * 0.03
+                  height: size.height * 0.07
               ),
               Text(
                 "펫 정보 수정",
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
+                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
               ),
-              SizedBox(
-                  height: size.height * 0.02
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: 110,
-                      height: 110,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(55),
-                        child: Image.asset(
-                          "assets/images/profile/people.png",
-                          fit: BoxFit.cover,
+              Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  if (_pickedFile == null)
+                    Container(
+                      constraints: BoxConstraints(
+                        minHeight: _imageSize,
+                        minWidth: _imageSize,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          _showBottomSheet();
+                        },
+                        child: Center(
+                          child: Icon(
+                            Icons.account_circle,
+                            color: PRIMARY_COLOR,
+                            size: _imageSize,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
+                    )
+                  else
+                    Center(
                       child: Container(
-                        width: 30,
-                        height: 30,
+                        width: _imageSize,
+                        height: _imageSize,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[100],
-                        ),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          size: 15,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: 2, color: PRIMARY_COLOR),
+                          image: DecorationImage(
+                              image: FileImage(File(_pickedFile!.path)),
+                              fit: BoxFit.cover),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
               SizedBox(
                   height: size.height * 0.03
               ),
-              TextField(
-                controller: _PetNameController,
-                decoration: InputDecoration(
-                  labelText: "펫의 이름을 입력해주세요",
-                  contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                  labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade400),
+              SizedBox(
+                height: 40,
+                width: 200,
+                child: TextFormField(
+                  style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
+                  controller: _PetNameController,
+                  decoration: InputDecoration(
+                    hintText: "펫의 이름을 입력해주세요",
+                    contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  onChanged: (value) {
+                    setState(() {
+                      if(_PetNameController.text.isEmpty){
+                        petnamevalidate = 1;
+                        _PetNameValidate.text = '      이름을 입력해주세요';
+                      }
+                      else {
+                        _PetNameValidate.text = '';
+                        petnamevalidate = 0;
+                      }
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    if(_PetNameController.text.isEmpty){
-                      petnamevalidate = 1;
-                      _PetNameValidate.text = '      이름을 입력해주세요';
-                    }
-                    else {
-                      _PetNameValidate.text = '';
-                      petnamevalidate = 0;
-                    }
-                  });
-                },
               ),
               SizedBox(
                 width: 200,
-                height: 20,
+                height: 15,
                 child: TextField(
                   controller: _PetNameValidate,
                   enabled: false,
-                  style: TextStyle(fontSize: 12, color: Colors.red, ),
+                  style: TextStyle(fontSize: 10, color: Colors.red, ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -149,19 +247,21 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10.0),
+                    width: 35,
+                    height: 35,
+                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                     ),
                     child: Text(
                       "종",
-                      style: TextStyle(fontSize: 14,),
+                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,),
                     ),
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                       width: size.width * 0.02
@@ -170,7 +270,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                     value: Pet_species,
                     items: Pet_List.map((String item) {
                       return DropdownMenuItem<String>(
-                        child: Text('$item'),
+                        child: Text('$item', style: TextStyle(fontFamily: 'GmarketSans',),),
                         value: item,
                       );
                     }).toList(),
@@ -189,24 +289,26 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    width: 210,
-                    child: TextField(
+                    width: 220,
+                    height: 40,
+                    child: TextFormField(
+                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                         LengthLimitingTextInputFormatter(8)
                       ],
                       controller: _PetBirthdayController,
                       decoration: InputDecoration(
-                        labelText: "생년월일을 입력해주세요(8자리)",
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                        hintText: "생년월일을 입력해주세요(8자리)",
+                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade400),
+                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
@@ -231,42 +333,6 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                   SizedBox(
                       width: size.width * 0.03
                   ),
-                  SizedBox(
-                    width: 100,
-                    child: TextField(
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                        LengthLimitingTextInputFormatter(2)
-                      ],
-                      controller: _PetWeightController,
-                      decoration: InputDecoration(
-                        labelText: "무게(kg)",
-                        contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.grey.shade400),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if(_PetWeightController.text.isEmpty){
-                            petweghtvalidate = 1;
-                            _PetWeghtValidate.text = '무게를 입력해주세요';
-                          }
-                          else {
-                            _PetWeghtValidate.text = '';
-                            petweghtvalidate = 0;
-                          }
-                        });
-                      },
-                    ),
-                  ),
                 ],
               ),
               Row(
@@ -274,27 +340,11 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                 children: <Widget>[
                   SizedBox(
                     width: size.width * 0.5,
-                    height: 20,
+                    height: 15,
                     child: TextField(
                       controller: _PetBirthValidate,
                       enabled: false,
-                      style: TextStyle(fontSize: 12, color: Colors.red, ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(fontSize: 6,color: Colors.red),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                      width: size.width * 0.046
-                  ),
-                  SizedBox(
-                    width: size.width * 0.3,
-                    height: 20,
-                    child: TextField(
-                      controller: _PetWeghtValidate,
-                      enabled: false,
-                      style: TextStyle(fontSize: 12, color: Colors.red, ),
+                      style: TextStyle(fontSize: 10, color: Colors.red, ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -306,44 +356,49 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
               SizedBox(
                   height: size.height * 0.005
               ),
-              TextField(
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                ],
-                controller: _PetNumberController,
-                decoration: InputDecoration(
-                  labelText: "반려견의 등록번호를 입력해주세요",
-                  contentPadding: EdgeInsets.fromLTRB(15, 10, 10, 10),
-                  labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.grey.shade400),
+              SizedBox(
+                height: 40,
+                width: 240,
+                child: TextFormField(
+                  style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  controller: _PetNumberController,
+                  decoration: InputDecoration(
+                    hintText: "반려견의 등록번호를 입력해주세요",
+                    contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                    ),
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  onChanged: (value) {
+                    setState(() {
+                      if(_PetNumberController.text.isEmpty){
+                        petnumbervalidate = 1;
+                        _PetNumberValidate.text = '      등록번호를 입력해주세요';
+                      }
+                      else {
+                        _PetNumberValidate.text = '';
+                        petnumbervalidate = 0;
+                      }
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    if(_PetNumberController.text.isEmpty){
-                      petnumbervalidate = 1;
-                      _PetNumberValidate.text = '      등록번호를 입력해주세요';
-                    }
-                    else {
-                      _PetNumberValidate.text = '';
-                      petnumbervalidate = 0;
-                    }
-                  });
-                },
               ),
               SizedBox(
-                height: 20,
+                height: 15,
                 child: TextField(
                   controller: _PetNumberValidate,
                   enabled: false,
-                  style: TextStyle(fontSize: 12, color: Colors.red,),
+                  style: TextStyle(fontSize: 10, color: Colors.red,),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintStyle: TextStyle(fontSize: 6,color: Colors.red),
@@ -353,24 +408,29 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
               Row(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(10),
+                    width: 50,
+                    height: 35,
+                    padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text("성별", style: TextStyle(fontSize: 15,),),
+                    child: Text("성별", style: TextStyle( fontFamily: 'GmarketSans', fontSize: 14,),),
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  Text('남자'),
+                  Text('남자', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       side: BorderSide(color: Colors.grey.shade400),
-                      activeColor: Colors.white,
-                      checkColor: Colors.blue,
+                      activeColor: PRIMARY_COLOR,
+                      checkColor: Colors.white,
                       value: pet_male,
                       onChanged: (value) {
                         setState(() {
@@ -387,13 +447,16 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                       },
                     ),
                   ),
-                  Text('여자'),
+                  Text('여자', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       side: BorderSide(color: Colors.grey.shade400),
-                      activeColor: Colors.white,
-                      checkColor: Colors.blue,
+                      activeColor: PRIMARY_COLOR,
+                      checkColor: Colors.white,
                       value: pet_female,
                       onChanged: (value) {
                         setState(() {
@@ -412,30 +475,32 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                   SizedBox(width: 10,),
                 ],
               ),
-              SizedBox(
-                  height: size.height * 0.01
-              ),
               Row(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(10),
+                    width: 90,
+                    height: 35,
+                    padding: EdgeInsets.fromLTRB(8, 8, 0, 0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
+                      border: Border.all(color: PRIMARY_COLOR, width: 1.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text("중성화 유무", style: TextStyle(fontSize: 15,),),
+                    child: Text("중성화 유무", style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,),),
                   ),
                   Text(
                     "   :   ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  Text('했음'),
+                  Text('했음', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       side: BorderSide(color: Colors.grey.shade400),
-                      activeColor: Colors.white,
-                      checkColor: Colors.blue,
+                      activeColor: PRIMARY_COLOR,
+                      checkColor: Colors.white,
                       value: isChecked1,
                       onChanged: (value) {
                         setState(() {
@@ -451,13 +516,16 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                       },
                     ),
                   ),
-                  Text('하지 않음'),
+                  Text('하지 않음', style: TextStyle(fontFamily: 'GmarketSans', fontSize: 12),),
                   Transform.scale(
-                    scale: 1.5,
+                    scale: 1.2,
                     child: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       side: BorderSide(color: Colors.grey.shade400),
-                      activeColor: Colors.white,
-                      checkColor: Colors.blue,
+                      activeColor: PRIMARY_COLOR,
+                      checkColor: Colors.white,
                       value: isChecked2,
                       onChanged: (value) {
                         setState(() {
@@ -479,9 +547,10 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                   height: size.height * 0.04
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 200,
+                    width: 180,
                     height: 55,
                     child: TextButton(
                       onPressed: (){
@@ -496,15 +565,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                       ),
                       child: Ink(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xffec407a),
-                              Color(0xfff06292),
-                              Color(0xfff48fb1),
-                            ],
-                          ),
+                          color: PRIMARY_COLOR,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
@@ -513,12 +574,11 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                             GestureDetector(
                               onTap: (){
                                 setState(() {
-                                  petvalidate = petnamevalidate + petbirthvalidate + petweghtvalidate + petnumbervalidate;
+                                  petvalidate = petnamevalidate + petbirthvalidate + petnumbervalidate;
                                 });
                                 petinfo.add(_PetNameController.text);
                                 petinfo.add(Pet_species);
                                 petinfo.add(_PetBirthdayController.text);
-                                petinfo.add(_PetWeightController.text);
                                 petinfo.add(_PetNumberController.text);
                                 if(Pet_Gender == 1) {
                                   petinfo.add(1);
@@ -542,7 +602,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                               child: Container(
                                 alignment: Alignment.center,
                                 constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                                child: Text("저장",style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),),
+                                child: Text("저장",style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),),
                               ),
                             )
                           ],
@@ -551,7 +611,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                     ),
                   ),
                   Container(
-                    width: 130,
+                    width: 120,
                     height: 55,
                     child: TextButton(
                       onPressed: (){
@@ -566,15 +626,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                       ),
                       child: Ink(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xff42a5f5),
-                              Color(0xff64b5f6),
-                              Color(0xff90caf9),
-                            ],
-                          ),
+                          color: SECOND_COLOR,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
@@ -587,7 +639,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
                               child: Container(
                                 alignment: Alignment.center,
                                 constraints: BoxConstraints(maxWidth: double.infinity,minHeight: 100),
-                                child: Text("취소",style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),),
+                                child: Text("취소",style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),),
                               ),
                             )
                           ],

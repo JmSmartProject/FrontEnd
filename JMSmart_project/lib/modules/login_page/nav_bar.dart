@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:jmsmart_project/modules/community_page/please_alba_page.dart';
 import 'package:jmsmart_project/modules/walking_page/walking_page.dart';
 import 'package:jmsmart_project/modules/care_page/care_page.dart';
 import 'package:jmsmart_project/modules/chatting_page/chatting_page.dart';
 import 'package:jmsmart_project/modules/profile_page/profile_page.dart';
+
+import '../color/colors.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -42,13 +45,13 @@ class _NavBar extends State<NavBar> {
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.blue[100],
+            backgroundColor: Colors.green[400],
             selectedItemColor: Colors.black,
             selectedFontSize: 10,
             unselectedItemColor: Colors.black,
-            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            selectedLabelStyle: TextStyle(fontFamily: 'GmarketSans', fontWeight: FontWeight.w500),
             unselectedFontSize: 10,
-            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            unselectedLabelStyle: TextStyle(fontFamily: 'GmarketSans', fontWeight: FontWeight.w500),
             showSelectedLabels: true,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,

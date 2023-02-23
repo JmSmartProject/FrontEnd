@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 
 import '../color/colors.dart';
+import '../http_api/alba_api.dart';
 
 class WritingAlbaPage extends StatefulWidget {
   @override
@@ -11,7 +12,26 @@ class WritingAlbaPage extends StatefulWidget {
 }
 
 class _WritingAlbaPageState extends State<WritingAlbaPage> {
+  List<dynamic> writingalbainfo = [];
   final maxLines = 10;
+  int writingalbavalidate = 1;
+
+  final _TitleController = TextEditingController();
+  final _ContentController = TextEditingController();
+  final _TitleValidate = TextEditingController();
+  final _ContentValidate = TextEditingController();
+
+  int titlevalidate = 1;
+  int contentvalidate = 1;
+
+  @override
+  void dispose() {
+    _TitleController.dispose();
+    _ContentController.dispose();
+    _TitleValidate.dispose();
+    _ContentValidate.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +49,24 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                       Text(
                         "알바해주개 글 작성",
                         style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 28, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      SizedBox(height: size.height * 0.05),
                       Text(
                         "   제목",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: size.height * 0.01),
                       TextFormField(
-                        style: TextStyle(fontSize: 14),
+                        controller: _TitleController,
+                        style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: InputDecoration(
                           hintText: "제목을 입력해주세요(2~20자)",
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           hintStyle: TextStyle(
-                              fontSize: 14, color: Colors.grey.shade800),
+                              fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide:
@@ -58,118 +79,58 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (_TitleController.text.isEmpty) {
+                              titlevalidate = 1;
+                              _TitleValidate.text = '      제목을 입력해 주세요';
+                            } else if (_TitleController.text.length <= 1) {
+                              titlevalidate = 2;
+                              _TitleValidate.text = '      2개이상 입력';
+                            } else {
+                              _TitleValidate.text = '';
+                              titlevalidate = 0;
+                            }
+                          });
+                        },
                       ),
-                      SizedBox(height: size.height * 0.02),
-                      Row(
-                        children: [
-                          Container(
-                            width: 87,
-                            height: 35,
-                            padding: EdgeInsets.fromLTRB(8, 4, 8, 0),
-                            decoration: BoxDecoration(
-                              border:
-                              Border.all(color: PRIMARY_COLOR, width: 1.2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              "산책 시간대",
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
+                      SizedBox(
+                        width: 200,
+                        height: 15,
+                        child: TextField(
+                          controller: _TitleValidate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.red,
                           ),
-                          Text(
-                            "   :   ",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
                           ),
-                          SizedBox(
-                            height: 40,
-                            width: 50,
-                            child: TextFormField(
-                              style: TextStyle(fontSize: 14),
-                              decoration: InputDecoration(
-                                hintText: "",
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: PRIMARY_COLOR,
-                                      width: 1.2
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: SECOND_COLOR, width: 1.2
-                                  ),
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "   ~   ",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 40,
-                            width: 50,
-                            child: TextFormField(
-                              style: TextStyle(fontSize: 14),
-                              decoration: InputDecoration(
-                                hintText: "",
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                hintStyle:
-                                TextStyle(fontSize: 14, color: Colors.grey.shade800),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: PRIMARY_COLOR,
-                                      width: 1.2
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: SECOND_COLOR, width: 1.2
-                                  ),
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "  (시간)",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
-                        ],
+                        ),
                       ),
-                      SizedBox(height: size.height * 0.01),
                       Text(
                         "   내용",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: size.height * 0.01),
                       SizedBox(
-                        height: maxLines * 15,
+                        height: maxLines * 30,
                         child: TextFormField(
+                          controller: _ContentController,
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(200)
+                            LengthLimitingTextInputFormatter(50)
                           ],
                           textAlignVertical: TextAlignVertical.top,
-                          maxLines: maxLines * 2,
-                          style: TextStyle(fontSize: 14),
+                          maxLines: maxLines * 3,
+                          style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                           decoration: InputDecoration(
-                            hintText: "내용을 입력해주세요(최대 100자)",
+                            hintText: "내용을 입력해주세요(최대 200자, 산책 날짜/시간/장소, 펫에 대한 주의사항 포함)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             hintStyle: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade800),
+                                fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide:
@@ -182,44 +143,36 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                           ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (_ContentController.text.isEmpty) {
+                                contentvalidate = 1;
+                                _ContentValidate.text = '      내용을 입력해주세요';
+                              } else {
+                                _ContentValidate.text = '';
+                                contentvalidate = 0;
+                              }
+                            });
+                          },
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02),
-                      Text(
-                        "   펫 주의사항(전달사항)",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(height: size.height * 0.01),
                       SizedBox(
-                        height: maxLines * 10,
-                        child: TextFormField(
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(200)
-                          ],
-                          textAlignVertical: TextAlignVertical.top,
-                          maxLines: maxLines * 2,
-                          style: TextStyle(fontSize: 14),
+                        width: 200,
+                        height: 15,
+                        child: TextField(
+                          controller: _ContentValidate,
+                          enabled: false,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.red,
+                          ),
                           decoration: InputDecoration(
-                            hintText: "내용을 입력해주세요(최대 50자)",
-                            contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            hintStyle: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade800),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                              BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                              BorderSide(color: SECOND_COLOR, width: 1.2),
-                            ),
-                            floatingLabelBehavior: FloatingLabelBehavior.auto,
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(fontSize: 6, color: Colors.red),
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      SizedBox(height: size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -228,6 +181,27 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                             height: 60,
                             child: TextButton(
                               onPressed: () {
+                                DateTime dt = DateTime.now();
+                                writingalbainfo.clear();
+                                writingalbainfo.add(_TitleController.text);
+                                writingalbainfo.add(_ContentController.text);
+                                // writinginfo.add('${dt.year}/${dt.month}/${dt.day}');
+                                setState(() {
+                                  // uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
+                                  //     pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
+                                  writingalbavalidate = titlevalidate + contentvalidate;
+                                  if (writingalbavalidate == 0) {
+                                    // 포스트
+                                    // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
+                                    //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
+                                    alba_writing_post(writingalbainfo[0], writingalbainfo[1]);
+                                    //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5]);
+                                    //Navigator.pop(context);
+                                  } else {
+                                    print(writingalbavalidate);
+                                  }
+                                });
+                                print(writingalbainfo);
                               },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
@@ -248,6 +222,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                                   child: Text(
                                     "알바해주개",
                                     style: TextStyle(
+                                        fontFamily: 'GmarketSans',
                                         fontSize: 16,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -292,6 +267,7 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                                         child: Text(
                                           "취소",
                                           style: TextStyle(
+                                              fontFamily: 'GmarketSans',
                                               fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-var aws_uri = 'https://jsonplaceholder.typicode.com/albums';
+var aws_uri = '52.79.223.14:8080/users/signup';
 
 class login_api {
   final String id;
@@ -23,14 +23,13 @@ class user_api {
   final String name;
   final String id;
   final String password;
-  final String address;
+  //final String address;
   final String phone_number;
-  final int birthday;
-  final int gender;
+  final String birthday;
 
   const user_api({required this.nickname, required this.name,
-    required this.id, required this.password, required this.address,
-    required this.phone_number, required this.birthday, required this.gender,});
+    required this.id, required this.password,
+    required this.phone_number, required this.birthday});
 
   factory user_api.fromJson(Map<String, dynamic> json) {
     return user_api(
@@ -38,17 +37,16 @@ class user_api {
       name: json['name'],
       id: json['id'],
       password: json['password'],
-      address: json['address'],
+      //address: json['address'],
       phone_number: json['phone_number'],
-      birthday: json['birthday'],
-      gender: json['gender'],
+      birthday: json["create_date"],
     );
   }
 }
 
 Future<login_api> login_post(String id, String password) async {
   final response = await http.post(
-    Uri.parse(aws_uri),
+    Uri.http('52.79.223.14:8080', '/users/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -58,37 +56,37 @@ Future<login_api> login_post(String id, String password) async {
     }),
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     print('로그인에 성공햇습니다');
     print(id);
     print(password);
     return login_api.fromJson(jsonDecode(response.body));
   } else {
     print('로그인에 실패햇습니다');
-    throw Exception('Failed to create album.');
+    throw Exception('login fail');
   }
 }
 
-Future<login_api> getAlbum() async {
-  final response = await http.get(
-    Uri.parse(aws_uri),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-  );
+// Future<login_api> getAlbum() async {
+//   final response = await http.get(
+//     Uri.parse('aws_uri'),
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     },
+//   );
+//
+//   if (response.statusCode == 200) {
+//     return login_api.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Failed to cr.');
+//   }
+// }
 
-  if (response.statusCode == 201) {
-    return login_api.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to create album.');
-  }
-}
-
-Future<user_api> user_post(String nickname, String name,
-    String email, String password, String address,
-    String phone_number, int birthday, int gender,) async {
+Future<user_api> user_signup_post(String nickname, String name,
+    String email, String password,
+    String phone_number, String birthday) async {
   final response = await http.post(
-    Uri.parse(aws_uri),
+    Uri.http('52.79.223.14:8080', '/users/signup'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -97,17 +95,94 @@ Future<user_api> user_post(String nickname, String name,
       'name': name,
       'email': email,
       'password': password,
-      'address': address,
-      'phone_number': phone_number,
-      'birthday': birthday,
-      'gender': gender,
+      //'address': address,
+      'phoneNumber': phone_number,
+      'birthday': birthday, //date
     }),
   );
-  if (response.statusCode == 201) {
-    print('로그인에 성공햇습니다');
+  if (response.statusCode == 200) {
+    print('회원가입에 성공햇습니다');
     return user_api.fromJson(jsonDecode(response.body));
   } else {
-    print('로그인에 실패햇습니다');
-    throw Exception('Failed to create album.');
+    print('회원가입에 실패햇습니다');
+    throw Exception('user signup fail');
   }
 }
+
+Future<user_api> nickname_reduplication_post(String nickname) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'nickname': nickname,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('닉네임이 중복이 아닙니다');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('닉네임이 중복입니다.');
+    throw Exception('nickname reduplication error');
+  }
+}
+
+Future<user_api> id_reduplication_post(String email) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('이메일이 중복이 아닙니다');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('이메일이 중복입니다.');
+    throw Exception('email reduplication error');
+  }
+}
+
+Future<user_api> authentication_code_post(String email) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('인증코드를 보냇습니다.');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('인증코드를 보내지 못햇습니다');
+    throw Exception('code post error');
+  }
+}
+
+Future<user_api> authentication_code_check_post(String email, String code) async {
+  final response = await http.post(
+    Uri.http('52.79.223.14:8080', '/users/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'email': email,
+      'code': code,
+    }),
+  );
+  if (response.statusCode == 200) {
+    print('인증코드를 일치합니다.');
+    return user_api.fromJson(jsonDecode(response.body));
+  } else {
+    print('인증코드를 일치 하지 않습니다.');
+    throw Exception('code check error');
+  }
+}
+

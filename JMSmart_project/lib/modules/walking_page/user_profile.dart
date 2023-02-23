@@ -3,9 +3,18 @@ import 'package:flutter/cupertino.dart';
 
 import '../color/colors.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
+  final String data;
+  const UserProfilePage({Key? key, required this.data}) : super(key: key);
+
+  @override
+  _UserProfilePageState createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
+    String data2 = widget.data;
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Scaffold(
@@ -35,15 +44,15 @@ class UserProfilePage extends StatelessWidget {
                         Text(
                           "유저 정보 조회",
                           style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.w900),
+                              fontFamily: 'GmarketSans', fontSize: 26, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
-                          width: size.width * 0.17,
+                          width: size.width * 0.15,
                         ),
                         Container(
                           alignment: Alignment.center,
                           height: 30,
-                          width: 69,
+                          width: 75,
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.pop(context);
@@ -55,6 +64,7 @@ class UserProfilePage extends StatelessWidget {
                             child: const Text(
                               "뒤로가기",
                               style: TextStyle(
+                                  fontFamily: 'GmarketSans',
                                   fontSize: 10,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600),
@@ -64,7 +74,7 @@ class UserProfilePage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.02,
+                      height: size.height * 0.04,
                     ),
                     Row(
                       children: [
@@ -88,40 +98,32 @@ class UserProfilePage extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              "닉네임: ",
+                              data2,
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
+                                  fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             SizedBox(
-                              height: size.height * 0.01,
+                              height: size.height * 0.02,
                             ),
                             Text(
                               "이름: ",
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
+                                  fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             SizedBox(
-                              height: size.height * 0.01,
+                              height: size.height * 0.02,
                             ),
                             Text(
                               "생년월일: ",
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Text(
-                              "성별: ",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
+                                  fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                           ],
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.02,
+                      height: size.height * 0.04,
                     ),
                     Center(
                       child: Container(
@@ -131,7 +133,7 @@ class UserProfilePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.04,
                     ),
                     Center(
                       child: SizedBox(
@@ -153,57 +155,47 @@ class UserProfilePage extends StatelessWidget {
                       child: Text(
                         "펫 이름: ",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.02,
                     ),
                     Center(
                       child: Text(
                         "종: ",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.02,
                     ),
                     Center(
                       child: Text(
-                        "생년월일: ",
+                        "나이: ",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
-                    ),
-                    Center(
-                      child: Text(
-                        "무게: ",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.02,
                     ),
                     Center(
                       child: Text(
                         "성별: ",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.01,
+                      height: size.height * 0.02,
                     ),
                     Center(
                       child: Text(
                         "중성화 유무: ",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                     ),
                   ],
