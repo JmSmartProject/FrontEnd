@@ -291,7 +291,7 @@ class _CommunityPage extends State<CommunityPage> {
                                               color: Colors.black),
                                         ),
                                         SizedBox(
-                                          height: size.height * 0.01,
+                                          height: size.height * 0.02,
                                         ),
                                         SizedBox(
                                           width: size.width * 0.5,
