@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jmsmart_project/modules/color/colors.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 
@@ -50,7 +51,7 @@ class _WritingPageState extends State<WritingPage> {
                       Text(
                         "게시글 작성",
                         style: TextStyle(
-                            fontSize: 36, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 36, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                           height: size.height * 0.03
@@ -58,26 +59,26 @@ class _WritingPageState extends State<WritingPage> {
                       Text(
                         "   제목",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                           height: size.height * 0.01
                       ),
                       TextFormField(
                         controller: _TitleController,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                         inputFormatters: [LengthLimitingTextInputFormatter(20)],
                         decoration: InputDecoration(
                           hintText: "제목을 입력해주세요(2~20자)",
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                          hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                            borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                            borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
@@ -118,7 +119,7 @@ class _WritingPageState extends State<WritingPage> {
                       Text(
                         "   내용",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(
                           height: size.height * 0.01
@@ -130,18 +131,18 @@ class _WritingPageState extends State<WritingPage> {
                           inputFormatters: [LengthLimitingTextInputFormatter(200)],
                           textAlignVertical: TextAlignVertical.top,
                           maxLines: maxLines * 2,
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                           decoration: InputDecoration(
                             hintText: "내용을 입력해주세요(최대 200자)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                            hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                              borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                              borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                           ),
@@ -175,29 +176,37 @@ class _WritingPageState extends State<WritingPage> {
                         ),
                       ),
                       SizedBox(
-                          height: size.height * 0.02
+                          height: size.height * 0.012
                       ),
-                      Text(
-                        "   첨부파일",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                          height: size.height * 0.01
+                      Row(
+                        children: [
+                          Text(
+                            "   첨부파일",
+                            style: TextStyle(
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              var picker = ImagePicker();
+                              var image = await picker.pickImage(source: ImageSource.gallery);
+                            },
+                            icon: Icon(Icons.camera_alt_outlined),
+                          ),
+                        ],
                       ),
                       TextField(
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                         decoration: InputDecoration(
                           hintText: "첨부파일명",
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade800),
+                          hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
+                            borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
+                            borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
@@ -254,6 +263,7 @@ class _WritingPageState extends State<WritingPage> {
                                   child: Text(
                                     "글 작성하기",
                                     style: TextStyle(
+                                        fontFamily: 'GmarketSans',
                                         fontSize: 14,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -298,6 +308,7 @@ class _WritingPageState extends State<WritingPage> {
                                         child: Text(
                                           "취소",
                                           style: TextStyle(
+                                              fontFamily: 'GmarketSans',
                                               fontSize: 14,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),

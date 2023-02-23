@@ -11,6 +11,8 @@ class AlbaOnboardPage extends StatefulWidget {
 }
 
 class _AlbaOnboardPageState extends State<AlbaOnboardPage> {
+  Color _iconColor = Colors.black;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,7 +44,40 @@ class _AlbaOnboardPageState extends State<AlbaOnboardPage> {
                             width: 90,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                  title: Text('쪽지 보내기' ,style: TextStyle(fontFamily: 'GmarketSans',)),
+                                  content: Text(
+                                    '쪽지를 보낼까요?',
+                                      style: TextStyle(fontFamily: 'GmarketSans',)
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(
+                                        '취소',
+                                        style: TextStyle(
+                                            fontFamily: 'GmarketSans',
+                                            color: Colors.black),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(ctx).pop(false);
+                                      },
+                                    ),
+                                    TextButton(
+                                        child: Text(
+                                          '보내기',
+                                          style: TextStyle(
+                                              fontFamily: 'GmarketSans',
+                                              color: Colors.black),
+                                        ),
+                                        onPressed: () {
+                                          //댓글 삭제 delete
+                                        }
+                                    ),
+                                  ],
+                                    )
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: PRIMARY_COLOR,
@@ -172,6 +207,28 @@ class _AlbaOnboardPageState extends State<AlbaOnboardPage> {
                             ],
                           )
                       ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.thumb_up_sharp, size: 18, color: _iconColor),
+                            onPressed: () {
+                              setState(() {
+                                if(_iconColor == Colors.black) {
+                                  _iconColor = PRIMARY_COLOR;
+                                } else {
+                                  _iconColor = Colors.black;
+                                }
+                              });
+                            },
+                          ),
+                          Text(
+                            "1",
+                            style: TextStyle(
+                                fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+
                     ]))));
   }
 }

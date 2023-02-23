@@ -2,8 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../color/colors.dart';
+
+class albaData {
+  String usernickname;
+  String title;
+  String date;
+  String time;
+
+  albaData(this.usernickname, this.title, this.date, this.time);
+
+  factory albaData.fromJson(dynamic json){
+    return albaData(json['usernickname'] as String, json['title'] as String, json['date'] as String, json['time'] as String);
+  }
+}
 
 class PleaseAlbaPage extends StatefulWidget {
   @override
@@ -11,15 +26,35 @@ class PleaseAlbaPage extends StatefulWidget {
 }
 
 class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
+  var _text = "Http Example";
+  List<albaData> _datas = [];
+
+  void _fetchPosts() async{
+    final response = await http.get(
+      Uri.http('52.79.223.14:8080', '/communities'),
+    );
+    _text = utf8.decode(response.bodyBytes);
+    var dataObjsJson = jsonDecode(_text)['data'] as List;
+    final List<albaData> parsedResponse = dataObjsJson.map((dataJson)=>albaData.fromJson(dataJson)).toList();
+    //print(Member.fromJson(jsonDecode(_text)));
+    //print(dataObjs);
+    setState(() {
+      _datas.clear();
+      _datas.addAll(parsedResponse);
+    });
+    print(parsedResponse);
+  }
+
+
   List<String> imageList = [
     "assets/images/profile/animal.png",
     "assets/images/profile/animal.png",
     "assets/images/profile/animal.png"
   ];
-  List<String> NicknameList = ["치즈", "치즈", "치즈"];
+  List<String> NicknameList = ["누룽이", "누룽이", "누룽이"];
   List<String> titleList = ["산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요"];
   List<String> timeList = ["19시 ~ 20시", "19시 ~ 20시", "19시 ~ 20시"];
-  List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18"];
+  List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/20"];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +74,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                           Text(
                             "알바해주개",
                             style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.w900),
+                                fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
                             width: size.width * 0.08,
@@ -47,7 +82,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                           Container(
                             alignment: Alignment.center,
                             height: 30,
-                            width: 69,
+                            width: 72,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -59,16 +94,20 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                               child: const Text(
                                 "뒤로가기",
                                 style: TextStyle(
+                                    fontFamily: 'GmarketSans',
                                     fontSize: 10,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            width: size.width * 0.02,
+                          ),
                           Container(
                             alignment: Alignment.center,
                             height: 30,
-                            width: 100,
+                            width: 80,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -83,6 +122,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                               child: const Text(
                                 "글 작성",
                                 style: TextStyle(
+                                    fontFamily: 'GmarketSans',
                                     fontSize: 12,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -95,7 +135,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                       Text(
                         "내가 쓴 글",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w900),
+                            fontFamily: 'GmarketSans', fontSize: 18, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: size.height * 0.02),
                       Container(
@@ -147,11 +187,12 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                           CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              height: size.height * 0.015,
+                                              height: size.height * 0.02,
                                             ),
                                             Text(
                                               NicknameList[index],
                                               style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
@@ -163,6 +204,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                               width: size.width * 0.5,
                                               child: Text(timeList[index],
                                                   style: TextStyle(
+                                                      fontFamily: 'GmarketSans',
                                                       fontSize: 10,
                                                       color: Colors.black)),
                                             ),
@@ -182,6 +224,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                             Text(
                                               titleList[index],
                                               style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
@@ -193,6 +236,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                               width: size.width * 0.5,
                                               child: Text(dateList[index],
                                                   style: TextStyle(
+                                                      fontFamily: 'GmarketSans',
                                                       fontSize: 10,
                                                       color: Colors.black)),
                                             ),
