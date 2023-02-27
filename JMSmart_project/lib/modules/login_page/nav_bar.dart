@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
-import 'package:jmsmart_project/modules/community_page/please_alba_page.dart';
+import 'package:jmsmart_project/modules/community_page/alba_page.dart';
 import 'package:jmsmart_project/modules/walking_page/walking_page.dart';
 import 'package:jmsmart_project/modules/care_page/care_page.dart';
 import 'package:jmsmart_project/modules/chatting_page/chatting_page.dart';

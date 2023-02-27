@@ -8,15 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color/colors.dart';
 
-class DoAlbaOnboardPage extends StatefulWidget {
+class AlbaOnboardPage extends StatefulWidget {
   final int data;
-  const DoAlbaOnboardPage({Key? key, required this.data}) : super(key: key);
+  const AlbaOnboardPage({Key? key, required this.data}) : super(key: key);
 
   @override
-  State<DoAlbaOnboardPage> createState() => _DoAlbaOnboardPageState();
+  _AlbaOnboardPageState createState() => _AlbaOnboardPageState();
 }
 
-class _DoAlbaOnboardPageState extends State<DoAlbaOnboardPage> {
+class _AlbaOnboardPageState extends State<AlbaOnboardPage> {
   int _userid = 0;
   String _usernickname = "";
   Future<alba_writing_api>? albainfo;

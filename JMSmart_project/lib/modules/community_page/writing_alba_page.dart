@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color/colors.dart';
 import '../http_api/alba_api.dart';
@@ -12,6 +13,9 @@ class WritingAlbaPage extends StatefulWidget {
 }
 
 class _WritingAlbaPageState extends State<WritingAlbaPage> {
+  int _userid = 0;
+  String _usernickname = "";
+
   List<dynamic> writingalbainfo = [];
   final maxLines = 10;
   int writingalbavalidate = 1;
@@ -24,6 +28,16 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
   int titlevalidate = 1;
   int contentvalidate = 1;
 
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userid = (prefs.getInt('userId') ?? 0);
+      _usernickname = (prefs.getString('userNickname') ?? "");
+    });
+    print(_userid);
+    print(_usernickname);
+  }
+
   @override
   void dispose() {
     _TitleController.dispose();
@@ -31,6 +45,12 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
     _TitleValidate.dispose();
     _ContentValidate.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
   }
 
   @override
@@ -172,7 +192,12 @@ class _WritingAlbaPageState extends State<WritingAlbaPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.01),
+                      Text(
+                        "*주의사항: 내용에 산책 날짜/시간/장소, 펫에 대한 주의사항을 포함하지 않아 생기는 불이익은 책임지지 않습니다.",
+                        style:
+                            TextStyle(fontFamily: 'GmarketSans', fontSize: 12),
+                      ),
+                      SizedBox(height: size.height * 0.05),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

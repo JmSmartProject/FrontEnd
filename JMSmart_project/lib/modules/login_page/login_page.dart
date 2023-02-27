@@ -6,9 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
-import 'package:jmsmart_project/modules/login_page/login_platform.dart';
-import 'package:jmsmart_project/modules/login_page/signup_page.dart';
+import 'package:jmsmart_project/modules/http_api/login_api.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'package:jmsmart_project/modules/login_page/login_platform.dart';
+import 'package:jmsmart_project/modules/login_page/pet_signup.dart';
+import 'package:jmsmart_project/modules/login_page/signup_page.dart';
+import 'package:jmsmart_project/modules/http_api/login_api.dart';
 import 'package:jmsmart_project/modules/profile_page/profile_page.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +25,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  int _userid = 0;
+  String _usernickname = "";
   LoginPlatform _loginPlatform = LoginPlatform.none;
 
   void signInWithGoogle() async {
@@ -46,7 +51,7 @@ class _LoginPage extends State<LoginPage> {
           ? await UserApi.instance.loginWithKakaoTalk()
           : await UserApi.instance.loginWithKakaoAccount();
 
-      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+      final url = Uri.https('localhost:3000', '/auth/kakao/callback');
 
       final response = await http.get(
         url,
@@ -61,12 +66,13 @@ class _LoginPage extends State<LoginPage> {
       setState(() {
         _loginPlatform = LoginPlatform.kakao;
       });
+
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
     }
   }
 
-  void signOut() async {
+  void signOutKakao() async {
     switch (_loginPlatform) {
       case LoginPlatform.google:
         break;
@@ -84,14 +90,31 @@ class _LoginPage extends State<LoginPage> {
     });
   }
 
-  String _id = '';
-  final _IDController = TextEditingController();
-  final _PWController = TextEditingController();
+  void signOutGoogle() async {
+    switch (_loginPlatform) {
+      case LoginPlatform.google:
+        break;
+      case LoginPlatform.kakao:
+        await UserApi.instance.logout();
+        break;
+      case LoginPlatform.naver:
+        break;
+      case LoginPlatform.none:
+        break;
+    }
+
+    setState(() {
+      _loginPlatform = LoginPlatform.none;
+    });
+  }
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _IDController.dispose();
-    _PWController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -102,6 +125,7 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // AuthController authController = AuthController();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -126,7 +150,7 @@ class _LoginPage extends State<LoginPage> {
                 children: <Widget>[
                   TextFormField(
                     style: TextStyle(fontSize: 14),
-                    controller: _IDController,
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: "아이디(이메일)를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
@@ -154,7 +178,7 @@ class _LoginPage extends State<LoginPage> {
                   TextFormField(
                     style: TextStyle(fontSize: 14),
                     obscureText: true,
-                    controller: _PWController,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: "비밀번호를 입력해주세요",
                       contentPadding: EdgeInsets.all(10),
@@ -227,15 +251,13 @@ class _LoginPage extends State<LoginPage> {
                     width: 300,
                     child: TextButton(
                       onPressed: () async {
-                        final prefs = await SharedPreferences.getInstance();
-                        login_post(_IDController.text, _PWController.text);
+
+                        login_post(emailController.text, passwordController.text);
                         // Navigator.pushReplacement(context,
-                        //     MaterialPageRoute(builder: (context) => NavBar()));
-                        //로그인 완료시 실행 & 기본 메인 페이지로 이동
-                        _id = _IDController.text;
-                        await prefs.setString('usernickname', 'buzz');
+                        // MaterialPageRoute(builder: (context) => NavBar()));
+                        // 로그인 완료시 실행 & 기본 메인 페이지로 이동
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
+                            MaterialPageRoute(builder: (context) => PetSignupPage()));
                       },
                       style: ButtonStyle(
                           shape:
@@ -313,72 +335,35 @@ class _LoginPage extends State<LoginPage> {
                             // 3% 여분
                           ),
                           Container(
-                            height: size.height * 0.07,
+                            height: size.height * 0.08,
                             width: 80,
-                            child: TextButton(
-                              onPressed: () {
-                                signInWithGoogle();
-                              },
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ))),
-                              child: Row(
+                              child: _loginPlatform != LoginPlatform.none
+                                  ? _logoutGoogleButton()
+                                  : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                      "assets/images/social/logo_google.png")
+                                children: [
+                                  _loginGoogleButton(
+                                    'logo_google',
+                                    signInWithGoogle,
+                                  )
                                 ],
-                              ),
-                            ),
+                              )
                           ),
                           Container(
-                            height: size.height * 0.07,
+                            height: size.height * 0.08,
                             width: 80,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NavBar()));
-                              },
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ))),
-                              child: Row(
+                            child: _loginPlatform != LoginPlatform.none
+                                ? _logoutKakaoButton()
+                                :(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                      "assets/images/social/logo_naver.png")
+                                children: [
+                                  _loginKakaoButton(
+                                    'logo_kakao',
+                                    signInWithKakao,
+                                  )
                                 ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: size.height * 0.07,
-                            width: 80,
-                            child: TextButton(
-                              onPressed: () {
-                                signInWithKakao();
-                              },
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                      "assets/images/social/logo_kakao.png")
-                                ],
-                              ),
+                              )
                             ),
                           ),
                           SizedBox(
@@ -431,6 +416,68 @@ class _LoginPage extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _loginKakaoButton(String path, VoidCallback onTap) {
+    return Card(
+      elevation: 5.0,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
+      child: Ink.image(
+        image: AssetImage('assets/images/social/$path.png'),
+        width: 50,
+        height: 50,
+        child: InkWell(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(30.0),
+          ),
+          onTap: onTap,
+        ),
+      ),
+    );
+  }
+
+  Widget _loginGoogleButton(String path, VoidCallback onTap) {
+    return Card(
+      elevation: 5.0,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
+      child: Ink.image(
+        image: AssetImage('assets/images/social/$path.png'),
+        width: 50,
+        height: 50,
+        child: InkWell(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(30.0),
+          ),
+          onTap: onTap,
+        ),
+      ),
+    );
+  }
+
+  Widget _logoutKakaoButton() {
+    return ElevatedButton(
+      onPressed: signOutKakao,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          const Color(0xff0165E1),
+        ),
+      ),
+      child: const Text('로그아웃'),
+    );
+  }
+
+  Widget _logoutGoogleButton() {
+    return ElevatedButton(
+      onPressed: signOutGoogle,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          const Color(0xff0165E1),
+        ),
+      ),
+      child: const Text('로그아웃'),
     );
   }
 }

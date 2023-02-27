@@ -98,7 +98,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         Column(
                           children: [
                             Text(
-                              data2,
+                              "닉네임: $data2",
                               style: TextStyle(
                                   fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                             ),

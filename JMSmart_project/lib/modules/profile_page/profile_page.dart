@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jmsmart_project/modules/http_api/myprofile_api.dart';
 import 'package:jmsmart_project/modules/http_api/user_api.dart';
+import 'package:jmsmart_project/modules/login_page/login_page.dart';
 import 'package:jmsmart_project/modules/profile_page/friends_page.dart';
 import 'package:jmsmart_project/modules/profile_page/pet_settings_page.dart';
 import 'package:jmsmart_project/modules/profile_page/profile_settings_page.dart';
@@ -17,10 +19,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
+  Future<user_profile_api>? user_info;
+  Future<pet_api>? pet_info;
 
   @override
   void initState() {
     super.initState();
+    user_info = user_profile_get('123');
+    pet_info = pet_profile_get();
   }
 
   @override
@@ -169,14 +175,21 @@ class _ProfilePage extends State<ProfilePage> {
                                 const Text('닉네임 :',
                                     style: TextStyle(
                                         fontFamily: 'GmarketSans',
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '1',
-                                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.nickname.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
@@ -194,14 +207,21 @@ class _ProfilePage extends State<ProfilePage> {
                                 const Text('이름 :',
                                     style: TextStyle(
                                         fontFamily: 'GmarketSans',
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '2',
-                                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.name.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
@@ -219,14 +239,21 @@ class _ProfilePage extends State<ProfilePage> {
                                 const Text('전화번호 :',
                                     style: TextStyle(
                                         fontFamily: 'GmarketSans',
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '3',
-                                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.phone_number.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
@@ -244,14 +271,21 @@ class _ProfilePage extends State<ProfilePage> {
                                 const Text('생년월일:',
                                     style: TextStyle(
                                         fontFamily: 'GmarketSans',
-                                        fontSize: 15,
+                                        fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold)),
                                 Container(
                                   child: Center(
-                                    child: Text(
-                                      '4',
-                                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                                    child: FutureBuilder<user_profile_api>(
+                                      future: user_info,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Text(snapshot.data!.birthday.toString());
+                                        } else if (snapshot.hasError) {
+                                          return Text("${snapshot.error}");
+                                        }
+                                        return Text('');
+                                      },
                                     ),
                                   ),
                                   height: 30,
@@ -340,14 +374,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('펫 이름 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '1',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.name.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -368,14 +409,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('종 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '2',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.category.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -396,14 +444,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('나이 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '3',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.birth.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -424,14 +479,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('등록번호 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '5',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.registercode.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -452,14 +514,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('성별 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '6',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.gender.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -480,14 +549,21 @@ class _ProfilePage extends State<ProfilePage> {
                           const Text('중성화 유무 :',
                               style: TextStyle(
                                   fontFamily: 'GmarketSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           Container(
                             child: Center(
-                              child: Text(
-                                '7',
-                                style: TextStyle(fontFamily: 'GmarketSans', fontSize: 13),
+                              child: FutureBuilder<pet_api>(
+                                future: pet_info,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(snapshot.data!.neutralization.toString());
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return Text('');
+                                },
                               ),
                             ),
                             height: 30,
@@ -511,7 +587,10 @@ class _ProfilePage extends State<ProfilePage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
                               },
                               child: Text(
                                 "로그아웃 /",
@@ -546,7 +625,6 @@ class _ProfilePage extends State<ProfilePage> {
           ),
         ),
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

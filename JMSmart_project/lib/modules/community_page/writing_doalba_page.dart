@@ -1,31 +1,24 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:jmsmart_project/modules/color/colors.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
-import 'package:jmsmart_project/modules/http_api/image_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../http_api/community_api.dart';
+import '../color/colors.dart';
+import '../http_api/alba_api.dart';
 
-class WritingPage extends StatefulWidget {
+class WritingDoAlbaPage extends StatefulWidget {
   @override
-  _WritingPageState createState() => _WritingPageState();
+  _WritingDoAlbaPageState createState() => _WritingDoAlbaPageState();
 }
 
-class _WritingPageState extends State<WritingPage> {
-  XFile? _pickedFile;
-
+class _WritingDoAlbaPageState extends State<WritingDoAlbaPage> {
   int _userid = 0;
   String _usernickname = "";
 
-  List<dynamic> writinginfo = [];
+  List<dynamic> writingalbainfo = [];
   final maxLines = 10;
-  int writingvalidate = 1;
+  int writingalbavalidate = 1;
 
   final _TitleController = TextEditingController();
   final _ContentController = TextEditingController();
@@ -62,121 +55,29 @@ class _WritingPageState extends State<WritingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _imageSize = MediaQuery.of(context).size.width / 4;
     Size size = MediaQuery.of(context).size;
-
-    _getCameraImage() async {
-      final pickedFile =
-      await ImagePicker().pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        setState(() {
-          _pickedFile = pickedFile;
-        });
-      } else {
-        if (kDebugMode) {
-          print('이미지 선택안함');
-        }
-      }
-    }
-
-    _getPhotoLibraryImage() async {
-      final pickedFile =
-      await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _pickedFile = pickedFile;
-        });
-      } else {
-        if (kDebugMode) {
-          print('이미지 선택안함');
-        }
-      }
-    }
-
-    _showBottomSheet() {
-      return showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(25),
-          ),
-        ),
-        builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () => _getCameraImage(),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: PRIMARY_COLOR,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text('사진찍기', style: TextStyle(
-                    fontFamily: 'GmarketSans',
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Divider(
-                thickness: 3,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                onPressed: () => _getPhotoLibraryImage(),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: PRIMARY_COLOR,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text('라이브러리에서 불러오기', style: TextStyle(
-                    fontFamily: 'GmarketSans',
-                    fontSize: 12,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          );
-        },
-      );
-    }
-
     return Scaffold(
+        backgroundColor: Colors.grey.shade50,
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-                padding: EdgeInsets.only(left: 30, right: 30),
+                padding: EdgeInsets.only(left: 40, right: 40),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                          height: size.height * 0.07
-                      ),
+                      SizedBox(height: size.height * 0.05),
                       Text(
-                        "게시글 작성",
+                        "알바해주개 글 작성",
                         style: TextStyle(
-                            fontFamily: 'GmarketSans', fontSize: 36, fontWeight: FontWeight.w700),
+                            fontFamily: 'GmarketSans', fontSize: 28, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
-                          height: size.height * 0.03
-                      ),
+                      SizedBox(height: size.height * 0.05),
                       Text(
                         "   제목",
                         style: TextStyle(
                             fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
-                          height: size.height * 0.01
-                      ),
+                      SizedBox(height: size.height * 0.01),
                       TextFormField(
                         controller: _TitleController,
                         style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
@@ -184,14 +85,17 @@ class _WritingPageState extends State<WritingPage> {
                         decoration: InputDecoration(
                           hintText: "제목을 입력해주세요(2~20자)",
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
+                          hintStyle: TextStyle(
+                              fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
+                            borderSide:
+                            BorderSide(color: PRIMARY_COLOR, width: 1.2),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
+                            borderSide:
+                            BorderSide(color: SECOND_COLOR, width: 1.2),
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
                         ),
@@ -226,36 +130,36 @@ class _WritingPageState extends State<WritingPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                          height: size.height * 0.01
-                      ),
                       Text(
                         "   내용",
                         style: TextStyle(
                             fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
                       ),
+                      SizedBox(height: size.height * 0.01),
                       SizedBox(
-                          height: size.height * 0.01
-                      ),
-                      SizedBox(
-                        height: maxLines * 20,
+                        height: maxLines * 30,
                         child: TextFormField(
                           controller: _ContentController,
-                          inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(50)
+                          ],
                           textAlignVertical: TextAlignVertical.top,
-                          maxLines: maxLines * 2,
+                          maxLines: maxLines * 3,
                           style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
                           decoration: InputDecoration(
-                            hintText: "내용을 입력해주세요(최대 200자)",
+                            hintText: "내용을 입력해주세요(최대 200자, 가능한 산책 요일/시간/장소, 간단한 자기 소개 포함)",
                             contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
+                            hintStyle: TextStyle(
+                                fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
+                              borderSide:
+                              BorderSide(color: PRIMARY_COLOR, width: 1.2),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
+                              borderSide:
+                              BorderSide(color: SECOND_COLOR, width: 1.2),
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
                           ),
@@ -288,101 +192,41 @@ class _WritingPageState extends State<WritingPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                          height: size.height * 0.012
+                      Text(
+                        "*주의사항: 내용에 가능한 산책 요일/시간/장소, 간단한 자기 소개를 포함하지 않아 생기는 불이익은 책임지지 않습니다.",
+                        style:
+                        TextStyle(fontFamily: 'GmarketSans', fontSize: 12),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "   첨부파일",
-                            style: TextStyle(
-                                fontFamily: 'GmarketSans',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                          height: size.height * 0.01
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: size.width * 0.03
-                          ),
-                          if (_pickedFile == null)
-                            Container(
-                              constraints: BoxConstraints(
-                                minHeight: _imageSize,
-                                minWidth: _imageSize,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  _showBottomSheet();
-                                },
-                                child: Center(
-                                  child: Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: PRIMARY_COLOR,
-                                    size: _imageSize,
-                                  ),
-                                ),
-                              ),
-                            )
-                          else
-                            Center(
-                              child: Container(
-                                width: _imageSize,
-                                height: _imageSize,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                      width: 2, color: PRIMARY_COLOR),
-                                  image: DecorationImage(
-                                      image: FileImage(
-                                          File(_pickedFile!.path)),
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                      SizedBox(
-                          height: size.height * 0.05
-                      ),
+                      SizedBox(height: size.height * 0.05),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            width: 180,
+                            width: 160,
                             height: 60,
                             child: TextButton(
                               onPressed: () {
                                 DateTime dt = DateTime.now();
-                                writinginfo.clear();
-                                writinginfo.add(_TitleController.text);
-                                writinginfo.add(_ContentController.text);
-                                // File file = File(_pickedFile!.path);
-                                // String contents = file.readAsString() as String;
-                                // writinginfo.add(contents);
+                                writingalbainfo.clear();
+                                writingalbainfo.add(_TitleController.text);
+                                writingalbainfo.add(_ContentController.text);
                                 // writinginfo.add('${dt.year}/${dt.month}/${dt.day}');
                                 setState(() {
                                   // uservalidate = nicknamevalidate + namevalidate + idvalidate + codevalidate +
                                   //     pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
-                                  writingvalidate = titlevalidate + contentvalidate;
-                                  if (writingvalidate == 0) {
-                                    // print(contents);
+                                  writingalbavalidate = titlevalidate + contentvalidate;
+                                  if (writingalbavalidate == 0) {
                                     // 포스트
                                     // user_signup_post(personinfo[0], personinfo[1], personinfo[2], personinfo[3],
                                     //     personinfo[4], personinfo[5] + personinfo[6], personinfo[7], personinfo[8]);
-                                    community_writing_post(writinginfo[0], writinginfo[1], "contents");
+                                    alba_writing_post(writingalbainfo[0], writingalbainfo[1]);
                                     //pet_signup_post(petinfolist[0], petinfolist[1], petinfolist[2], petinfolist[3], petinfolist[4], petinfolist[5]);
                                     //Navigator.pop(context);
                                   } else {
-                                    print(writingvalidate);
+                                    print(writingalbavalidate);
                                   }
                                 });
-                                print(writinginfo);
+                                print(writingalbainfo);
                               },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<
@@ -401,10 +245,10 @@ class _WritingPageState extends State<WritingPage> {
                                       maxWidth: double.infinity,
                                       minHeight: 100),
                                   child: Text(
-                                    "글 작성하기",
+                                    "알바해주개",
                                     style: TextStyle(
                                         fontFamily: 'GmarketSans',
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -416,7 +260,7 @@ class _WritingPageState extends State<WritingPage> {
                             width: size.width * 0.05,
                           ),
                           Container(
-                            width: 120,
+                            width: 100,
                             height: 60,
                             child: TextButton(
                               onPressed: () {
@@ -449,7 +293,7 @@ class _WritingPageState extends State<WritingPage> {
                                           "취소",
                                           style: TextStyle(
                                               fontFamily: 'GmarketSans',
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -462,10 +306,6 @@ class _WritingPageState extends State<WritingPage> {
                           ),
                         ],
                       ),
-                    ]
-                )
-            )
-        )
-    );
+                    ]))));
   }
 }

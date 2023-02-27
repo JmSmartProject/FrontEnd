@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +16,11 @@ class onBoardModifyPage extends StatefulWidget {
 }
 
 class _onBoardModifyPageState extends State<onBoardModifyPage> {
+  XFile? _pickedFile;
+
+  int _userid = 0;
+  String _usernickname = "";
+
   final maxLines = 10;
   int writingvalidate = 1;
 
@@ -35,7 +43,94 @@ class _onBoardModifyPageState extends State<onBoardModifyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _imageSize = MediaQuery.of(context).size.width / 4;
     Size size = MediaQuery.of(context).size;
+
+    _getCameraImage() async {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedFile = pickedFile;
+        });
+      } else {
+        if (kDebugMode) {
+          print('이미지 선택안함');
+        }
+      }
+    }
+
+    _getPhotoLibraryImage() async {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedFile = pickedFile;
+        });
+      } else {
+        if (kDebugMode) {
+          print('이미지 선택안함');
+        }
+      }
+    }
+
+    _showBottomSheet() {
+      return showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25),
+          ),
+        ),
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => _getCameraImage(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: PRIMARY_COLOR,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('사진찍기', style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                thickness: 3,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () => _getPhotoLibraryImage(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: PRIMARY_COLOR,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child: const Text('라이브러리에서 불러오기', style: TextStyle(
+                    fontFamily: 'GmarketSans',
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -167,33 +262,57 @@ class _onBoardModifyPageState extends State<onBoardModifyPage> {
               children: [
                 Text(
                   "   첨부파일",
-                  style: TextStyle(fontFamily: 'GmarketSans', fontSize: 16, fontWeight: FontWeight.w700),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    var picker = ImagePicker();
-                    var image = await picker.pickImage(source: ImageSource.gallery);
-                  },
-                  icon: Icon(Icons.camera_alt_outlined),
+                  style: TextStyle(
+                      fontFamily: 'GmarketSans',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
                 ),
               ],
             ),
-            TextField(
-              style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
-              decoration: InputDecoration(
-                hintText: "첨부파일명",
-                contentPadding: EdgeInsets.fromLTRB(10, 0, 10,10),
-                hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.5),
+            SizedBox(
+                height: size.height * 0.01
+            ),
+            Row(
+              children: [
+                SizedBox(
+                    width: size.width * 0.03
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: SECOND_COLOR, width: 1.5),
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-              ),
+                if (_pickedFile == null)
+                  Container(
+                    constraints: BoxConstraints(
+                      minHeight: _imageSize,
+                      minWidth: _imageSize,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        _showBottomSheet();
+                      },
+                      child: Center(
+                        child: Icon(
+                          Icons.camera_alt_outlined,
+                          color: PRIMARY_COLOR,
+                          size: _imageSize,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  Center(
+                    child: Container(
+                      width: _imageSize,
+                      height: _imageSize,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                            width: 2, color: PRIMARY_COLOR),
+                        image: DecorationImage(
+                            image: FileImage(
+                                File(_pickedFile!.path)),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             SizedBox(height: size.height * 0.05),
             Row(
@@ -204,7 +323,7 @@ class _onBoardModifyPageState extends State<onBoardModifyPage> {
                   height: 60,
                   child: TextButton(
                     onPressed: () {
-
+                      community_writing_put(2, _TitleController.text, _ContentController.text);
                     },
                     style: ButtonStyle(
                         shape:

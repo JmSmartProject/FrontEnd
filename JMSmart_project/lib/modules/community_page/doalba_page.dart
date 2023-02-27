@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
 import 'package:http/http.dart' as http;
-import 'package:jmsmart_project/modules/community_page/doalba_onboard.dart';
+import 'package:jmsmart_project/modules/community_page/alba_onboard.dart';
+import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
+import 'package:jmsmart_project/modules/community_page/writing_doalba_page.dart';
 import 'dart:convert';
 
 import '../color/colors.dart';
 
 class doalbaData {
+  int albaId;
   String usernickname;
   String title;
-  String date;
-  String time;
-  String address;
+  String createdAt;
 
-  doalbaData(this.usernickname, this.title, this.date, this.time, this.address);
+  doalbaData(this.albaId, this.usernickname, this.title, this.createdAt);
 
   factory doalbaData.fromJson(dynamic json){
-    return doalbaData(json['usernickname'] as String, json['title'] as String,
-        json['date'] as String, json['time'] as String, json['address'] as String);
+    DateTime createdDate = DateTime.parse(json['createdAt']);
+    String createdDateString = DateFormat("yyyy년 MM월 dd일").format(createdDate);
+    return doalbaData(json['albaId'] as int, json['usernickname'] as String, json['title'] as String, createdDateString as String);
+  }
+
+  @override
+  String toString() {
+    return '{${this.albaId}, ${this.usernickname}, ${this.title}, ${this.createdAt}}';
   }
 }
 
@@ -28,6 +36,9 @@ class DoAlbaPage extends StatefulWidget {
 }
 
 class _DoAlbaPageState extends State<DoAlbaPage> {
+  int _userid = 0;
+  String _usernickname = "";
+
   var _text = "Http Example";
   List<doalbaData> _datas = [];
 
@@ -38,9 +49,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
   ];
   List<String> NicknameList = ["개냥이", "누룽이", "멍냥이"];
   List<String> titleList = ["산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요"];
-  List<String> timeList = ["19시 ~ 20시", "19시 ~ 20시", "19시 ~ 20시"];
   List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18"];
-  List<String> addressList = ["(노원)", "(잠실)", "(홍대)"];
 
   void _fetchPosts() async{
     final response = await http.get(
@@ -64,7 +73,6 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
     _fetchPosts();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -73,7 +81,7 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-                padding: EdgeInsets.only(left: 40, right: 40),
+                padding: EdgeInsets.only(left: 30, right: 30),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -86,12 +94,12 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                 fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
-                            width: size.width * 0.18,
+                            width: size.width * 0.08,
                           ),
                           Container(
                             alignment: Alignment.center,
                             height: 30,
-                            width: 100,
+                            width: 72,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -102,6 +110,35 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                       borderRadius: BorderRadius.circular(10))),
                               child: const Text(
                                 "뒤로가기",
+                                style: TextStyle(
+                                    fontFamily: 'GmarketSans',
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.02,
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            height: 30,
+                            width: 80,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            WritingDoAlbaPage()));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: PRIMARY_COLOR,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              child: const Text(
+                                "글 작성",
                                 style: TextStyle(
                                     fontFamily: 'GmarketSans',
                                     fontSize: 12,
@@ -124,7 +161,9 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => AlbaOnboardPage()));
+                                          builder: (context) => AlbaOnboardPage(data: 2)
+                                      )
+                                  );
                                   // showDialog(
                                   //     context: context,
                                   //     builder: (ctx) => AlertDialog(
@@ -168,41 +207,36 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                       )
                                   ),
                                   child: Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
-                                        width: 70,
-                                        height: 65,
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: size.width * 0.02,
-                                            ),
-                                            SizedBox(
-                                              width: 40,
-                                              height: 40,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                                child: Image.asset(
-                                                  imageList[index],
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        width: size.width * 0.02,
+                                      ),
+                                      SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(20),
+                                          child: Image.asset(
+                                            imageList[index],
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 80,
-                                        height: 60,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: size.height * 0.015,
-                                            ),
-                                            Text(
+                                        width: size.width * 0.03,
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            height: 40,
+                                            child: Text(
                                               NicknameList[index],
                                               style: TextStyle(
                                                   fontFamily: 'GmarketSans',
@@ -210,31 +244,18 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
                                             ),
-                                            SizedBox(
-                                              height: size.height * 0.01,
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.5,
-                                              child: Text(timeList[index],
-                                                  style: TextStyle(
-                                                      fontFamily: 'GmarketSans',
-                                                      fontSize: 10,
-                                                      color: Colors.black)),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 160,
-                                        height: 60,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: size.height * 0.015,
-                                            ),
-                                            Text(
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: size.height * 0.01,
+                                          ),
+                                          SizedBox(
+                                            width: 160,
+                                            height: 20,
+                                            child: Text(
                                               titleList[index],
                                               style: TextStyle(
                                                   fontFamily: 'GmarketSans',
@@ -242,31 +263,20 @@ class _DoAlbaPageState extends State<DoAlbaPage> {
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
                                             ),
-                                            SizedBox(
-                                              height: size.height * 0.01,
+                                          ),
+                                          SizedBox(
+                                            width: 160,
+                                            height: 20,
+                                            child: Text(
+                                              dateList[index],
+                                              style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
                                             ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: size.width * 0.2,
-                                                  child: Text(dateList[index],
-                                                      style: TextStyle(
-                                                          fontFamily: 'GmarketSans',
-                                                          fontSize: 10,
-                                                          color: Colors.black)),
-                                                ),
-                                                SizedBox(
-                                                  width: size.width * 0.1,
-                                                  child: Text(addressList[index],
-                                                      style: TextStyle(
-                                                          fontFamily: 'GmarketSans',
-                                                          fontSize: 10,
-                                                          color: Colors.black)),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

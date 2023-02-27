@@ -17,24 +17,15 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
 
   int uservalidate = 1;
   final _NickNameController = TextEditingController();
-  final _NameController = TextEditingController();
-  final _PWController = TextEditingController();
-  final _AddressController = TextEditingController();
   final _PhoneController1 = TextEditingController();
   final _PhoneController2 = TextEditingController();
   final _BirthdayController = TextEditingController();
   final _NickNameValidate = TextEditingController();
-  final _NameValidate = TextEditingController();
-  final _PWValidate = TextEditingController();
-  final _AddressValidate = TextEditingController();
   final _Phone1Validate = TextEditingController();
   final _Phone2Validate = TextEditingController();
   final _BirthdayValidate = TextEditingController();
 
   int nicknamevalidate = 1;
-  int namevalidate = 1;
-  int pwvalidate = 1;
-  int addressvalidate = 1;
   int phone1validate = 1;
   int phone2validate = 1;
   int birthdayvalidate = 1;
@@ -42,16 +33,10 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
   @override
   void dispose() {
     _NickNameController.dispose();
-    _NameController.dispose();
-    _PWController.dispose();
-    _AddressController.dispose();
     _PhoneController1.dispose();
     _PhoneController2.dispose();
     _BirthdayController.dispose();
     _NickNameValidate.dispose();
-    _NameValidate.dispose();
-    _PWValidate.dispose();
-    _AddressValidate.dispose();
     _Phone1Validate.dispose();
     _Phone2Validate.dispose();
     _BirthdayValidate.dispose();
@@ -153,7 +138,7 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.only(left: 30,right: 30),
+          padding: EdgeInsets.only(left: 40,right: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -288,189 +273,6 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
                     hintStyle: TextStyle(fontSize: 6, color: Colors.red),
                   ),
                 ),
-              ),
-              SizedBox(
-                  height: size.height * 0.005
-              ),
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    width: 220,
-                    height: 40,
-                    child: TextFormField(
-                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
-                      controller: _NameController,
-                      decoration: InputDecoration(
-                        hintText: "이름을 입력해주세요",
-                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (_NameController.text.isEmpty) {
-                            namevalidate = 1;
-                            _NameValidate.text = '      이름을 입력해주세요';
-                          } else {
-                            _NameValidate.text = '';
-                            namevalidate = 0;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 200,
-                    height: 15,
-                    child: TextField(
-                      controller: _NameValidate,
-                      enabled: false,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.red,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                  height: size.height * 0.005
-              ),
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    width: 240,
-                    height: 40,
-                    child: TextFormField(
-                      style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
-                      controller: _PWController,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9|a-z|A-Z|@|!|#|$|%|^|&|*|(|)]')),
-                        LengthLimitingTextInputFormatter(12)],
-                      decoration: InputDecoration(
-                        hintText: "비밀번호를 입력해주세요(8~12자)",
-                        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        hintStyle: TextStyle(fontFamily: 'GmarketSans', fontSize: 14,color: Colors.grey.shade800),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (_PWController.text.isEmpty) {
-                            pwvalidate = 1;
-                            _PWValidate.text = '      비밀번호를 입력해주세요';
-                          } else if (_PWController.text.length <= 7) {
-                            pwvalidate = 2;
-                            _PWValidate.text = '      8개이상 입력';
-                          } else {
-                            _PWValidate.text = '';
-                            pwvalidate = 0;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 200,
-                    height: 15,
-                    child: TextField(
-                      controller: _PWValidate,
-                      enabled: false,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.red,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 40,
-                width: 300,
-                child: TextFormField(
-                  style: TextStyle(fontFamily: 'GmarketSans', fontSize: 14),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]')),
-                  ],
-                  controller: _AddressController,
-                  decoration: InputDecoration(
-                    hintText: "거주하는 동네를 입력해주세요(Ex.홍대, 잠실)",
-                    contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    hintStyle:
-                    TextStyle(fontFamily: 'GmarketSans', fontSize: 14, color: Colors.grey.shade800),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: PRIMARY_COLOR, width: 1.2),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: SECOND_COLOR, width: 1.2),
-                    ),
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      if (_AddressController.text.isEmpty) {
-                        addressvalidate = 1;
-                        _AddressValidate.text = '      거주하고 있는 동네를 입력해주세요';
-                      } else {
-                        _AddressValidate.text = '';
-                        addressvalidate = 0;
-                      }
-                    });
-                  },
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 200,
-                    height: 15,
-                    child: TextField(
-                      controller: _AddressValidate,
-                      enabled: false,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.red,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(fontSize: 6, color: Colors.red),
-                      ),
-                    ),
-                  ),
-                ],
               ),
               SizedBox(
                   height: size.height * 0.005
@@ -681,8 +483,7 @@ class _ProfileSettingsState extends State<ProfileSettingsPage>{
                     child: TextButton(
                       onPressed: (){
                         setState(() {
-                          uservalidate = nicknamevalidate + namevalidate +
-                                pwvalidate + addressvalidate + phone1validate + phone2validate + birthdayvalidate;
+                          uservalidate = nicknamevalidate + phone1validate + phone2validate + birthdayvalidate;
                           if (uservalidate == 0) {
                             // 포스트
                           } else {

@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jmsmart_project/modules/http_api/pet_api.dart';
+import 'package:jmsmart_project/modules/login_page/nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color/colors.dart';
 
@@ -15,6 +18,10 @@ class PetSignupPage extends StatefulWidget {
 
 class _PetSignupPageState extends State<PetSignupPage> {
   XFile? _pickedFile;
+
+  int _userid = 0;
+  String _usernickname = "";
+  String _accesstoken = "";
 
   List<String> Pet_List = ['강아지','고양이'];
   List<dynamic> petinfo = [];
@@ -36,6 +43,23 @@ class _PetSignupPageState extends State<PetSignupPage> {
   final _PetBirthdayController = TextEditingController();
   final _PetNumberController = TextEditingController();
 
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userid = (prefs.getInt('userId') ?? 0);
+      _usernickname = (prefs.getString('userNickname') ?? "");
+      _accesstoken = (prefs.getString('accessToken') ?? "");
+    });
+    print(_userid);
+    print(_usernickname);
+    print(_accesstoken);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
 
   @override
   void dispose() {
@@ -148,7 +172,7 @@ class _PetSignupPageState extends State<PetSignupPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                  height: size.height * 0.08
+                  height: size.height * 0.06
               ),
               Text(
                 "펫 정보 입력",
@@ -318,11 +342,11 @@ class _PetSignupPageState extends State<PetSignupPage> {
                         setState(() {
                           if(_PetBirthdayController.text.isEmpty){
                             petbirthvalidate = 1;
-                            _PetBirthValidate.text = '      생년월일을 입력해주세요';
+                            _PetBirthValidate.text = '      나이를 입력해주세요';
                           }
-                          else if(_PetBirthdayController.text.length <= 7 ){
+                          else if(_PetBirthdayController.text.length > 2 ){
                             petbirthvalidate = 2;
-                            _PetBirthValidate.text = '      8자리가 아닙니다';
+                            _PetBirthValidate.text = '      유효한 숫자가 아닙니다';
                           }
                           else {
                             _PetBirthValidate.text = '';
@@ -581,21 +605,25 @@ class _PetSignupPageState extends State<PetSignupPage> {
                               petinfo.add(_PetNameController.text);
                               petinfo.add(Pet_species);
                               petinfo.add(_PetBirthdayController.text);
+                              petinfo.add(_PetNumberController.text);
                               if(Pet_Gender == 1) {
-                                petinfo.add(1);
+                                petinfo.add("남자");
                               }
                               else{
-                                petinfo.add(0);
+                                petinfo.add("여자");
                               }
                               if(Pet_neutered == 1) {
-                                petinfo.add(1);
+                                petinfo.add("했음");
                               }
                               else{
-                                petinfo.add(0);
+                                petinfo.add("하지 않음");
                               }
-                              petinfo.add(_PetNumberController.text);
                               if(petvalidate == 0  && Pet_Gender !=2 && Pet_neutered !=2) {
-                                Navigator.pop(context, petinfo);
+                                // Navigator.pop(context, petinfo);
+                                print(petinfo);
+                                pet_signup_post(_userid, petinfo[0], petinfo[1], petinfo[2], petinfo[3], petinfo[4], petinfo[5]);
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context) => NavBar()));
                               }
                               else{
                                 print(petvalidate);
@@ -622,7 +650,8 @@ class _PetSignupPageState extends State<PetSignupPage> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
                       },
                       child: Text(
                         "펫 정보 나중에 입력하기",

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jmsmart_project/modules/color/colors.dart';
-import 'package:jmsmart_project/modules/community_page/do_alba_page.dart';
-import 'package:jmsmart_project/modules/community_page/please_alba_page.dart';
+import 'package:jmsmart_project/modules/community_page/doalba_page.dart';
+import 'package:jmsmart_project/modules/community_page/alba_page.dart';
 import 'package:jmsmart_project/modules/community_page/writing_page.dart';
 import 'package:jmsmart_project/modules/community_page/onboard_page.dart';
 import 'package:flutter/src/rendering/box.dart';
@@ -15,30 +15,48 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class Data{
-  String usernickname;
-  String content;
-  String createdAt;
+  final int? communityId;
+  final int? userId;
+  final String? title;
+  final String? content;
+  final int? likeCount;
+  final String? createdAt;
 
-  Data(this.usernickname, this.content, this.createdAt);
+  Data(this.communityId, this.userId, this.title, this.content, this.likeCount, this.createdAt);
 
   factory Data.fromJson(dynamic json) {
-    return Data(json['usernickname'] as String, json['content'] as String, json['createdAt'] as String);
+    return Data(json['communityId'] as int, json['userId'] as int, json['title'] as String, json['content'] as String, json['likeCount'] as int, json['createdAt'] as String);
+  }
+
+  @override
+  String toString() {
+    return '{${this.communityId}, ${this.userId}, ${this.title}, ${this.content}, ${this.likeCount}, ${this.createdAt}}';
   }
 }
+
 class CommunityPage extends StatefulWidget {
   @override
   _CommunityPage createState() => _CommunityPage();
 }
 
 class _CommunityPage extends State<CommunityPage> {
+  int _userid = 0;
+  String _usernickname = "";
   var _text = "Http Example";
   List<Data> _datas = [];
 
   void _fetchPosts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString('accessToken') ?? "");
     final response = await http.get(
-      Uri.http('52.79.223.14:8080', '/communities'),
+      Uri.http('3.38.97.0:3000', '/communities'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
     );
-    _text = utf8.decode(response.bodyBytes);
+    var _text = utf8.decode(response.bodyBytes);
+    print(_text);
     var dataObjsJson = jsonDecode(_text)['data'] as List;
     final List<Data> parsedResponse = dataObjsJson.map((dataJson)=>Data.fromJson(dataJson)).toList();
     setState(() {
@@ -48,10 +66,21 @@ class _CommunityPage extends State<CommunityPage> {
     print(parsedResponse);
   }
 
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userid = (prefs.getInt('userId') ?? 0);
+      _usernickname = (prefs.getString('userNickname') ?? "");
+    });
+    print(_userid);
+    print(_usernickname);
+  }
+
   @override
-  void initState  () {
+  void initState() {
     super.initState();
     _fetchPosts();
+    _loadUser();
   }
 
   List<String> imageList = [
@@ -242,7 +271,9 @@ class _CommunityPage extends State<CommunityPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => onBoardPage()));
+                                      builder: (context) => onBoardPage(data: 2)
+                                  )
+                              );
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(

@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:jmsmart_project/modules/community_page/community_page.dart';
+import 'package:jmsmart_project/modules/community_page/alba_onboard.dart';
 import 'package:jmsmart_project/modules/community_page/writing_alba_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../color/colors.dart';
 
 class albaData {
+  int albaId;
   String usernickname;
   String title;
-  String date;
-  String time;
+  String createdAt;
 
-  albaData(this.usernickname, this.title, this.date, this.time);
+  albaData(this.albaId, this.usernickname, this.title, this.createdAt);
 
-  factory albaData.fromJson(dynamic json){
-    return albaData(json['usernickname'] as String, json['title'] as String, json['date'] as String, json['time'] as String);
+  factory albaData.fromJson(dynamic json) {
+    DateTime createdDate = DateTime.parse(json['createdAt']);
+    String createdDateString = DateFormat("yyyy년 MM월 dd일").format(createdDate);
+    return albaData(json['albaId'] as int, json['usernickname'] as String, json['title'] as String, createdDateString as String);
+  }
+
+  @override
+  String toString() {
+    return '{${this.albaId}, ${this.usernickname}, ${this.title}, ${this.createdAt}}';
   }
 }
 
@@ -26,16 +36,20 @@ class PleaseAlbaPage extends StatefulWidget {
 }
 
 class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
+  int _userid = 0;
+  String _usernickname = "";
+
   var _text = "Http Example";
   List<albaData> _datas = [];
 
-  void _fetchPosts() async{
+  void _fetchPosts() async {
     final response = await http.get(
-      Uri.http('52.79.223.14:8080', '/communities'),
+      Uri.http('52.79.223.14:8080', '/communities/$_userid'),
     );
     _text = utf8.decode(response.bodyBytes);
     var dataObjsJson = jsonDecode(_text)['data'] as List;
-    final List<albaData> parsedResponse = dataObjsJson.map((dataJson)=>albaData.fromJson(dataJson)).toList();
+    final List<albaData> parsedResponse =
+        dataObjsJson.map((dataJson) => albaData.fromJson(dataJson)).toList();
     //print(Member.fromJson(jsonDecode(_text)));
     //print(dataObjs);
     setState(() {
@@ -45,6 +59,22 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
     print(parsedResponse);
   }
 
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userid = (prefs.getInt('userId') ?? 0);
+      _usernickname = (prefs.getString('userNickname') ?? "");
+    });
+    print(_userid);
+    print(_usernickname);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+    _fetchPosts();
+  }
 
   List<String> imageList = [
     "assets/images/profile/animal.png",
@@ -53,8 +83,7 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
   ];
   List<String> NicknameList = ["누룽이", "누룽이", "누룽이"];
   List<String> titleList = ["산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요", "산책 갔다 오실 분이 필요해요"];
-  List<String> timeList = ["19시 ~ 20시", "19시 ~ 20시", "19시 ~ 20시"];
-  List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/20"];
+  List<String> dateList = ["2023/01/18", "2023/01/19", "2023/01/18"];
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +103,9 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                           Text(
                             "알바해주개",
                             style: TextStyle(
-                                fontFamily: 'GmarketSans', fontSize: 32, fontWeight: FontWeight.w700),
+                                fontFamily: 'GmarketSans',
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
                             width: size.width * 0.08,
@@ -113,7 +144,8 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => WritingAlbaPage()));
+                                        builder: (context) =>
+                                            WritingAlbaPage()));
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: PRIMARY_COLOR,
@@ -132,12 +164,6 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                         ],
                       ),
                       SizedBox(height: size.height * 0.05),
-                      Text(
-                        "내가 쓴 글",
-                        style: TextStyle(
-                            fontFamily: 'GmarketSans', fontSize: 18, fontWeight: FontWeight.w700),
-                      ),
-                      SizedBox(height: size.height * 0.02),
                       Container(
                         width: 380,
                         height: size.height,
@@ -146,82 +172,100 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AlbaOnboardPage(data: 2)
+                                      )
+                                  );
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (ctx) => AlertDialog(
+                                  //     title: Text('삭제' ,style: TextStyle(
+                                  //         fontFamily: 'GmarketSans')),
+                                  //     content: Text(
+                                  //       '게시글을 삭제할까요?', style: TextStyle(
+                                  //         fontFamily: 'GmarketSans')
+                                  //     ),
+                                  //     actions: <Widget>[
+                                  //       TextButton(
+                                  //         child: Text(
+                                  //           '취소',
+                                  //           style: TextStyle(
+                                  //               fontFamily: 'GmarketSans', color: Colors.black),
+                                  //         ),
+                                  //         onPressed: () {
+                                  //           Navigator.of(ctx).pop(false);
+                                  //         },
+                                  //       ),
+                                  //       TextButton(
+                                  //           child: Text(
+                                  //             '확인',
+                                  //             style: TextStyle(
+                                  //                 fontFamily: 'GmarketSans', color: Colors.black),
+                                  //           ),
+                                  //           onPressed: () {
+                                  //           }
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // );
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       side: BorderSide(
-                                          color: PRIMARY_COLOR, width: 1.5
-                                      )
-                                  ),
+                                          color: PRIMARY_COLOR, width: 1.5)),
                                   child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
-                                        width: 70,
-                                        height: 60,
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: size.width * 0.02,
-                                            ),
-                                            SizedBox(
-                                              width: 40,
-                                              height: 40,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(20),
-                                                child: Image.asset(
-                                                  imageList[index],
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        width: size.width * 0.02,
+                                      ),
+                                      SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.asset(
+                                            imageList[index],
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 80,
-                                        height: 60,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: size.height * 0.02,
-                                            ),
-                                            Text(
+                                        width: size.width * 0.03,
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            height: 40,
+                                            child: Text(
                                               NicknameList[index],
                                               style: TextStyle(
                                                   fontFamily: 'GmarketSans',
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w600,
                                                   color: Colors.black),
                                             ),
-                                            SizedBox(
-                                              height: size.height * 0.01,
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.5,
-                                              child: Text(timeList[index],
-                                                  style: TextStyle(
-                                                      fontFamily: 'GmarketSans',
-                                                      fontSize: 10,
-                                                      color: Colors.black)),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 160,
-                                        height: 60,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              height: size.height * 0.015,
-                                            ),
-                                            Text(
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: size.height * 0.01,
+                                          ),
+                                          SizedBox(
+                                            width: 160,
+                                            height: 20,
+                                            child: Text(
                                               titleList[index],
                                               style: TextStyle(
                                                   fontFamily: 'GmarketSans',
@@ -229,19 +273,20 @@ class _PleaseAlbaPageState extends State<PleaseAlbaPage> {
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
                                             ),
-                                            SizedBox(
-                                              height: size.height * 0.015,
+                                          ),
+                                          SizedBox(
+                                            width: 160,
+                                            height: 20,
+                                            child: Text(
+                                              dateList[index],
+                                              style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
                                             ),
-                                            SizedBox(
-                                              width: size.width * 0.5,
-                                              child: Text(dateList[index],
-                                                  style: TextStyle(
-                                                      fontFamily: 'GmarketSans',
-                                                      fontSize: 10,
-                                                      color: Colors.black)),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

@@ -144,7 +144,7 @@ class _PetSettingsPageState extends State<PetSettingsPage>{
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.only(left: 30,right: 30),
+          padding: EdgeInsets.only(left: 40,right: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
