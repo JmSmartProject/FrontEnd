@@ -13,8 +13,8 @@
 <br>
 
 ## 🖥️ 개발 환경
-#### Flutter: 3.x
-#### Dart: 2.x
+#### Flutter: 3.21.0
+#### Dart: 3.4.0
 #### IDE: Android Studio / VS Code
 #### 지원 플랫폼: iOS / Android
 <br>
